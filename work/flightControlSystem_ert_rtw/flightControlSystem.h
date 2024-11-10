@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.10
+ * Model version                  : 8.19
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Thu Nov  7 16:33:36 2024
+ * C/C++ source code generated on : Sun Nov 10 23:40:01 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -131,9 +131,6 @@ typedef struct {
   sensordata_t BusConversion_InsertedFor_estimator_at_inport_1_BusCreator1;
   real32_T controller_o2[8];           /* '<S1>/controller' */
   CommandBus BusCreator;               /* '<S5>/Bus Creator' */
-  real_T circle_vis;                   /* '<S5>/Chart2' */
-  real_T left;                         /* '<S5>/Chart2' */
-  real_T right;                        /* '<S5>/Chart2' */
   real_T x_g;                          /* '<S5>/Chart' */
   real_T y_b;                          /* '<S5>/Chart' */
   real_T z_g;                          /* '<S5>/Chart' */
@@ -162,6 +159,7 @@ typedef struct {
 typedef struct {
   uint16_T temporalCounter_i1;         /* '<S5>/Chart2' */
   uint16_T temporalCounter_i1_l;       /* '<S5>/Chart1' */
+  uint16_T temporalCounter_i1_g;       /* '<S5>/Chart' */
   uint16_T temporalCounter_i2;         /* '<S5>/Chart' */
   uint8_T is_active_c2_flightControlSystem;/* '<S5>/Chart2' */
   uint8_T is_c2_flightControlSystem;   /* '<S5>/Chart2' */
@@ -169,9 +167,7 @@ typedef struct {
   uint8_T is_c1_flightControlSystem;   /* '<S5>/Chart1' */
   uint8_T is_active_c3_flightControlSystem;/* '<S5>/Chart' */
   uint8_T is_c3_flightControlSystem;   /* '<S5>/Chart' */
-  uint8_T is_Path;                     /* '<S5>/Chart' */
   uint8_T is_Takeoff;                  /* '<S5>/Chart' */
-  uint8_T temporalCounter_i1_g;        /* '<S5>/Chart' */
   DW_Logging_flightControlSystem_T Logging;/* '<S1>/Logging' */
 } DW_FlightControlSystem_flightControlSystem_T;
 

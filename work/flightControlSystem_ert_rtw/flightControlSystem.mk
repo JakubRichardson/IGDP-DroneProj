@@ -2,7 +2,7 @@
 ## Makefile generated for component 'flightControlSystem'. 
 ## 
 ## Makefile     : flightControlSystem.mk
-## Generated on : Sun Nov 10 20:28:04 2024
+## Generated on : Sun Nov 10 22:42:57 2024
 ## Final product: $(RELATIVE_PATH_TO_ANCHOR)/flightControlSystem.so
 ## Product type : executable
 ## 
@@ -217,7 +217,7 @@ SYSTEM_LIBS =
 # C Compiler
 #---------------
 
-CFLAGS_SKIPFORSIL =  
+CFLAGS_SKIPFORSIL = 
 CFLAGS_BASIC = $(DEFINES) $(INCLUDES)
 
 CFLAGS += $(CFLAGS_SKIPFORSIL) $(CFLAGS_BASIC)
@@ -226,7 +226,7 @@ CFLAGS += $(CFLAGS_SKIPFORSIL) $(CFLAGS_BASIC)
 # C++ Compiler
 #-----------------
 
-CPPFLAGS_SKIPFORSIL =  
+CPPFLAGS_SKIPFORSIL = 
 CPPFLAGS_BASIC = $(DEFINES) $(INCLUDES)
 
 CPPFLAGS += $(CPPFLAGS_SKIPFORSIL) $(CPPFLAGS_BASIC)

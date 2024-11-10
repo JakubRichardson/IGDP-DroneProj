@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightController'.
  *
- * Model version                  : 8.3
+ * Model version                  : 8.9
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Thu Nov  7 16:23:31 2024
+ * C/C++ source code generated on : Sun Nov 10 22:22:18 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -126,10 +126,15 @@ P_flightController_T flightController_P_g = {
    */
   { 0.013F, 0.01F },
 
+  /* Computed Parameter: Constant_Value
+   * Referenced by: '<S2>/Constant'
+   */
+  0.003F,
+
   /* Computed Parameter: w0_Value
    * Referenced by: '<S7>/w0'
    */
-  -0.692193627F,
+  -0.753996611F,
 
   /* Computed Parameter: P_yaw_Gain
    * Referenced by: '<S6>/P_yaw'
@@ -171,7 +176,7 @@ P_flightController_T flightController_P_g = {
    */
   0.001F,
 
-  /* Computed Parameter: Constant_Value
+  /* Computed Parameter: Constant_Value_p
    * Referenced by: '<S1>/Constant'
    */
   false,
@@ -222,11 +227,11 @@ void flightController_run(const CommandBus *arg_ReferenceValueServerBus, const
   /* local block i/o variables */
   boolean_T rtb_Memory;
   int32_T i;
+  real32_T rtb_Delay_idx_1;
   real32_T rtb_DiscreteTimeIntegrator_idx_1;
-  real32_T rtb_Sum2;
   real32_T rtb_Switch;
+  real32_T rtb_Switch_idx_1;
   real32_T rtb_Switch_idx_2;
-  real32_T rtb_Switch_idx_3;
   real32_T rtb_TrigonometricFunction_o2;
   real32_T rtb_pitchrollerror_idx_0;
   real32_T rtb_pitchrollerror_idx_1;
@@ -246,25 +251,26 @@ void flightController_run(const CommandBus *arg_ReferenceValueServerBus, const
     /* Sum: '<S5>/Sum17' */
     rtb_DiscreteTimeIntegrator_idx_1 = arg_ReferenceValueServerBus->pos_ref[0] -
       arg_states_estim->X;
-    rtb_Switch = arg_ReferenceValueServerBus->pos_ref[1] - arg_states_estim->Y;
+    rtb_Delay_idx_1 = arg_ReferenceValueServerBus->pos_ref[1] -
+      arg_states_estim->Y;
 
     /* Product: '<S5>/Product' incorporates:
      *  SignalConversion generated from: '<S5>/Vector Concatenate1'
      *  SignalConversion generated from: '<S5>/Vector Concatenate'
      */
-    rtb_Sum2 = rtb_TrigonometricFunction_o2 * rtb_DiscreteTimeIntegrator_idx_1 +
-      rtb_pitchrollerror_idx_1 * rtb_Switch;
+    rtb_Switch = rtb_TrigonometricFunction_o2 * rtb_DiscreteTimeIntegrator_idx_1
+      + rtb_pitchrollerror_idx_1 * rtb_Delay_idx_1;
 
     /* Saturate: '<S5>/Saturation' incorporates:
      *  Product: '<S5>/Product'
      */
-    if (rtb_Sum2 > flightController_P_g.Saturation_UpperSat) {
-      rtb_Sum2 = flightController_P_g.Saturation_UpperSat;
-    } else if (rtb_Sum2 < flightController_P_g.Saturation_LowerSat) {
-      rtb_Sum2 = flightController_P_g.Saturation_LowerSat;
+    if (rtb_Switch > flightController_P_g.Saturation_UpperSat) {
+      rtb_Switch = flightController_P_g.Saturation_UpperSat;
+    } else if (rtb_Switch < flightController_P_g.Saturation_LowerSat) {
+      rtb_Switch = flightController_P_g.Saturation_LowerSat;
     }
 
-    rtb_pitchrollerror_idx_0 = flightController_P_g.P_xy_Gain[0] * rtb_Sum2 +
+    rtb_pitchrollerror_idx_0 = flightController_P_g.P_xy_Gain[0] * rtb_Switch +
       flightController_P_g.D_xy_Gain[0] * arg_states_estim->dx;
 
     /* Product: '<S5>/Product' incorporates:
@@ -275,20 +281,20 @@ void flightController_run(const CommandBus *arg_ReferenceValueServerBus, const
      *  SignalConversion generated from: '<S5>/Vector Concatenate1'
      *  Sum: '<S5>/Sum18'
      */
-    rtb_Sum2 = flightController_P_g.Gain_Gain * rtb_pitchrollerror_idx_1 *
+    rtb_Switch = flightController_P_g.Gain_Gain * rtb_pitchrollerror_idx_1 *
       rtb_DiscreteTimeIntegrator_idx_1 + rtb_TrigonometricFunction_o2 *
-      rtb_Switch;
+      rtb_Delay_idx_1;
 
     /* Saturate: '<S5>/Saturation' incorporates:
      *  Product: '<S5>/Product'
      */
-    if (rtb_Sum2 > flightController_P_g.Saturation_UpperSat) {
-      rtb_Sum2 = flightController_P_g.Saturation_UpperSat;
-    } else if (rtb_Sum2 < flightController_P_g.Saturation_LowerSat) {
-      rtb_Sum2 = flightController_P_g.Saturation_LowerSat;
+    if (rtb_Switch > flightController_P_g.Saturation_UpperSat) {
+      rtb_Switch = flightController_P_g.Saturation_UpperSat;
+    } else if (rtb_Switch < flightController_P_g.Saturation_LowerSat) {
+      rtb_Switch = flightController_P_g.Saturation_LowerSat;
     }
 
-    rtb_pitchrollerror_idx_1 = flightController_P_g.P_xy_Gain[1] * rtb_Sum2 +
+    rtb_pitchrollerror_idx_1 = flightController_P_g.P_xy_Gain[1] * rtb_Switch +
       flightController_P_g.D_xy_Gain[1] * arg_states_estim->dy;
   } else {
     rtb_pitchrollerror_idx_0 = arg_ReferenceValueServerBus->orient_ref[1];
@@ -323,6 +329,17 @@ void flightController_run(const CommandBus *arg_ReferenceValueServerBus, const
   rtb_pitchrollerror_idx_0 -= arg_states_estim->pitch;
   rtb_pitchrollerror_idx_1 -= arg_states_estim->roll;
 
+  /* Sum: '<S2>/Sum16' incorporates:
+   *  DiscreteIntegrator: '<S2>/Discrete-Time Integrator'
+   *  Gain: '<S2>/D_pr'
+   *  Gain: '<S2>/I_pr'
+   *  Gain: '<S2>/P_pr'
+   */
+  rtb_Delay_idx_1 = (flightController_P_g.P_pr_Gain[1] *
+                     rtb_pitchrollerror_idx_1 + flightController_P_g.I_pr_Gain *
+                     flightController_DW.DiscreteTimeIntegrator_DSTATE[1]) -
+    flightController_P_g.D_pr_Gain[1] * arg_states_estim->p;
+
   /* Memory: '<S4>/Memory' */
   rtb_Memory = flightController_DW.Memory_PreviousInput;
 
@@ -333,7 +350,7 @@ void flightController_run(const CommandBus *arg_ReferenceValueServerBus, const
    */
   flightController_DW.Memory_PreviousInput = flightController_P_g.Logic_table
     [((((uint32_T)arg_ReferenceValueServerBus->takeoff_flag << 1) +
-       flightController_P_g.Constant_Value) << 1) + rtb_Memory];
+       flightController_P_g.Constant_Value_p) << 1) + rtb_Memory];
   if (flightController_DW.Memory_PreviousInput) {
     /* Switch: '<S7>/TakeoffOrControl_Switch' incorporates:
      *  Constant: '<S7>/w0'
@@ -372,30 +389,27 @@ void flightController_run(const CommandBus *arg_ReferenceValueServerBus, const
 
   /* End of Switch: '<S1>/Switch' */
 
-  /* Sum: '<S6>/Sum2' incorporates:
-   *  Gain: '<S6>/D_yaw'
-   *  Gain: '<S6>/P_yaw'
-   *  Sum: '<S6>/Sum1'
-   */
-  rtb_Sum2 = (arg_ReferenceValueServerBus->orient_ref[0] - arg_states_estim->yaw)
-    * flightController_P_g.P_yaw_Gain - flightController_P_g.D_yaw_Gain *
-    arg_states_estim->r;
-
   /* SignalConversion generated from: '<S3>/Product' incorporates:
+   *  Constant: '<S2>/Constant'
    *  DiscreteIntegrator: '<S2>/Discrete-Time Integrator'
    *  Gain: '<S2>/D_pr'
    *  Gain: '<S2>/I_pr'
    *  Gain: '<S2>/P_pr'
+   *  Gain: '<S6>/D_yaw'
+   *  Gain: '<S6>/P_yaw'
+   *  Sum: '<S2>/Sum'
    *  Sum: '<S2>/Sum16'
+   *  Sum: '<S6>/Sum1'
+   *  Sum: '<S6>/Sum2'
    */
-  rtb_Switch_idx_2 = (flightController_P_g.P_pr_Gain[0] *
-                      rtb_pitchrollerror_idx_0 + flightController_P_g.I_pr_Gain *
-                      flightController_DW.DiscreteTimeIntegrator_DSTATE[0]) -
-    flightController_P_g.D_pr_Gain[0] * arg_states_estim->q;
-  rtb_Switch_idx_3 = (flightController_P_g.P_pr_Gain[1] *
-                      rtb_pitchrollerror_idx_1 + flightController_P_g.I_pr_Gain *
-                      flightController_DW.DiscreteTimeIntegrator_DSTATE[1]) -
-    flightController_P_g.D_pr_Gain[1] * arg_states_estim->p;
+  rtb_Switch_idx_1 = (arg_ReferenceValueServerBus->orient_ref[0] -
+                      arg_states_estim->yaw) * flightController_P_g.P_yaw_Gain -
+    flightController_P_g.D_yaw_Gain * arg_states_estim->r;
+  rtb_Switch_idx_2 = ((flightController_P_g.P_pr_Gain[0] *
+                       rtb_pitchrollerror_idx_0 + flightController_P_g.I_pr_Gain
+                       * flightController_DW.DiscreteTimeIntegrator_DSTATE[0]) -
+                      flightController_P_g.D_pr_Gain[0] * arg_states_estim->q) +
+    flightController_P_g.Constant_Value;
   for (i = 0; i < 4; i++) {
     /* Saturate: '<S8>/Saturation5' incorporates:
      *  Constant: '<S3>/TorqueTotalThrustToThrustPerMotor'
@@ -404,13 +418,13 @@ void flightController_run(const CommandBus *arg_ReferenceValueServerBus, const
      *  SignalConversion generated from: '<S3>/Product'
      */
     u0 = (((flightController_P_g.TorqueTotalThrustToThrustPerMotor_Value[i + 4] *
-            rtb_Sum2 +
+            rtb_Switch_idx_1 +
             flightController_P_g.TorqueTotalThrustToThrustPerMotor_Value[i] *
             rtb_Switch) +
            flightController_P_g.TorqueTotalThrustToThrustPerMotor_Value[i + 8] *
            rtb_Switch_idx_2) +
           flightController_P_g.TorqueTotalThrustToThrustPerMotor_Value[i + 12] *
-          rtb_Switch_idx_3) * flightController_P_g.ThrustToMotorCommand_Gain;
+          rtb_Delay_idx_1) * flightController_P_g.ThrustToMotorCommand_Gain;
     if (u0 > flightController_P_g.Saturation5_UpperSat) {
       u0 = flightController_P_g.Saturation5_UpperSat;
     } else if (u0 < flightController_P_g.Saturation5_LowerSat) {

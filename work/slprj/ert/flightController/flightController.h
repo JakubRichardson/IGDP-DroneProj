@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightController'.
  *
- * Model version                  : 8.3
+ * Model version                  : 8.9
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Thu Nov  7 16:23:31 2024
+ * C/C++ source code generated on : Sun Nov 10 22:22:18 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -108,6 +108,9 @@ struct P_flightController_T_ {
   real32_T P_pr_Gain[2];               /* Computed Parameter: P_pr_Gain
                                         * Referenced by: '<S2>/P_pr'
                                         */
+  real32_T Constant_Value;             /* Computed Parameter: Constant_Value
+                                        * Referenced by: '<S2>/Constant'
+                                        */
   real32_T w0_Value;                   /* Computed Parameter: w0_Value
                                         * Referenced by: '<S7>/w0'
                                         */
@@ -136,7 +139,7 @@ struct P_flightController_T_ {
   real32_T antiWU_Gain_Gain;           /* Computed Parameter: antiWU_Gain_Gain
                                         * Referenced by: '<S2>/antiWU_Gain'
                                         */
-  boolean_T Constant_Value;            /* Computed Parameter: Constant_Value
+  boolean_T Constant_Value_p;          /* Computed Parameter: Constant_Value_p
                                         * Referenced by: '<S1>/Constant'
                                         */
   boolean_T Logic_table[16];           /* Computed Parameter: Logic_table

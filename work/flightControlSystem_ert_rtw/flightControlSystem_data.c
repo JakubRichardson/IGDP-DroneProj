@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.10
+ * Model version                  : 8.19
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Thu Nov  7 16:33:36 2024
+ * C/C++ source code generated on : Sun Nov 10 23:40:01 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
