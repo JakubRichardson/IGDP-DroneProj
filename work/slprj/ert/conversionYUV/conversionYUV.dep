@@ -1,0 +1,14 @@
+conversionYUV.o conversionYUV.o: \
+ C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/conversionYUV/conversionYUV.c \
+ C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/conversionYUV/conversionYUV.h \
+ C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/rtwtypes.h \
+ C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/conversionYUV/conversionYUV_types.h \
+ C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/conversionYUV/conversionYUV_private.h
+
+C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/conversionYUV/conversionYUV.h:
+
+C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/rtwtypes.h:
+
+C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/conversionYUV/conversionYUV_types.h:
+
+C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/conversionYUV/conversionYUV_private.h:
