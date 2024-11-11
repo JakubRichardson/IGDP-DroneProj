@@ -1,0 +1,11 @@
+HostLib_Video.o HostLib_Video.o: \
+ C:/PROGRA~1/MATLAB/R2023a/toolbox/vision/include/HostLib_Video.c \
+ C:/PROGRA~1/MATLAB/R2023a/toolbox/vision/include/HostLib_Video.h \
+ C:/PROGRA~1/MATLAB/R2023a/extern/include/multimedia/VideoDefs.hpp \
+ C:/PROGRA~1/MATLAB/R2023a/toolbox/vision/include/HostLib_rtw.h
+
+C:/PROGRA~1/MATLAB/R2023a/toolbox/vision/include/HostLib_Video.h:
+
+C:/PROGRA~1/MATLAB/R2023a/extern/include/multimedia/VideoDefs.hpp:
+
+C:/PROGRA~1/MATLAB/R2023a/toolbox/vision/include/HostLib_rtw.h:

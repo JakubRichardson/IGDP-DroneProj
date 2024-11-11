@@ -1,0 +1,11 @@
+HostLib_Multimedia.o HostLib_Multimedia.o: \
+ C:/PROGRA~1/MATLAB/R2023a/toolbox/shared/dsp/vision/matlab/include/HostLib_Multimedia.c \
+ C:/PROGRA~1/MATLAB/R2023a/toolbox/shared/dsp/vision/matlab/include/HostLib_Multimedia.h \
+ C:/PROGRA~1/MATLAB/R2023a/extern/include/multimedia/VideoDefs.hpp \
+ C:/PROGRA~1/MATLAB/R2023a/extern/include/multimedia/AudioDefs.hpp
+
+C:/PROGRA~1/MATLAB/R2023a/toolbox/shared/dsp/vision/matlab/include/HostLib_Multimedia.h:
+
+C:/PROGRA~1/MATLAB/R2023a/extern/include/multimedia/VideoDefs.hpp:
+
+C:/PROGRA~1/MATLAB/R2023a/extern/include/multimedia/AudioDefs.hpp:

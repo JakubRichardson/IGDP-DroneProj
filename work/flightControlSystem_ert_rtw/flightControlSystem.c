@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.25
+ * Model version                  : 8.36
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Mon Nov 11 12:24:30 2024
+ * C/C++ source code generated on : Mon Nov 11 13:56:54 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -23,8 +23,6 @@
 #include "flightControlSystem_private.h"
 #include <math.h>
 #include "rt_roundd_snf.h"
-#include <string.h>
-#include "conversionYUV.h"
 #include "rt_nonfinite.h"
 #define flightController_MDLREF_HIDE_CHILD_
 #include "flightController.h"
@@ -1240,6 +1238,10 @@ void flightControlSystem_step0(void)   /* Sample time: [0.005s, 0.0s] */
     rate_monotonic_scheduler();
   }
 
+  /* RateTransition: '<Root>/Rate Transition' */
+  flightControlSystem_B.rtb_RateTransition_m =
+    flightControlSystem_DW.RateTransition_Buffer0;
+
   /* Outputs for Atomic SubSystem: '<Root>/Flight Control System' */
 
   /* Inport: '<Root>/AC cmd' incorporates:
@@ -1290,228 +1292,18 @@ void flightControlSystem_step0(void)   /* Sample time: [0.005s, 0.0s] */
 /* Model step function for TID1 */
 void flightControlSystem_step1(void)   /* Sample time: [0.2s, 0.0s] */
 {
-  int32_T idx;
-  int32_T loop;
-  int32_T m;
-  int32_T mm;
-  int32_T n;
-  int32_T nnPadRows;
-  uint32_T centerIdx;
-  uint32_T padIdx;
-  uint32_T walkerIdx;
-  uint16_T rtCP_ColorSpaceConversion_COEFF_RTP_0;
-  uint16_T rtCP_ColorSpaceConversion_COEFF_RTP_1;
-  uint16_T rtCP_ColorSpaceConversion_COEFF_RTP_2;
-  uint16_T rtCP_ColorSpaceConversion_COEFF_RTP_3;
-  uint16_T rtCP_ColorSpaceConversion_COEFF_RTP_4;
-  uint16_T rtCP_ColorSpaceConversion_COEFF_RTP_5;
-  uint16_T rtCP_ColorSpaceConversion_COEFF_RTP_6;
-  uint8_T currentLabel;
-  uint8_T rtb_Y1UY2VtoYUV_o2_0;
-  boolean_T maxNumBlobsReached;
-
   /* Outputs for Atomic SubSystem: '<Root>/Image Processing System' */
-  /* ModelReference: '<S2>/Y1UY2V to YUV' incorporates:
+  /* MATLABSystem: '<S2>/PARROT Image Conversion' incorporates:
    *  Inport: '<Root>/Image Data'
    */
-  conversionYUV(&imRGB[0], &flightControlSystem_B.Y1UY2VtoYUV_o1[0],
-                &flightControlSystem_B.Y1UY2VtoYUV_o2[0],
-                &flightControlSystem_B.Sum[0],
-                &(flightControlSystem_DW.Y1UY2VtoYUV_InstanceData.rtb));
+  MW_Build_RGB(&imRGB[0], &flightControlSystem_B.imageBuff_1[0],
+               &flightControlSystem_B.imageBuff_2[0],
+               &flightControlSystem_B.imageBuff_3[0]);
 
-  /* S-Function (svipcolorconv): '<S2>/Color Space  Conversion' incorporates:
-   *  ModelReference: '<S2>/Y1UY2V to YUV'
-   *  Sum: '<S2>/Sum'
-   */
-  /* Precompute constants */
-  padIdx = ((uint16_T)26149U) * 128U;
-  centerIdx = (((uint16_T)6419U) * 128U + ((uint16_T)13320U) * 128U) + 8192U;
-  walkerIdx = ((uint16_T)33050U) * 128U;
-  rtCP_ColorSpaceConversion_COEFF_RTP_0 = ((uint16_T)19077U);
-  rtCP_ColorSpaceConversion_COEFF_RTP_1 = ((uint16_T)26149U);
-  rtCP_ColorSpaceConversion_COEFF_RTP_2 = ((uint16_T)19077U);
-  rtCP_ColorSpaceConversion_COEFF_RTP_3 = ((uint16_T)6419U);
-  rtCP_ColorSpaceConversion_COEFF_RTP_4 = ((uint16_T)13320U);
-  rtCP_ColorSpaceConversion_COEFF_RTP_5 = ((uint16_T)19077U);
-  rtCP_ColorSpaceConversion_COEFF_RTP_6 = ((uint16_T)33050U);
-  for (loop = 0; loop < 19200; loop++) {
-    /* Convert YcbCr to RGB; apply coefficients and offsets */
-    /* derived from the ITU BT.601-5 recommendation; all of the */
-    /* coefficients and offsets are scaled (by 2^14) such that */
-    /* the conversion can be done using integer arithmetic; this */
-    /* routine relies on the user supplying the data in proper */
-    /* ranges: Y [16..235], Cb & Cr [16..240] */
-    /* Note that all of the operations are grouped in such a way */
-    /* that the arithmetic can be done using unsigned integers */
-    /* Given that Y is in the proper range, yDiff should */
-    /* always be positive */
-    flightControlSystem_B.yDiff = flightControlSystem_B.Y1UY2VtoYUV_o1[loop] -
-      16U;
-
-    /* Red; 8192 in this equations is 0.5*2^14 or 2^13; adding 0.5  */
-    /* before truncation will result in rounding */
-    currentLabel = flightControlSystem_B.Sum[loop];
-    flightControlSystem_B.pos = (flightControlSystem_B.yDiff *
-      rtCP_ColorSpaceConversion_COEFF_RTP_0 + (uint32_T)currentLabel *
-      rtCP_ColorSpaceConversion_COEFF_RTP_1) + 8192U;
-    if (flightControlSystem_B.pos > padIdx) {
-      flightControlSystem_B.pos -= padIdx;
-    } else {
-      flightControlSystem_B.pos = 0U;
-    }
-
-    flightControlSystem_B.cc1 = flightControlSystem_B.pos >> 14;
-
-    /* limit to avoid wrapping */
-    if (flightControlSystem_B.cc1 > 255U) {
-      flightControlSystem_B.cc1 = 255U;
-    }
-
-    /* Compute green channel */
-    flightControlSystem_B.pos = flightControlSystem_B.yDiff *
-      rtCP_ColorSpaceConversion_COEFF_RTP_2 + centerIdx;
-    rtb_Y1UY2VtoYUV_o2_0 = flightControlSystem_B.Y1UY2VtoYUV_o2[loop];
-    flightControlSystem_B.neg = (uint32_T)rtb_Y1UY2VtoYUV_o2_0 *
-      rtCP_ColorSpaceConversion_COEFF_RTP_3 + (uint32_T)currentLabel *
-      rtCP_ColorSpaceConversion_COEFF_RTP_4;
-
-    /* scale back */
-    if (flightControlSystem_B.pos > flightControlSystem_B.neg) {
-      flightControlSystem_B.pos -= flightControlSystem_B.neg;
-    } else {
-      flightControlSystem_B.pos = 0U;
-    }
-
-    flightControlSystem_B.neg = flightControlSystem_B.pos >> 14;
-    if (flightControlSystem_B.neg > 255U) {
-      flightControlSystem_B.neg = 255U;
-    }
-
-    /* Compute blue channel */
-    flightControlSystem_B.pos = (flightControlSystem_B.yDiff *
-      rtCP_ColorSpaceConversion_COEFF_RTP_5 + (uint32_T)rtb_Y1UY2VtoYUV_o2_0 *
-      rtCP_ColorSpaceConversion_COEFF_RTP_6) + 8192U;
-
-    /* scale back */
-    if (flightControlSystem_B.pos > walkerIdx) {
-      flightControlSystem_B.pos -= walkerIdx;
-    } else {
-      flightControlSystem_B.pos = 0U;
-    }
-
-    flightControlSystem_B.yDiff = flightControlSystem_B.pos >> 14;
-    if (flightControlSystem_B.yDiff > 255U) {
-      flightControlSystem_B.yDiff = 255U;
-    }
-
-    /* Sum: '<S2>/Sum' incorporates:
-     *  ModelReference: '<S2>/Y1UY2V to YUV'
-     */
-    /* assign back the results */
-    n = ((uint8_T)flightControlSystem_B.cc1 - (uint8_T)flightControlSystem_B.neg)
-      - (uint8_T)flightControlSystem_B.yDiff;
-    if (n < 0) {
-      n = 0;
-    }
-
-    /* RelationalOperator: '<S2>/Relational Operator1' incorporates:
-     *  Constant: '<S2>/Constant'
-     *  Sum: '<S2>/Sum'
-     */
-    flightControlSystem_B.RelationalOperator1[loop] = (n >
-      flightControlSystem_P.Constant_Value);
-  }
-
-  /* End of S-Function (svipcolorconv): '<S2>/Color Space  Conversion' */
-
-  /* S-Function (svipblob): '<S2>/Blob Analysis' incorporates:
-   *  RelationalOperator: '<S2>/Relational Operator1'
-   */
-  maxNumBlobsReached = false;
-  memset(&flightControlSystem_DW.BlobAnalysis_PAD_DW[0], 0, 123U * sizeof
-         (uint8_T));
-  currentLabel = 1U;
-  loop = 0;
-  idx = 123;
-  for (n = 0; n < 160; n++) {
-    for (m = 0; m < 120; m++) {
-      flightControlSystem_DW.BlobAnalysis_PAD_DW[idx] = (uint8_T)
-        (flightControlSystem_B.RelationalOperator1[loop] ? 255 : 0);
-      loop++;
-      idx++;
-    }
-
-    flightControlSystem_DW.BlobAnalysis_PAD_DW[idx] = 0U;
-    flightControlSystem_DW.BlobAnalysis_PAD_DW[idx + 1] = 0U;
-    idx += 2;
-  }
-
-  memset(&flightControlSystem_DW.BlobAnalysis_PAD_DW[idx], 0, 121U * sizeof
-         (uint8_T));
-  idx = 0;
-  n = 0;
-  while (n < 160) {
-    mm = 0;
-    nnPadRows = (idx + 1) * 122;
-    m = 0;
-    while (m < 120) {
-      padIdx = (uint32_T)((nnPadRows + mm) + 1);
-      if (flightControlSystem_DW.BlobAnalysis_PAD_DW[padIdx] == 255) {
-        flightControlSystem_DW.BlobAnalysis_PAD_DW[padIdx] = currentLabel;
-        flightControlSystem_DW.BlobAnalysis_STACK_DW[0U] = padIdx;
-        padIdx = 1U;
-        while (padIdx != 0U) {
-          padIdx--;
-          centerIdx = flightControlSystem_DW.BlobAnalysis_STACK_DW[padIdx];
-          for (loop = 0; loop < 8; loop++) {
-            walkerIdx = (uint32_T)((int32_T)centerIdx +
-              rtCP_BlobAnalysis_WALKER_RTP[loop]);
-            if (flightControlSystem_DW.BlobAnalysis_PAD_DW[walkerIdx] == 255) {
-              flightControlSystem_DW.BlobAnalysis_PAD_DW[walkerIdx] =
-                currentLabel;
-              flightControlSystem_DW.BlobAnalysis_STACK_DW[padIdx] = walkerIdx;
-              padIdx++;
-            }
-          }
-        }
-
-        if (currentLabel == 50) {
-          maxNumBlobsReached = true;
-          n = 160;
-          m = 120;
-        } else {
-          currentLabel++;
-        }
-      }
-
-      mm++;
-      m++;
-    }
-
-    idx++;
-    n++;
-  }
-
-  /* Switch: '<S2>/Landing Flag switch' incorporates:
-   *  Constant: '<S2>/One'
-   *  RelationalOperator: '<S2>/Relational Operator'
-   *  S-Function (svipblob): '<S2>/Blob Analysis'
-   */
-  if ((maxNumBlobsReached ? (int32_T)currentLabel : (int32_T)(uint8_T)
-       (currentLabel - 1U)) >= flightControlSystem_P.One_Value) {
-    /* Switch: '<S2>/Landing Flag switch' incorporates:
-     *  Constant: '<S2>/One1'
-     */
-    flightControlSystem_B.LandingFlagswitch = flightControlSystem_P.One1_Value;
-  } else {
-    /* Switch: '<S2>/Landing Flag switch' incorporates:
-     *  Constant: '<S2>/One2'
-     */
-    flightControlSystem_B.LandingFlagswitch = flightControlSystem_P.One2_Value;
-  }
-
-  /* End of Switch: '<S2>/Landing Flag switch' */
   /* End of Outputs for SubSystem: '<Root>/Image Processing System' */
+
+  /* RateTransition: '<Root>/Rate Transition' */
+  flightControlSystem_DW.RateTransition_Buffer0 = false;
 }
 
 /* Model initialize function */
@@ -1660,14 +1452,14 @@ void flightControlSystem_initialize(void)
   /* Model Initialize function for ModelReference Block: '<S1>/estimator' */
   stateEstimator_o_initialize(rtmGetErrorStatusPointer(flightControlSystem_M));
 
-  /* Model Initialize function for ModelReference Block: '<S2>/Y1UY2V to YUV' */
-  conversionYUV_initialize(rtmGetErrorStatusPointer(flightControlSystem_M),
-    &(flightControlSystem_DW.Y1UY2VtoYUV_InstanceData.rtm));
-
   /* Matfile logging */
   rt_StartDataLoggingWithStartTime(flightControlSystem_M->rtwLogInfo, 0.0,
     rtmGetTFinal(flightControlSystem_M), flightControlSystem_M->Timing.stepSize0,
     (&rtmGetErrorStatus(flightControlSystem_M)));
+
+  /* InitializeConditions for RateTransition: '<Root>/Rate Transition' */
+  flightControlSystem_DW.RateTransition_Buffer0 =
+    flightControlSystem_P.RateTransition_InitialCondition;
 
   /* SystemInitialize for Atomic SubSystem: '<Root>/Flight Control System' */
 

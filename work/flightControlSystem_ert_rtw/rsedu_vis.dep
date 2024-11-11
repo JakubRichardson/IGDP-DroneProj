@@ -17,10 +17,10 @@ rsedu_vis.o rsedu_vis.o: \
  C:/PROGRA~3/MATLAB/SUPPOR~1/R2023a/toolbox/target/SUPPOR~1/parrot/include/ARCOMMANDS_Generator.h \
  C:/PROGRA~3/MATLAB/SUPPOR~1/R2023a/toolbox/target/SUPPOR~1/parrot/include/ARCOMMANDS_Types.h \
  C:/PROGRA~3/MATLAB/SUPPOR~1/R2023a/toolbox/target/SUPPOR~1/parrot/include/ARCOMMANDS_Decoder.h \
+ C:/PROGRA~3/MATLAB/SUPPOR~1/R2023a/toolbox/target/SUPPOR~1/parrot/include/rsedu_image.h \
+ C:/PROGRA~3/MATLAB/SUPPOR~1/R2023a/toolbox/target/SUPPOR~1/parrot/include/rsedu_vis.h \
  C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/flightControlSystem_ert_rtw/flightControlSystem_types.h \
  C:\ProgramData\MATLAB\SupportPackages\R2023a\toolbox\target\supportpackages\parrot\include\HAL.h \
- C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/conversionYUV/conversionYUV.h \
- C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/conversionYUV/conversionYUV_types.h \
  C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/rt_nonfinite.h \
  C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/flightControlSystem_ert_rtw/MW_target_hardware_resources.h \
  C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/flightControlSystem_ert_rtw/flightControlSystem_types.h \
@@ -63,13 +63,13 @@ C:/PROGRA~3/MATLAB/SUPPOR~1/R2023a/toolbox/target/SUPPOR~1/parrot/include/ARCOMM
 
 C:/PROGRA~3/MATLAB/SUPPOR~1/R2023a/toolbox/target/SUPPOR~1/parrot/include/ARCOMMANDS_Decoder.h:
 
+C:/PROGRA~3/MATLAB/SUPPOR~1/R2023a/toolbox/target/SUPPOR~1/parrot/include/rsedu_image.h:
+
+C:/PROGRA~3/MATLAB/SUPPOR~1/R2023a/toolbox/target/SUPPOR~1/parrot/include/rsedu_vis.h:
+
 C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/flightControlSystem_ert_rtw/flightControlSystem_types.h:
 
 C:\ProgramData\MATLAB\SupportPackages\R2023a\toolbox\target\supportpackages\parrot\include\HAL.h:
-
-C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/conversionYUV/conversionYUV.h:
-
-C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/conversionYUV/conversionYUV_types.h:
 
 C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/rt_nonfinite.h:
 

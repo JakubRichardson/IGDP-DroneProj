@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.25
+ * Model version                  : 8.36
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Mon Nov 11 12:24:30 2024
+ * C/C++ source code generated on : Mon Nov 11 13:56:54 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -305,6 +305,24 @@ struct tag_3Gf95DFWcKEKwFsG1zCAqH
 typedef struct tag_3Gf95DFWcKEKwFsG1zCAqH parrot_Grabber_flightControlSystem_T;
 
 #endif                        /* typedef_parrot_Grabber_flightControlSystem_T */
+
+#ifndef struct_tag_XlO2h99uDeEYSa2APM6LVB
+#define struct_tag_XlO2h99uDeEYSa2APM6LVB
+
+struct tag_XlO2h99uDeEYSa2APM6LVB
+{
+  int32_T isInitialized;
+};
+
+#endif                                 /* struct_tag_XlO2h99uDeEYSa2APM6LVB */
+
+#ifndef typedef_parrot_ImageProcess_flightControlSystem_T
+#define typedef_parrot_ImageProcess_flightControlSystem_T
+
+typedef struct tag_XlO2h99uDeEYSa2APM6LVB
+  parrot_ImageProcess_flightControlSystem_T;
+
+#endif                   /* typedef_parrot_ImageProcess_flightControlSystem_T */
 
 /* Parameters for system: '<S3>/Geofencing error' */
 typedef struct P_Geofencingerror_flightControlSystem_T_

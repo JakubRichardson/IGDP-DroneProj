@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.25
+ * Model version                  : 8.36
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Mon Nov 11 12:24:30 2024
+ * C/C++ source code generated on : Mon Nov 11 13:56:54 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -25,10 +25,10 @@
 #include "rtwtypes.h"
 #include "rt_logging.h"
 #include "grabberCannon.h"
+#include "rsedu_image.h"
 #endif                                /* flightControlSystem_COMMON_INCLUDES_ */
 
 #include "flightControlSystem_types.h"
-#include "conversionYUV.h"
 #include <stddef.h>
 #include <float.h>
 #include "rt_nonfinite.h"
@@ -178,24 +178,16 @@ typedef struct {
 
 /* Block signals (default storage) */
 typedef struct {
-  uint8_T Y1UY2VtoYUV_o1[19200];       /* '<S2>/Y1UY2V to YUV' */
-  uint8_T Y1UY2VtoYUV_o2[19200];       /* '<S2>/Y1UY2V to YUV' */
-  uint8_T Sum[19200];                  /* '<S2>/Sum' */
-  real_T LandingFlagswitch;            /* '<S2>/Landing Flag switch' */
-  boolean_T RelationalOperator1[19200];/* '<S2>/Relational Operator1' */
-  uint32_T cc1;
-  uint32_T pos;
-  uint32_T neg;
-  uint32_T yDiff;
+  uint8_T imageBuff_1[19200];
+  uint8_T imageBuff_2[19200];
+  uint8_T imageBuff_3[19200];
+  boolean_T rtb_RateTransition_m;
   B_FlightControlSystem_flightControlSystem_T FlightControlSystem;/* '<Root>/Flight Control System' */
 } B_flightControlSystem_T;
 
 /* Block states (default storage) for system '<Root>' */
 typedef struct {
-  uint32_T BlobAnalysis_STACK_DW[19200];/* '<S2>/Blob Analysis' */
-  uint8_T BlobAnalysis_PAD_DW[19764];  /* '<S2>/Blob Analysis' */
-  uint8_T ColorSpaceConversion_DWORK1[19200];/* '<S2>/Color Space  Conversion' */
-  MdlrefDW_conversionYUV_T Y1UY2VtoYUV_InstanceData;/* '<S2>/Y1UY2V to YUV' */
+  volatile boolean_T RateTransition_Buffer0;/* '<Root>/Rate Transition' */
   DW_FlightControlSystem_flightControlSystem_T FlightControlSystem;/* '<Root>/Flight Control System' */
 } DW_flightControlSystem_T;
 
@@ -266,18 +258,10 @@ struct P_FlightControlSystem_flightControlSystem_T_ {
 
 /* Parameters (default storage) */
 struct P_flightControlSystem_T_ {
-  real_T One1_Value;                   /* Computed Parameter: One1_Value
-                                        * Referenced by: '<S2>/One1'
-                                        */
-  real_T One2_Value;                   /* Computed Parameter: One2_Value
-                                        * Referenced by: '<S2>/One2'
-                                        */
-  uint8_T Constant_Value;              /* Computed Parameter: Constant_Value
-                                        * Referenced by: '<S2>/Constant'
-                                        */
-  uint8_T One_Value;                   /* Computed Parameter: One_Value
-                                        * Referenced by: '<S2>/One'
-                                        */
+  boolean_T RateTransition_InitialCondition;
+                          /* Computed Parameter: RateTransition_InitialCondition
+                           * Referenced by: '<Root>/Rate Transition'
+                           */
   P_FlightControlSystem_flightControlSystem_T FlightControlSystem;/* '<Root>/Flight Control System' */
 };
 
@@ -385,6 +369,8 @@ extern volatile boolean_T runModel;
  * '<S17>'  : 'flightControlSystem/Flight Control System/landing logic/Chart1'
  * '<S18>'  : 'flightControlSystem/Flight Control System/landing logic/Chart2'
  * '<S19>'  : 'flightControlSystem/Flight Control System/landing logic/Chart3'
+ * '<S20>'  : 'flightControlSystem/Image Processing System/MATLAB Function'
+ * '<S21>'  : 'flightControlSystem/Image Processing System/MATLAB Function1'
  */
 #endif                                 /* RTW_HEADER_flightControlSystem_h_ */
 
