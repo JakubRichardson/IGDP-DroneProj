@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.19
+ * Model version                  : 8.23
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Sun Nov 10 23:40:01 2024
+ * C/C++ source code generated on : Mon Nov 11 00:07:00 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -35,10 +35,11 @@
 #define flightControlSystem_IN_A3      ((uint8_T)1U)
 #define flightControlSystem_IN_A4      ((uint8_T)2U)
 #define flightControlSystem_IN_CloseGrabber ((uint8_T)1U)
-#define flightControlSystem_IN_Hover   ((uint8_T)2U)
-#define flightControlSystem_IN_Land    ((uint8_T)3U)
+#define flightControlSystem_IN_FollowPath ((uint8_T)2U)
+#define flightControlSystem_IN_Hover   ((uint8_T)3U)
+#define flightControlSystem_IN_Land    ((uint8_T)4U)
 #define flightControlSystem_IN_NO_ACTIVE_CHILD ((uint8_T)0U)
-#define flightControlSystem_IN_Takeoff ((uint8_T)4U)
+#define flightControlSystem_IN_Takeoff ((uint8_T)5U)
 
 /* Named constants for Chart: '<S5>/Chart1' */
 #define flightControlSystem_IN_A       ((uint8_T)1U)
@@ -47,8 +48,12 @@
 /* Named constants for Chart: '<S5>/Chart2' */
 #define flightControlSystem_IN_Forward ((uint8_T)1U)
 #define flightControlSystem_IN_Forward1 ((uint8_T)2U)
+#define flightControlSystem_IN_Land_d  ((uint8_T)3U)
 #define flightControlSystem_IN_Left    ((uint8_T)4U)
 #define flightControlSystem_IN_Right   ((uint8_T)5U)
+
+/* Named constants for Chart: '<S5>/Chart3' */
+#define flightControlSystem_IN_Left_f  ((uint8_T)3U)
 
 /* Exported block signals */
 CommandBus cmd_inport;                 /* '<Root>/AC cmd' */
@@ -854,12 +859,50 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
   DW_FlightControlSystem_flightControlSystem_T *localDW,
   P_FlightControlSystem_flightControlSystem_T *localP)
 {
+  /* Chart: '<S5>/Chart3' */
+  if (localDW->temporalCounter_i1 < 1023U) {
+    localDW->temporalCounter_i1++;
+  }
+
+  if (localDW->is_active_c4_flightControlSystem == 0U) {
+    localDW->is_active_c4_flightControlSystem = 1U;
+    localDW->is_c4_flightControlSystem = flightControlSystem_IN_Forward;
+    localDW->temporalCounter_i1 = 0U;
+    localB->dx = 0.0;
+    localB->dy = 0.0;
+  } else {
+    switch (localDW->is_c4_flightControlSystem) {
+     case flightControlSystem_IN_Forward:
+      localB->dy = 0.0;
+      if (localDW->temporalCounter_i1 >= 1000U) {
+        localDW->is_c4_flightControlSystem = flightControlSystem_IN_Forward1;
+        localDW->temporalCounter_i1 = 0U;
+      }
+      break;
+
+     case flightControlSystem_IN_Forward1:
+      if (localDW->temporalCounter_i1 >= 1000U) {
+        localDW->is_c4_flightControlSystem = flightControlSystem_IN_Left_f;
+      } else {
+        localB->dx = 0.001;
+      }
+      break;
+
+     default:
+      /* case IN_Left: */
+      localB->dx = -0.001;
+      break;
+    }
+  }
+
+  /* End of Chart: '<S5>/Chart3' */
+
   /* Chart: '<S5>/Chart' */
   if (localDW->temporalCounter_i1_g < 2047U) {
     localDW->temporalCounter_i1_g++;
   }
 
-  if (localDW->temporalCounter_i2 < 1023U) {
+  if (localDW->temporalCounter_i2 < 511U) {
     localDW->temporalCounter_i2++;
   }
 
@@ -868,10 +911,12 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
     localB->x_g = 0.0;
     localB->y_b = 0.0;
     localB->z_g = -1.0;
-    localB->takeoff_flag = 0.0;
-    localDW->is_c3_flightControlSystem = flightControlSystem_IN_CloseGrabber;
-    localDW->temporalCounter_i1_g = 0U;
     localB->grabber_c = 1.0;
+    localDW->is_c3_flightControlSystem = flightControlSystem_IN_Takeoff;
+    localDW->temporalCounter_i2 = 0U;
+    localDW->is_Takeoff = flightControlSystem_IN_A3;
+    localDW->temporalCounter_i1_g = 0U;
+    localB->takeoff_flag = 1.0;
   } else {
     switch (localDW->is_c3_flightControlSystem) {
      case flightControlSystem_IN_CloseGrabber:
@@ -884,10 +929,20 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
       }
       break;
 
-     case flightControlSystem_IN_Hover:
+     case flightControlSystem_IN_FollowPath:
       if (localDW->temporalCounter_i1_g >= 2000U) {
         localDW->is_c3_flightControlSystem = flightControlSystem_IN_Land;
         localB->z_g = -0.4;
+      } else {
+        localB->x_g += localB->dx;
+        localB->y_b += localB->dy;
+      }
+      break;
+
+     case flightControlSystem_IN_Hover:
+      if (localDW->temporalCounter_i1_g >= 400U) {
+        localDW->is_c3_flightControlSystem = flightControlSystem_IN_FollowPath;
+        localDW->temporalCounter_i1_g = 0U;
       }
       break;
 
@@ -896,7 +951,7 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
 
      default:
       /* case IN_Takeoff: */
-      if (localDW->temporalCounter_i2 >= 1000U) {
+      if (localDW->temporalCounter_i2 >= 400U) {
         localDW->is_Takeoff = flightControlSystem_IN_NO_ACTIVE_CHILD;
         localDW->is_c3_flightControlSystem = flightControlSystem_IN_Hover;
         localDW->temporalCounter_i1_g = 0U;
@@ -1132,44 +1187,44 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
   /* End of Chart: '<S5>/Chart1' */
 
   /* Chart: '<S5>/Chart2' */
-  if (localDW->temporalCounter_i1 < 2047U) {
-    localDW->temporalCounter_i1++;
+  if (localDW->temporalCounter_i1_o < 2047U) {
+    localDW->temporalCounter_i1_o++;
   }
 
   if (localDW->is_active_c2_flightControlSystem == 0U) {
     localDW->is_active_c2_flightControlSystem = 1U;
     localDW->is_c2_flightControlSystem = flightControlSystem_IN_Forward;
-    localDW->temporalCounter_i1 = 0U;
+    localDW->temporalCounter_i1_o = 0U;
   } else {
     switch (localDW->is_c2_flightControlSystem) {
      case flightControlSystem_IN_Forward:
-      if (localDW->temporalCounter_i1 >= 1400U) {
+      if (localDW->temporalCounter_i1_o >= 1400U) {
         localDW->is_c2_flightControlSystem = flightControlSystem_IN_Forward1;
-        localDW->temporalCounter_i1 = 0U;
+        localDW->temporalCounter_i1_o = 0U;
       }
       break;
 
      case flightControlSystem_IN_Forward1:
-      if (localDW->temporalCounter_i1 >= 1000U) {
+      if (localDW->temporalCounter_i1_o >= 1000U) {
         localDW->is_c2_flightControlSystem = flightControlSystem_IN_Left;
-        localDW->temporalCounter_i1 = 0U;
+        localDW->temporalCounter_i1_o = 0U;
       }
       break;
 
-     case flightControlSystem_IN_Land:
+     case flightControlSystem_IN_Land_d:
       break;
 
      case flightControlSystem_IN_Left:
-      if (localDW->temporalCounter_i1 >= 1000U) {
+      if (localDW->temporalCounter_i1_o >= 1000U) {
         localDW->is_c2_flightControlSystem = flightControlSystem_IN_Right;
-        localDW->temporalCounter_i1 = 0U;
+        localDW->temporalCounter_i1_o = 0U;
       }
       break;
 
      default:
       /* case IN_Right: */
-      if (localDW->temporalCounter_i1 >= 1000U) {
-        localDW->is_c2_flightControlSystem = flightControlSystem_IN_Land;
+      if (localDW->temporalCounter_i1_o >= 1000U) {
+        localDW->is_c2_flightControlSystem = flightControlSystem_IN_Land_d;
       }
       break;
     }

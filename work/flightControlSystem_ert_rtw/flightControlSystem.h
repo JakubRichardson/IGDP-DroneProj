@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.19
+ * Model version                  : 8.23
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Sun Nov 10 23:40:01 2024
+ * C/C++ source code generated on : Mon Nov 11 00:07:00 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -131,6 +131,8 @@ typedef struct {
   sensordata_t BusConversion_InsertedFor_estimator_at_inport_1_BusCreator1;
   real32_T controller_o2[8];           /* '<S1>/controller' */
   CommandBus BusCreator;               /* '<S5>/Bus Creator' */
+  real_T dx;                           /* '<S5>/Chart3' */
+  real_T dy;                           /* '<S5>/Chart3' */
   real_T x_g;                          /* '<S5>/Chart' */
   real_T y_b;                          /* '<S5>/Chart' */
   real_T z_g;                          /* '<S5>/Chart' */
@@ -157,10 +159,13 @@ typedef struct {
 
 /* Block states (default storage) for system '<Root>/Flight Control System' */
 typedef struct {
-  uint16_T temporalCounter_i1;         /* '<S5>/Chart2' */
+  uint16_T temporalCounter_i1;         /* '<S5>/Chart3' */
+  uint16_T temporalCounter_i1_o;       /* '<S5>/Chart2' */
   uint16_T temporalCounter_i1_l;       /* '<S5>/Chart1' */
   uint16_T temporalCounter_i1_g;       /* '<S5>/Chart' */
   uint16_T temporalCounter_i2;         /* '<S5>/Chart' */
+  uint8_T is_active_c4_flightControlSystem;/* '<S5>/Chart3' */
+  uint8_T is_c4_flightControlSystem;   /* '<S5>/Chart3' */
   uint8_T is_active_c2_flightControlSystem;/* '<S5>/Chart2' */
   uint8_T is_c2_flightControlSystem;   /* '<S5>/Chart2' */
   uint8_T is_active_c1_flightControlSystem;/* '<S5>/Chart1' */
@@ -379,6 +384,7 @@ extern volatile boolean_T runModel;
  * '<S16>'  : 'flightControlSystem/Flight Control System/landing logic/Chart'
  * '<S17>'  : 'flightControlSystem/Flight Control System/landing logic/Chart1'
  * '<S18>'  : 'flightControlSystem/Flight Control System/landing logic/Chart2'
+ * '<S19>'  : 'flightControlSystem/Flight Control System/landing logic/Chart3'
  */
 #endif                                 /* RTW_HEADER_flightControlSystem_h_ */
 
