@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.36
+ * Model version                  : 8.49
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Mon Nov 11 13:56:54 2024
+ * C/C++ source code generated on : Wed Nov 13 17:24:16 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -23,7 +23,11 @@
 #define flightControlSystem_COMMON_INCLUDES_
 #include <stdlib.h>
 #include "rtwtypes.h"
+#include "rtw_extmode.h"
+#include "sysran_types.h"
 #include "rt_logging.h"
+#include "dt_info.h"
+#include "ext_work.h"
 #include "grabberCannon.h"
 #include "rsedu_image.h"
 #endif                                /* flightControlSystem_COMMON_INCLUDES_ */
@@ -31,12 +35,17 @@
 #include "flightControlSystem_types.h"
 #include <stddef.h>
 #include <float.h>
+#include <string.h>
 #include "rt_nonfinite.h"
 #include "MW_target_hardware_resources.h"
 
 /* Macros for accessing real-time model data structure */
 #ifndef rtmGetFinalTime
 #define rtmGetFinalTime(rtm)           ((rtm)->Timing.tFinal)
+#endif
+
+#ifndef rtmGetRTWExtModeInfo
+#define rtmGetRTWExtModeInfo(rtm)      ((rtm)->extModeInfo)
 #endif
 
 #ifndef rtmGetRTWLogInfo
@@ -87,11 +96,40 @@
 #define rtmTaskCounter(rtm, idx)       ((rtm)->Timing.TaskCounters.TID[(idx)])
 #endif
 
+/* Block states (default storage) for system '<S3>/Geofencing error' */
+typedef struct {
+  int8_T Geofencingerror_SubsysRanBC;  /* '<S3>/Geofencing error' */
+} DW_Geofencingerror_flightControlSystem_T;
+
 /* Block signals for system '<S1>/Logging' */
 typedef struct {
+  real32_T X;                          /* '<S4>/states_estim_BusSelector' */
+  real32_T Y;                          /* '<S4>/states_estim_BusSelector' */
+  real32_T Z;                          /* '<S4>/states_estim_BusSelector' */
+  real32_T yaw;                        /* '<S4>/states_estim_BusSelector' */
+  real32_T pitch;                      /* '<S4>/states_estim_BusSelector' */
+  real32_T roll;                       /* '<S4>/states_estim_BusSelector' */
+  real32_T dx;                         /* '<S4>/states_estim_BusSelector' */
+  real32_T dy;                         /* '<S4>/states_estim_BusSelector' */
+  real32_T dz;                         /* '<S4>/states_estim_BusSelector' */
+  real32_T p;                          /* '<S4>/states_estim_BusSelector' */
+  real32_T q;                          /* '<S4>/states_estim_BusSelector' */
+  real32_T r;                          /* '<S4>/states_estim_BusSelector' */
   real32_T TmpSignalConversionAtToWorkspace2Inport1[12];
+  real32_T DataTypeConversion1;        /* '<S4>/Data Type Conversion1' */
+  real32_T DataTypeConversion2;        /* '<S4>/Data Type Conversion2' */
   real32_T TmpSignalConversionAtToWorkspace6Inport1[10];
+  real32_T DataTypeConversion3;        /* '<S4>/Data Type Conversion3' */
+  real32_T pos_ref[3];          /* '<S4>/ReferenceValueServerBus_BusSelector' */
+  real32_T DataTypeConversion7;        /* '<S4>/Data Type Conversion7' */
+  real32_T orient_ref[3];       /* '<S4>/ReferenceValueServerBus_BusSelector' */
+  real32_T DataTypeConversion9;        /* '<S4>/Data Type Conversion9' */
   real32_T TmpSignalConversionAtToWorkspace3Inport1[9];
+  real32_T DataTypeConversion11;       /* '<S4>/Data Type Conversion11' */
+  real32_T opticalFlow_data[3];        /* '<S4>/Sensors_BusSelector' */
+  real32_T posVIS_data[4];             /* '<S4>/Sensors_BusSelector' */
+  real32_T TmpSignalConversionAtToWorkspace4Inport1[8];
+  real32_T SensorCalibration[8];       /* '<S4>/Sensors_BusSelector' */
 } B_Logging_flightControlSystem_T;
 
 /* Block states (default storage) for system '<S1>/Logging' */
@@ -129,27 +167,26 @@ typedef struct {
 typedef struct {
   statesEstim_t estimator;             /* '<S1>/estimator' */
   sensordata_t BusConversion_InsertedFor_estimator_at_inport_1_BusCreator1;
-  real32_T controller_o2[8];           /* '<S1>/controller' */
   CommandBus BusCreator;               /* '<S5>/Bus Creator' */
-  real_T dx;                           /* '<S5>/Chart3' */
-  real_T dy;                           /* '<S5>/Chart3' */
+  real_T Grabber;                      /* '<S5>/Grabber' */
   real_T x_g;                          /* '<S5>/Chart' */
   real_T y_b;                          /* '<S5>/Chart' */
   real_T z_g;                          /* '<S5>/Chart' */
   real_T grabber_c;                    /* '<S5>/Chart' */
   real_T takeoff_flag;                 /* '<S5>/Chart' */
-  real_T Grabber;                      /* '<S5>/Grabber' */
+  real_T d;
+  real32_T x_c;
+  real32_T y_n;
+  real32_T z_p;
+  real32_T x_cd;
+  real32_T y_nb;
+  real32_T z_p1;
+  real32_T altitude;
+  real32_T pressure;
+  real32_T controller_o2[8];           /* '<S1>/controller' */
   real32_T Max;                        /* '<S5>/Max' */
-  real32_T rtb_pressure_m;
-  real32_T rtb_altitude_c;
-  real32_T rtb_z_p_k;
-  real32_T rtb_y_n_c;
-  real32_T rtb_x_c_b;
-  real32_T rtb_z_pb;
-  real32_T rtb_y_c;
-  real32_T rtb_x_f;
-  real32_T rtb_vbat_V_g;
-  uint32_T rtb_vbat_percentage_g;
+  real32_T rtb_vbat_V_m;
+  uint32_T rtb_vbat_percentage_c;
   uint8_T u;
   boolean_T Compare_h;                 /* '<S9>/Compare' */
   boolean_T Compare_l;                 /* '<S12>/Compare' */
@@ -159,35 +196,69 @@ typedef struct {
 
 /* Block states (default storage) for system '<Root>/Flight Control System' */
 typedef struct {
+  struct {
+    void *LoggedData;
+  } Scope_PWORK;                       /* '<S5>/Scope' */
+
+  uint32_T is_c4_flightControlSystem;  /* '<S5>/Chart3' */
+  uint32_T is_c2_flightControlSystem;  /* '<S5>/Chart2' */
+  uint32_T is_c1_flightControlSystem;  /* '<S5>/Chart1' */
+  uint32_T is_c3_flightControlSystem;  /* '<S5>/Chart' */
+  uint32_T is_Takeoff;                 /* '<S5>/Chart' */
   uint16_T temporalCounter_i1;         /* '<S5>/Chart3' */
-  uint16_T temporalCounter_i1_o;       /* '<S5>/Chart2' */
-  uint16_T temporalCounter_i1_l;       /* '<S5>/Chart1' */
+  uint16_T temporalCounter_i1_d;       /* '<S5>/Chart2' */
+  uint16_T temporalCounter_i1_p;       /* '<S5>/Chart1' */
   uint16_T temporalCounter_i1_g;       /* '<S5>/Chart' */
   uint16_T temporalCounter_i2;         /* '<S5>/Chart' */
   uint8_T is_active_c4_flightControlSystem;/* '<S5>/Chart3' */
-  uint8_T is_c4_flightControlSystem;   /* '<S5>/Chart3' */
   uint8_T is_active_c2_flightControlSystem;/* '<S5>/Chart2' */
-  uint8_T is_c2_flightControlSystem;   /* '<S5>/Chart2' */
   uint8_T is_active_c1_flightControlSystem;/* '<S5>/Chart1' */
-  uint8_T is_c1_flightControlSystem;   /* '<S5>/Chart1' */
   uint8_T is_active_c3_flightControlSystem;/* '<S5>/Chart' */
-  uint8_T is_c3_flightControlSystem;   /* '<S5>/Chart' */
-  uint8_T is_Takeoff;                  /* '<S5>/Chart' */
   DW_Logging_flightControlSystem_T Logging;/* '<S1>/Logging' */
+  DW_Geofencingerror_flightControlSystem_T Normalcondition;/* '<S3>/Normal condition' */
+  DW_Geofencingerror_flightControlSystem_T estimatorOpticalflowerror;
+                                      /* '<S3>/estimator//Optical flow error' */
+  DW_Geofencingerror_flightControlSystem_T Geofencingerror;/* '<S3>/Geofencing error' */
 } DW_FlightControlSystem_flightControlSystem_T;
 
 /* Block signals (default storage) */
 typedef struct {
+  real_T rowIdx_data[4960];
+  real_T colIdx_data[4960];
+  int32_T i_data[4960];
   uint8_T imageBuff_1[19200];
   uint8_T imageBuff_2[19200];
   uint8_T imageBuff_3[19200];
-  boolean_T rtb_RateTransition_m;
+  uint8_T j_data[4960];
+  real_T dy;                           /* '<Root>/Rate Transition' */
+  real_T dx;                           /* '<Root>/Rate Transition' */
+  real_T deltaX;                       /* '<S2>/MATLAB Function1' */
+  real_T deltaY;                       /* '<S2>/MATLAB Function1' */
+  boolean_T Submatrix[900];            /* '<S2>/Submatrix' */
+  boolean_T Submatrix1[900];           /* '<S2>/Submatrix1' */
+  real_T avgX;
+  real_T avgY;
+  uint8_T bottom;                      /* '<S2>/Matrix Sum' */
+  uint8_T top;                         /* '<S2>/Matrix Sum1' */
+  boolean_T circle;                    /* '<S2>/Logical Operator' */
+  boolean_T BW[19200];                 /* '<S2>/MATLAB Function' */
   B_FlightControlSystem_flightControlSystem_T FlightControlSystem;/* '<Root>/Flight Control System' */
 } B_flightControlSystem_T;
 
 /* Block states (default storage) for system '<Root>' */
 typedef struct {
-  volatile boolean_T RateTransition_Buffer0;/* '<Root>/Rate Transition' */
+  volatile real_T RateTransition_1_Buffer[2];/* '<Root>/Rate Transition' */
+  volatile real_T RateTransition_2_Buffer[2];/* '<Root>/Rate Transition' */
+  struct {
+    void *LoggedData[5];
+  } Scope_PWORK;                       /* '<S2>/Scope' */
+
+  volatile int8_T RateTransition_1_ActiveBufIdx;/* '<Root>/Rate Transition' */
+  volatile int8_T RateTransition_2_ActiveBufIdx;/* '<Root>/Rate Transition' */
+  uint8_T is_active_c6_flightControlSystem;/* '<S2>/MATLAB Function1' */
+  uint8_T is_active_c5_flightControlSystem;/* '<S2>/MATLAB Function' */
+  boolean_T doneDoubleBufferReInit;    /* '<S2>/MATLAB Function1' */
+  boolean_T doneDoubleBufferReInit_c;  /* '<S2>/MATLAB Function' */
   DW_FlightControlSystem_flightControlSystem_T FlightControlSystem;/* '<Root>/Flight Control System' */
 } DW_flightControlSystem_T;
 
@@ -258,10 +329,18 @@ struct P_FlightControlSystem_flightControlSystem_T_ {
 
 /* Parameters (default storage) */
 struct P_flightControlSystem_T_ {
-  boolean_T RateTransition_InitialCondition;
-                          /* Computed Parameter: RateTransition_InitialCondition
-                           * Referenced by: '<Root>/Rate Transition'
-                           */
+  uint8_T CompareToConstant1_const;  /* Mask Parameter: CompareToConstant1_const
+                                      * Referenced by: '<S21>/Constant'
+                                      */
+  uint8_T CompareToConstant_const;    /* Mask Parameter: CompareToConstant_const
+                                       * Referenced by: '<S20>/Constant'
+                                       */
+  real_T RateTransition_1_InitialCondition;/* Expression: 0
+                                            * Referenced by: '<Root>/Rate Transition'
+                                            */
+  real_T RateTransition_2_InitialCondition;/* Expression: 0
+                                            * Referenced by: '<Root>/Rate Transition'
+                                            */
   P_FlightControlSystem_flightControlSystem_T FlightControlSystem;/* '<Root>/Flight Control System' */
 };
 
@@ -269,6 +348,26 @@ struct P_flightControlSystem_T_ {
 struct tag_RTM_flightControlSystem_T {
   const char_T *errorStatus;
   RTWLogInfo *rtwLogInfo;
+  RTWExtModeInfo *extModeInfo;
+
+  /*
+   * Sizes:
+   * The following substructure contains sizes information
+   * for many of the model attributes such as inputs, outputs,
+   * dwork, sample times, etc.
+   */
+  struct {
+    uint32_T checksums[4];
+  } Sizes;
+
+  /*
+   * SpecialInfo:
+   * The following substructure contains special information
+   * related to other components that are dependent on RTW.
+   */
+  struct {
+    const void *mappingInfo;
+  } SpecialInfo;
 
   /*
    * Timing:
@@ -279,6 +378,7 @@ struct tag_RTM_flightControlSystem_T {
     time_T taskTime0;
     uint32_T clockTick0;
     time_T stepSize0;
+    uint32_T clockTick1;
     struct {
       uint32_T TID[2];
     } TaskCounters;
@@ -369,8 +469,10 @@ extern volatile boolean_T runModel;
  * '<S17>'  : 'flightControlSystem/Flight Control System/landing logic/Chart1'
  * '<S18>'  : 'flightControlSystem/Flight Control System/landing logic/Chart2'
  * '<S19>'  : 'flightControlSystem/Flight Control System/landing logic/Chart3'
- * '<S20>'  : 'flightControlSystem/Image Processing System/MATLAB Function'
- * '<S21>'  : 'flightControlSystem/Image Processing System/MATLAB Function1'
+ * '<S20>'  : 'flightControlSystem/Image Processing System/Compare To Constant'
+ * '<S21>'  : 'flightControlSystem/Image Processing System/Compare To Constant1'
+ * '<S22>'  : 'flightControlSystem/Image Processing System/MATLAB Function'
+ * '<S23>'  : 'flightControlSystem/Image Processing System/MATLAB Function1'
  */
 #endif                                 /* RTW_HEADER_flightControlSystem_h_ */
 

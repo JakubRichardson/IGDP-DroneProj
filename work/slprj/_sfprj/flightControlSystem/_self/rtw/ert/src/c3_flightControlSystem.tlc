@@ -7,32 +7,42 @@
 %endfunction
 %function ChartDataMap(block, system) void
   %createrecord ChartDataElements {\
-    NumChartData   5 \
+    NumChartData   6 \
     ChartDataDefaults {\
       RecordType   "ChartData"\
       Dimensions   []\
       IsTestPoint  0\
     }\
     ChartData {\
-      Name         "is_active_c3_flightControlSystem"\
-      Description  "StateIsActive"\
+      Name         "sfEvent"\
+      Description  "ActiveChartEvent"\
       SFName       ""\
       Path         ""\
       SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "is_active_c3_flightControlSystem"\
+      Description  "StateIsActive"\
+      SFName       "is_active_c3_flightControlSystem"\
+      Path         "is_active_c3_flightControlSystem"\
+      SrcLocation  ""\
+      IsTestPoint  1\
     }\
     ChartData {\
       Name         "is_c3_flightControlSystem"\
       Description  "StateActiveChild"\
-      SFName       ""\
-      Path         ""\
+      SFName       "is_c3_flightControlSystem"\
+      Path         "is_c3_flightControlSystem"\
       SrcLocation  ""\
+      IsTestPoint  1\
     }\
     ChartData {\
       Name         "is_Takeoff"\
       Description  "StateActiveChild"\
-      SFName       ""\
-      Path         "Takeoff"\
+      SFName       "is_Takeoff"\
+      Path         "Takeoff.is_Takeoff"\
       SrcLocation  ""\
+      IsTestPoint  1\
     }\
     ChartData {\
       Name         "temporalCounter_i1"\

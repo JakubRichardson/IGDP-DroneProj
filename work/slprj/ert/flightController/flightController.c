@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightController'.
  *
- * Model version                  : 8.9
+ * Model version                  : 8.11
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Sun Nov 10 22:22:18 2024
+ * C/C++ source code generated on : Wed Nov 13 17:09:09 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -129,12 +129,12 @@ P_flightController_T flightController_P_g = {
   /* Computed Parameter: Constant_Value
    * Referenced by: '<S2>/Constant'
    */
-  0.003F,
+  0.0F,
 
   /* Computed Parameter: w0_Value
    * Referenced by: '<S7>/w0'
    */
-  -0.753996611F,
+  -0.61803F,
 
   /* Computed Parameter: P_yaw_Gain
    * Referenced by: '<S6>/P_yaw'

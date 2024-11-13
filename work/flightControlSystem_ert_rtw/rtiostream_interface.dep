@@ -1,0 +1,23 @@
+rtiostream_interface.o rtiostream_interface.o: \
+ C:/PROGRA~1/MATLAB/R2023a/rtw/c/src/ext_mode/common/rtiostream_interface.c \
+ C:/PROGRA~1/MATLAB/R2023a/rtw/c/src/ext_mode/common/updown_util.h \
+ C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/rtwtypes.h \
+ C:/PROGRA~1/MATLAB/R2023a/simulink/include/rtw_extmode.h \
+ C:/PROGRA~1/MATLAB/R2023a/toolbox/coder/rtiostream/src/rtiostream.h \
+ C:/PROGRA~1/MATLAB/R2023a/toolbox/coder/rtiostream/src/utils/rtiostream_utils.h \
+ C:/PROGRA~1/MATLAB/R2023a/rtw/c/src/ext_mode/common/ext_types.h \
+ C:/PROGRA~1/MATLAB/R2023a/rtw/c/src/ext_mode/common/ext_share.h
+
+C:/PROGRA~1/MATLAB/R2023a/rtw/c/src/ext_mode/common/updown_util.h:
+
+C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/rtwtypes.h:
+
+C:/PROGRA~1/MATLAB/R2023a/simulink/include/rtw_extmode.h:
+
+C:/PROGRA~1/MATLAB/R2023a/toolbox/coder/rtiostream/src/rtiostream.h:
+
+C:/PROGRA~1/MATLAB/R2023a/toolbox/coder/rtiostream/src/utils/rtiostream_utils.h:
+
+C:/PROGRA~1/MATLAB/R2023a/rtw/c/src/ext_mode/common/ext_types.h:
+
+C:/PROGRA~1/MATLAB/R2023a/rtw/c/src/ext_mode/common/ext_share.h:
