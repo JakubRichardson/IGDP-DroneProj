@@ -7,9 +7,9 @@
  *
  * Code generation for model "flightControlSystem".
  *
- * Model version              : 8.49
+ * Model version              : 8.51
  * Simulink Coder version : 9.9 (R2023a) 19-Nov-2022
- * C source code generated on : Wed Nov 13 17:24:16 2024
+ * C source code generated on : Wed Nov 13 17:46:32 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -127,13 +127,11 @@ static const char_T * rtDataTypeNames[] = {
 
 /* data type transitions for block I/O structure */
 static DataTypeTransition rtBTransitions[] = {
-  { (char_T *)(&flightControlSystem_B.dy), 0, 0, 4 },
+  { (char_T *)(&flightControlSystem_B.dy), 0, 0, 5 },
 
-  { (char_T *)(&flightControlSystem_B.Submatrix[0]), 8, 0, 1800 },
+  { (char_T *)(&flightControlSystem_B.Submatrix[0]), 8, 0, 19200 },
 
-  { (char_T *)(&flightControlSystem_B.bottom), 3, 0, 2 },
-
-  { (char_T *)(&flightControlSystem_B.circle), 8, 0, 19201 },
+  { (char_T *)(&flightControlSystem_B.Compare), 8, 0, 19201 },
 
   { (char_T *)(&flightControlSystem_B.FlightControlSystem.Grabber), 0, 0, 6 },
 
@@ -193,16 +191,13 @@ static DataTypeTransition rtBTransitions[] = {
 
 /* data type transition table for block I/O structure */
 static DataTypeTransitionTable rtBTransTable = {
-  22U,
+  21U,
   rtBTransitions
 };
 
 /* data type transitions for Parameters structure */
 static DataTypeTransition rtPTransitions[] = {
-  { (char_T *)(&flightControlSystem_P.CompareToConstant1_const), 3, 0, 2 },
-
-  { (char_T *)(&flightControlSystem_P.RateTransition_1_InitialCondition), 0, 0,
-    2 },
+  { (char_T *)(&flightControlSystem_P.CompareToConstant2_const), 0, 0, 3 },
 
   { (char_T *)
     (&flightControlSystem_P.FlightControlSystem.CompareToConstant_const), 1, 0,
@@ -246,7 +241,7 @@ static DataTypeTransition rtPTransitions[] = {
 
 /* data type transition table for Parameters structure */
 static DataTypeTransitionTable rtPTransTable = {
-  13U,
+  12U,
   rtPTransitions
 };
 

@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.49
+ * Model version                  : 8.51
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Wed Nov 13 17:24:16 2024
+ * C/C++ source code generated on : Wed Nov 13 17:46:32 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -90,15 +90,10 @@ boolean_T rtP_enableLanding = true;    /* Variable: enableLanding
 
 /* Block parameters (default storage) */
 P_flightControlSystem_T flightControlSystem_P = {
-  /* Mask Parameter: CompareToConstant1_const
-   * Referenced by: '<S21>/Constant'
-   */
-  50U,
-
-  /* Mask Parameter: CompareToConstant_const
+  /* Mask Parameter: CompareToConstant2_const
    * Referenced by: '<S20>/Constant'
    */
-  50U,
+  2000.0,
 
   /* Expression: 0
    * Referenced by: '<Root>/Rate Transition'

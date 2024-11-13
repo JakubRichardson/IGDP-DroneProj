@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.49
+ * Model version                  : 8.51
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Wed Nov 13 17:24:16 2024
+ * C/C++ source code generated on : Wed Nov 13 17:46:32 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -23,6 +23,7 @@
 #include "flightControlSystem_private.h"
 #include <math.h>
 #include "rt_roundd_snf.h"
+#include <string.h>
 #include "mean_0sSgOgPG.h"
 #include "rt_nonfinite.h"
 #include "flightControlSystem_dt.h"
@@ -1321,10 +1322,10 @@ void flightControlSystem_step0(void)   /* Sample time: [0.005s, 0.0s] */
 /* Model step function for TID1 */
 void flightControlSystem_step1(void)   /* Sample time: [0.2s, 0.0s] */
 {
-  int32_T Submatrix_tmp;
   int32_T colIdx;
   int32_T colIdx_size;
   int32_T loop;
+  int32_T rowIdx_size;
   int32_T yIdx;
   boolean_T exitg1;
   boolean_T guard1;
@@ -1351,56 +1352,32 @@ void flightControlSystem_step1(void)   /* Sample time: [0.2s, 0.0s] */
 
   /* S-Function (sdspsubmtrx): '<S2>/Submatrix' */
   yIdx = 0;
-  for (colIdx = 0; colIdx < 30; colIdx++) {
-    /* S-Function (sdspsubmtrx): '<S2>/Submatrix1' incorporates:
-     *  S-Function (sdspsubmtrx): '<S2>/Submatrix'
-     */
-    for (loop = 0; loop < 30; loop++) {
-      Submatrix_tmp = loop + yIdx;
-      flightControlSystem_B.Submatrix[Submatrix_tmp] = flightControlSystem_B.BW
-        [((colIdx + 40) * 120 + loop) + 50];
-      flightControlSystem_B.Submatrix1[Submatrix_tmp] =
-        flightControlSystem_B.BW[((colIdx + 90) * 120 + loop) + 20];
-    }
-
-    /* End of S-Function (sdspsubmtrx): '<S2>/Submatrix1' */
-    yIdx += 30;
+  for (colIdx = 0; colIdx < 160; colIdx++) {
+    memcpy(&flightControlSystem_B.Submatrix[yIdx],
+           &flightControlSystem_B.BW[colIdx * 120], 120U * sizeof(boolean_T));
+    yIdx += 120;
   }
 
   /* End of S-Function (sdspsubmtrx): '<S2>/Submatrix' */
 
-  /* Sum: '<S2>/Matrix Sum' incorporates:
-   *  S-Function (sdspsubmtrx): '<S2>/Submatrix1'
-   */
-  colIdx = 0;
-  for (yIdx = 0; yIdx < 900; yIdx++) {
-    colIdx = (int32_T)((uint32_T)colIdx + flightControlSystem_B.Submatrix1[yIdx]);
-  }
-
-  /* Sum: '<S2>/Matrix Sum' */
-  flightControlSystem_B.bottom = (uint8_T)colIdx;
-
-  /* Sum: '<S2>/Matrix Sum1' incorporates:
+  /* Sum: '<S2>/Matrix Sum2' incorporates:
    *  S-Function (sdspsubmtrx): '<S2>/Submatrix'
    */
   colIdx = 0;
-  for (yIdx = 0; yIdx < 900; yIdx++) {
+  for (yIdx = 0; yIdx < 19200; yIdx++) {
     colIdx = (int32_T)((uint32_T)colIdx + flightControlSystem_B.Submatrix[yIdx]);
   }
 
-  /* Sum: '<S2>/Matrix Sum1' */
-  flightControlSystem_B.top = (uint8_T)colIdx;
-
-  /* Logic: '<S2>/Logical Operator' incorporates:
-   *  Constant: '<S20>/Constant'
-   *  Constant: '<S21>/Constant'
-   *  RelationalOperator: '<S20>/Compare'
-   *  RelationalOperator: '<S21>/Compare'
+  /* DataTypeConversion: '<S2>/Cast To Double' incorporates:
+   *  Sum: '<S2>/Matrix Sum2'
    */
-  flightControlSystem_B.circle = ((flightControlSystem_B.top >=
-    flightControlSystem_P.CompareToConstant_const) &&
-    (flightControlSystem_B.bottom >=
-     flightControlSystem_P.CompareToConstant1_const));
+  flightControlSystem_B.CastToDouble = (uint8_T)colIdx;
+
+  /* RelationalOperator: '<S20>/Compare' incorporates:
+   *  Constant: '<S20>/Constant'
+   */
+  flightControlSystem_B.Compare = (flightControlSystem_B.CastToDouble >=
+    flightControlSystem_P.CompareToConstant2_const);
 
   /* MATLAB Function: '<S2>/MATLAB Function1' */
   yIdx = -1;
@@ -1437,7 +1414,7 @@ void flightControlSystem_step1(void)   /* Sample time: [0.2s, 0.0s] */
     loop = yIdx;
   }
 
-  Submatrix_tmp = loop + 1;
+  rowIdx_size = loop + 1;
   for (colIdx = 0; colIdx <= loop; colIdx++) {
     flightControlSystem_B.rowIdx_data[colIdx] =
       flightControlSystem_B.i_data[colIdx];
@@ -1460,7 +1437,7 @@ void flightControlSystem_step1(void)   /* Sample time: [0.2s, 0.0s] */
     flightControlSystem_B.avgX = mean_0sSgOgPG(flightControlSystem_B.colIdx_data,
       &colIdx_size);
     flightControlSystem_B.avgY = mean_0sSgOgPG(flightControlSystem_B.rowIdx_data,
-      &Submatrix_tmp);
+      &rowIdx_size);
   }
 
   flightControlSystem_B.deltaX = flightControlSystem_B.avgX - 80.0;
@@ -1630,10 +1607,10 @@ void flightControlSystem_initialize(void)
   }
 
   /* External mode info */
-  flightControlSystem_M->Sizes.checksums[0] = (3861797622U);
-  flightControlSystem_M->Sizes.checksums[1] = (1760984104U);
-  flightControlSystem_M->Sizes.checksums[2] = (3666123826U);
-  flightControlSystem_M->Sizes.checksums[3] = (1895783565U);
+  flightControlSystem_M->Sizes.checksums[0] = (1191579305U);
+  flightControlSystem_M->Sizes.checksums[1] = (3338200727U);
+  flightControlSystem_M->Sizes.checksums[2] = (1210126136U);
+  flightControlSystem_M->Sizes.checksums[3] = (858923583U);
 
   {
     static const sysRanDType rtAlwaysEnabled = SUBSYS_RAN_BC_ENABLE;

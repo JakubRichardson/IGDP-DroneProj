@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.49
+ * Model version                  : 8.51
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Wed Nov 13 17:24:16 2024
+ * C/C++ source code generated on : Wed Nov 13 17:46:32 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -232,15 +232,13 @@ typedef struct {
   uint8_T j_data[4960];
   real_T dy;                           /* '<Root>/Rate Transition' */
   real_T dx;                           /* '<Root>/Rate Transition' */
+  real_T CastToDouble;                 /* '<S2>/Cast To Double' */
   real_T deltaX;                       /* '<S2>/MATLAB Function1' */
   real_T deltaY;                       /* '<S2>/MATLAB Function1' */
-  boolean_T Submatrix[900];            /* '<S2>/Submatrix' */
-  boolean_T Submatrix1[900];           /* '<S2>/Submatrix1' */
+  boolean_T Submatrix[19200];          /* '<S2>/Submatrix' */
   real_T avgX;
   real_T avgY;
-  uint8_T bottom;                      /* '<S2>/Matrix Sum' */
-  uint8_T top;                         /* '<S2>/Matrix Sum1' */
-  boolean_T circle;                    /* '<S2>/Logical Operator' */
+  boolean_T Compare;                   /* '<S20>/Compare' */
   boolean_T BW[19200];                 /* '<S2>/MATLAB Function' */
   B_FlightControlSystem_flightControlSystem_T FlightControlSystem;/* '<Root>/Flight Control System' */
 } B_flightControlSystem_T;
@@ -329,12 +327,9 @@ struct P_FlightControlSystem_flightControlSystem_T_ {
 
 /* Parameters (default storage) */
 struct P_flightControlSystem_T_ {
-  uint8_T CompareToConstant1_const;  /* Mask Parameter: CompareToConstant1_const
-                                      * Referenced by: '<S21>/Constant'
+  real_T CompareToConstant2_const;   /* Mask Parameter: CompareToConstant2_const
+                                      * Referenced by: '<S20>/Constant'
                                       */
-  uint8_T CompareToConstant_const;    /* Mask Parameter: CompareToConstant_const
-                                       * Referenced by: '<S20>/Constant'
-                                       */
   real_T RateTransition_1_InitialCondition;/* Expression: 0
                                             * Referenced by: '<Root>/Rate Transition'
                                             */
@@ -469,10 +464,9 @@ extern volatile boolean_T runModel;
  * '<S17>'  : 'flightControlSystem/Flight Control System/landing logic/Chart1'
  * '<S18>'  : 'flightControlSystem/Flight Control System/landing logic/Chart2'
  * '<S19>'  : 'flightControlSystem/Flight Control System/landing logic/Chart3'
- * '<S20>'  : 'flightControlSystem/Image Processing System/Compare To Constant'
- * '<S21>'  : 'flightControlSystem/Image Processing System/Compare To Constant1'
- * '<S22>'  : 'flightControlSystem/Image Processing System/MATLAB Function'
- * '<S23>'  : 'flightControlSystem/Image Processing System/MATLAB Function1'
+ * '<S20>'  : 'flightControlSystem/Image Processing System/Compare To Constant2'
+ * '<S21>'  : 'flightControlSystem/Image Processing System/MATLAB Function'
+ * '<S22>'  : 'flightControlSystem/Image Processing System/MATLAB Function1'
  */
 #endif                                 /* RTW_HEADER_flightControlSystem_h_ */
 
