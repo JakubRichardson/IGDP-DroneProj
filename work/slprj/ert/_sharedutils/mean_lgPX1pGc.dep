@@ -1,0 +1,8 @@
+mean_lgPX1pGc.o mean_lgPX1pGc.o: \
+ C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/mean_lgPX1pGc.c \
+ C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/rtwtypes.h \
+ C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/mean_lgPX1pGc.h
+
+C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/rtwtypes.h:
+
+C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/mean_lgPX1pGc.h:

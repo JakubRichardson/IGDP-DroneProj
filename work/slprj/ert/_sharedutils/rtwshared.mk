@@ -2,7 +2,7 @@
 ## Makefile generated for component 'rtwshared'. 
 ## 
 ## Makefile     : rtwshared.mk
-## Generated on : Wed Nov 13 15:46:51 2024
+## Generated on : Thu Nov 14 16:47:09 2024
 ## Final product: ./rtwshared.a
 ## Product type : static library
 ## 
@@ -178,7 +178,7 @@ DEFINES = $(DEFINES_) $(DEFINES_BUILD_ARGS) $(DEFINES_CUSTOM) $(DEFINES_OPTS) $(
 ## SOURCE FILES
 ###########################################################################
 
-SRCS = $(START_DIR)/slprj/ert/_sharedutils/rtGetInf.c $(START_DIR)/slprj/ert/_sharedutils/rtGetNaN.c $(START_DIR)/slprj/ert/_sharedutils/rt_nonfinite.c $(START_DIR)/slprj/ert/_sharedutils/rt_powf_snf.c $(START_DIR)/slprj/ert/_sharedutils/const_params.c $(START_DIR)/slprj/ert/_sharedutils/rt_roundd_snf.c $(START_DIR)/slprj/ert/_sharedutils/mean_0sSgOgPG.c
+SRCS = $(START_DIR)/slprj/ert/_sharedutils/rtGetInf.c $(START_DIR)/slprj/ert/_sharedutils/rtGetNaN.c $(START_DIR)/slprj/ert/_sharedutils/rt_nonfinite.c $(START_DIR)/slprj/ert/_sharedutils/rt_powf_snf.c $(START_DIR)/slprj/ert/_sharedutils/const_params.c $(START_DIR)/slprj/ert/_sharedutils/rt_roundd_snf.c $(START_DIR)/slprj/ert/_sharedutils/mean_0sSgOgPG.c $(START_DIR)/slprj/ert/_sharedutils/mean_lgPX1pGc.c
 
 ALL_SRCS = $(SRCS)
 
@@ -186,7 +186,7 @@ ALL_SRCS = $(SRCS)
 ## OBJECTS
 ###########################################################################
 
-OBJS = rtGetInf.o rtGetNaN.o rt_nonfinite.o rt_powf_snf.o const_params.o rt_roundd_snf.o mean_0sSgOgPG.o
+OBJS = rtGetInf.o rtGetNaN.o rt_nonfinite.o rt_powf_snf.o const_params.o rt_roundd_snf.o mean_0sSgOgPG.o mean_lgPX1pGc.o
 
 ALL_OBJS = $(OBJS)
 
@@ -374,6 +374,10 @@ rt_roundd_snf.o : $(START_DIR)/slprj/ert/_sharedutils/rt_roundd_snf.c
 
 
 mean_0sSgOgPG.o : $(START_DIR)/slprj/ert/_sharedutils/mean_0sSgOgPG.c
+	$(CC) $(CFLAGS) -o "$@" "$<"
+
+
+mean_lgPX1pGc.o : $(START_DIR)/slprj/ert/_sharedutils/mean_lgPX1pGc.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
