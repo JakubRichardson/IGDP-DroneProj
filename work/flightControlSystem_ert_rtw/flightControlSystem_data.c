@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.59
+ * Model version                  : 8.102
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Thu Nov 14 17:09:36 2024
+ * C/C++ source code generated on : Sat Nov 16 20:33:29 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -109,6 +109,11 @@ P_flightControlSystem_T flightControlSystem_P = {
    * Referenced by: '<Root>/Rate Transition'
    */
   0.0,
+
+  /* Computed Parameter: RateTransition_3_InitialCondition
+   * Referenced by: '<Root>/Rate Transition'
+   */
+  false,
 
   /* Start of '<Root>/Flight Control System' */
   {

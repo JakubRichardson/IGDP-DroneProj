@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.59
+ * Model version                  : 8.102
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Thu Nov 14 17:09:36 2024
+ * C/C++ source code generated on : Sat Nov 16 20:33:29 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -55,9 +55,9 @@ extern void flightControlSystem_FlightControlSystem_Init
 extern void flightControlSystem_FlightControlSystem
   (RT_MODEL_flightControlSystem_T * const flightControlSystem_M, const
    CommandBus *rtu_ReferenceValueServerCmds, const SensorsBus
-   *rtu_Sensors_Inport_2, real_T rtu_VisionbasedData, real_T
-   rtu_VisionbasedData_p, real32_T rty_motorCmds[4], uint8_T *rty_Flag,
-   B_FlightControlSystem_flightControlSystem_T *localB,
+   *rtu_Sensors_Inport_2, boolean_T rtu_VisionbasedData, real_T
+   rtu_VisionbasedData_p, real_T rtu_VisionbasedData_h, real32_T rty_motorCmds[4],
+   uint8_T *rty_Flag, B_FlightControlSystem_flightControlSystem_T *localB,
    DW_FlightControlSystem_flightControlSystem_T *localDW,
    P_FlightControlSystem_flightControlSystem_T *localP);
 

@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightController'.
  *
- * Model version                  : 8.11
+ * Model version                  : 8.21
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Thu Nov 14 17:07:48 2024
+ * C/C++ source code generated on : Sat Nov 16 18:59:37 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -176,11 +176,6 @@ P_flightController_T flightController_P_g = {
    */
   0.001F,
 
-  /* Computed Parameter: Constant_Value_p
-   * Referenced by: '<S1>/Constant'
-   */
-  false,
-
   /* Computed Parameter: Logic_table
    * Referenced by: '<S4>/Logic'
    */
@@ -345,12 +340,11 @@ void flightController_run(const CommandBus *arg_ReferenceValueServerBus, const
 
   /* Switch: '<S1>/Switch' incorporates:
    *  CombinatorialLogic: '<S4>/Logic'
-   *  Constant: '<S1>/Constant'
    *  Constant: '<S1>/Constant1'
    */
   flightController_DW.Memory_PreviousInput = flightController_P_g.Logic_table
     [((((uint32_T)arg_ReferenceValueServerBus->takeoff_flag << 1) +
-       flightController_P_g.Constant_Value_p) << 1) + rtb_Memory];
+       arg_ReferenceValueServerBus->landing_flag) << 1) + rtb_Memory];
   if (flightController_DW.Memory_PreviousInput) {
     /* Switch: '<S7>/TakeoffOrControl_Switch' incorporates:
      *  Constant: '<S7>/w0'
