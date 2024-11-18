@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.119
+ * Model version                  : 8.143
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Sat Nov 16 22:29:40 2024
+ * C/C++ source code generated on : Mon Nov 18 14:02:39 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -242,20 +242,22 @@ typedef struct {
   uint8_T imageBuff_1[19200];
   uint8_T imageBuff_2[19200];
   uint8_T imageBuff_3[19200];
+  boolean_T y[19200];
+  uint8_T j_data[4960];
   real_T dy;                           /* '<Root>/Rate Transition' */
   real_T dx;                           /* '<Root>/Rate Transition' */
   real_T deltaX;                       /* '<S2>/MATLAB Function1' */
   real_T deltaY;                       /* '<S2>/MATLAB Function1' */
   real_T avgX;
   real_T avgY;
+  real_T b_y;
   uint8_T bottom;                      /* '<S2>/Matrix Sum' */
   uint8_T top;                         /* '<S2>/Matrix Sum1' */
   boolean_T circle;                    /* '<Root>/Rate Transition' */
   boolean_T Submatrix[900];            /* '<S2>/Submatrix' */
   boolean_T Submatrix1[900];           /* '<S2>/Submatrix1' */
   boolean_T circle_e;                  /* '<S2>/Logical Operator' */
-  boolean_T BW[19200];                 /* '<S2>/MATLAB Function' */
-  uint8_T j_data[4960];
+  boolean_T y_j[19200];                /* '<S2>/MATLAB Function2' */
   B_FlightControlSystem_flightControlSystem_T FlightControlSystem;/* '<Root>/Flight Control System' */
 } B_flightControlSystem_T;
 
@@ -269,10 +271,14 @@ typedef struct {
 
   volatile int8_T RateTransition_1_ActiveBufIdx;/* '<Root>/Rate Transition' */
   volatile int8_T RateTransition_2_ActiveBufIdx;/* '<Root>/Rate Transition' */
+  uint8_T is_active_c8_flightControlSystem;/* '<S2>/MATLAB Function3' */
+  uint8_T is_active_c7_flightControlSystem;/* '<S2>/MATLAB Function2' */
   uint8_T is_active_c6_flightControlSystem;/* '<S2>/MATLAB Function1' */
   uint8_T is_active_c5_flightControlSystem;/* '<S2>/MATLAB Function' */
   volatile boolean_T RateTransition_3_Buffer0;/* '<Root>/Rate Transition' */
-  boolean_T doneDoubleBufferReInit;    /* '<S2>/MATLAB Function1' */
+  boolean_T doneDoubleBufferReInit;    /* '<S2>/MATLAB Function3' */
+  boolean_T doneDoubleBufferReInit_l;  /* '<S2>/MATLAB Function2' */
+  boolean_T doneDoubleBufferReInit_g;  /* '<S2>/MATLAB Function1' */
   boolean_T doneDoubleBufferReInit_c;  /* '<S2>/MATLAB Function' */
   DW_FlightControlSystem_flightControlSystem_T FlightControlSystem;/* '<Root>/Flight Control System' */
 } DW_flightControlSystem_T;
@@ -510,6 +516,8 @@ extern volatile boolean_T runModel;
  * '<S24>'  : 'flightControlSystem/Image Processing System/Compare To Constant1'
  * '<S25>'  : 'flightControlSystem/Image Processing System/MATLAB Function'
  * '<S26>'  : 'flightControlSystem/Image Processing System/MATLAB Function1'
+ * '<S27>'  : 'flightControlSystem/Image Processing System/MATLAB Function2'
+ * '<S28>'  : 'flightControlSystem/Image Processing System/MATLAB Function3'
  */
 #endif                                 /* RTW_HEADER_flightControlSystem_h_ */
 

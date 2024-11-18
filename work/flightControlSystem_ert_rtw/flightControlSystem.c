@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.119
+ * Model version                  : 8.143
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Sat Nov 16 22:29:40 2024
+ * C/C++ source code generated on : Mon Nov 18 14:02:39 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -24,7 +24,6 @@
 #include <math.h>
 #include "rt_roundd_snf.h"
 #include <string.h>
-#include "mean_0sSgOgPG.h"
 #include "rt_nonfinite.h"
 #include "flightControlSystem_dt.h"
 #define flightController_MDLREF_HIDE_CHILD_
@@ -39,13 +38,15 @@
 #define flightControlSystem_IN_Cruise  (2U)
 #define flightControlSystem_IN_CutPower (3U)
 #define flightControlSystem_IN_Descend (4U)
-#define flightControlSystem_IN_FollowPath1 (5U)
-#define flightControlSystem_IN_Hover   (6U)
-#define flightControlSystem_IN_Land    (7U)
+#define flightControlSystem_IN_FollowPath (5U)
+#define flightControlSystem_IN_FollowPath1 (6U)
+#define flightControlSystem_IN_FollowPath2 (7U)
+#define flightControlSystem_IN_Hover   (8U)
+#define flightControlSystem_IN_Land    (9U)
 #define flightControlSystem_IN_NO_ACTIVE_CHILD ((uint8_T)0U)
-#define flightControlSystem_IN_Next    (8U)
-#define flightControlSystem_IN_Stop    (9U)
-#define flightControlSystem_IN_Takeoff (10U)
+#define flightControlSystem_IN_Next    (10U)
+#define flightControlSystem_IN_Stop    (11U)
+#define flightControlSystem_IN_Takeoff (12U)
 
 /* Named constants for Chart: '<S5>/Chart1' */
 #define flightControlSystem_IN_A       (1U)
@@ -80,6 +81,10 @@ ExtY_flightControlSystem_T flightControlSystem_Y;
 static RT_MODEL_flightControlSystem_T flightControlSystem_M_;
 RT_MODEL_flightControlSystem_T *const flightControlSystem_M =
   &flightControlSystem_M_;
+
+/* Forward declaration for local functions */
+static real_T flightControlSystem_mean_0sSgOgPG(const real_T x_data[], const
+  int32_T *x_size);
 static void rate_monotonic_scheduler(void);
 
 /*
@@ -927,7 +932,7 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
   localB->stable = (localB->Compare && localB->Compare_d && localB->Compare_dd);
 
   /* Chart: '<S5>/Chart' */
-  if (localDW->temporalCounter_i1_pu < 2047U) {
+  if (localDW->temporalCounter_i1_pu < 4095U) {
     localDW->temporalCounter_i1_pu++;
   }
 
@@ -962,7 +967,7 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
 
      case flightControlSystem_IN_Cruise:
       if (localDW->temporalCounter_i1_pu >= 600U) {
-        localDW->is_c3_flightControlSystem = flightControlSystem_IN_FollowPath1;
+        localDW->is_c3_flightControlSystem = flightControlSystem_IN_FollowPath2;
         localDW->temporalCounter_i1_pu = 0U;
       }
       break;
@@ -978,10 +983,32 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
       }
       break;
 
-     case flightControlSystem_IN_FollowPath1:
-      if ((localDW->temporalCounter_i1_pu >= 1200U) && rtu_VisionbasedData) {
+     case flightControlSystem_IN_FollowPath:
+      if ((localDW->temporalCounter_i1_pu >= 2800U) && rtu_VisionbasedData) {
         localDW->is_c3_flightControlSystem = flightControlSystem_IN_Stop;
+        localDW->temporalCounter_i1_pu = 0U;
         localDW->count++;
+      } else {
+        localB->x_g -= (real32_T)(rtu_VisionbasedData_p / 50000.0);
+        localB->y_b += (real32_T)(rtu_VisionbasedData_h / 50000.0);
+      }
+      break;
+
+     case flightControlSystem_IN_FollowPath1:
+      if ((localDW->temporalCounter_i1_pu >= 800U) && rtu_VisionbasedData) {
+        localDW->is_c3_flightControlSystem = flightControlSystem_IN_Stop;
+        localDW->temporalCounter_i1_pu = 0U;
+        localDW->count++;
+      } else {
+        localB->x_g -= (real32_T)(rtu_VisionbasedData_p / 80000.0);
+        localB->y_b += (real32_T)(rtu_VisionbasedData_h / 80000.0);
+      }
+      break;
+
+     case flightControlSystem_IN_FollowPath2:
+      if (localDW->temporalCounter_i1_pu >= 2000U) {
+        localDW->is_c3_flightControlSystem = flightControlSystem_IN_FollowPath1;
+        localDW->temporalCounter_i1_pu = 0U;
       } else {
         localB->x_g -= (real32_T)(rtu_VisionbasedData_p / 50000.0);
         localB->y_b += (real32_T)(rtu_VisionbasedData_h / 50000.0);
@@ -990,7 +1017,7 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
 
      case flightControlSystem_IN_Hover:
       if ((localDW->temporalCounter_i1_pu >= 400U) && localB->stable) {
-        localDW->is_c3_flightControlSystem = flightControlSystem_IN_FollowPath1;
+        localDW->is_c3_flightControlSystem = flightControlSystem_IN_FollowPath;
         localDW->temporalCounter_i1_pu = 0U;
       }
       break;
@@ -1011,7 +1038,7 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
       break;
 
      case flightControlSystem_IN_Stop:
-      if (localB->stable) {
+      if (localDW->temporalCounter_i1_pu >= 400U) {
         if (localDW->count == 1.0) {
           localDW->is_c3_flightControlSystem = flightControlSystem_IN_Next;
           localDW->temporalCounter_i1_pu = 0U;
@@ -1364,6 +1391,56 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
   localDW->Memory1_PreviousInput = localB->estimator;
 }
 
+/* Function for MATLAB Function: '<S2>/MATLAB Function1' */
+static real_T flightControlSystem_mean_0sSgOgPG(const real_T x_data[], const
+  int32_T *x_size)
+{
+  real_T bsum;
+  int32_T b_k;
+  int32_T firstBlockLength;
+  int32_T hi;
+  int32_T lastBlockLength;
+  int32_T nblocks;
+  int32_T xblockoffset;
+  if (*x_size <= 1024) {
+    firstBlockLength = *x_size;
+    lastBlockLength = 0;
+    nblocks = 1;
+  } else {
+    firstBlockLength = 1024;
+    nblocks = (int32_T)((uint32_T)*x_size >> 10);
+    lastBlockLength = *x_size - (nblocks << 10);
+    if (lastBlockLength > 0) {
+      nblocks++;
+    } else {
+      lastBlockLength = 1024;
+    }
+  }
+
+  flightControlSystem_B.b_y = x_data[0];
+  for (xblockoffset = 2; xblockoffset <= firstBlockLength; xblockoffset++) {
+    flightControlSystem_B.b_y += x_data[xblockoffset - 1];
+  }
+
+  for (firstBlockLength = 2; firstBlockLength <= nblocks; firstBlockLength++) {
+    xblockoffset = (firstBlockLength - 1) << 10;
+    bsum = x_data[xblockoffset];
+    if (firstBlockLength == nblocks) {
+      hi = lastBlockLength;
+    } else {
+      hi = 1024;
+    }
+
+    for (b_k = 2; b_k <= hi; b_k++) {
+      bsum += x_data[(xblockoffset + b_k) - 1];
+    }
+
+    flightControlSystem_B.b_y += bsum;
+  }
+
+  return flightControlSystem_B.b_y / (real_T)*x_size;
+}
+
 /* Model step function for TID0 */
 void flightControlSystem_step0(void)   /* Sample time: [0.005s, 0.0s] */
 {
@@ -1452,6 +1529,7 @@ void flightControlSystem_step1(void)   /* Sample time: [0.2s, 0.0s] */
   int32_T yIdx;
   boolean_T exitg1;
   boolean_T guard1;
+  boolean_T y_j;
 
   /* Outputs for Atomic SubSystem: '<Root>/Image Processing System' */
   /* MATLABSystem: '<S2>/PARROT Image Conversion' incorporates:
@@ -1460,21 +1538,27 @@ void flightControlSystem_step1(void)   /* Sample time: [0.2s, 0.0s] */
   MW_Build_RGB(&imRGB[0], &flightControlSystem_B.imageBuff_1[0],
                &flightControlSystem_B.imageBuff_2[0],
                &flightControlSystem_B.imageBuff_3[0]);
+  for (yIdx = 0; yIdx < 19200; yIdx++) {
+    /* MATLAB Function: '<S2>/MATLAB Function' incorporates:
+     *  MATLABSystem: '<S2>/PARROT Image Conversion'
+     */
+    y_j = ((flightControlSystem_B.imageBuff_1[yIdx] >= 80) &&
+           (flightControlSystem_B.imageBuff_2[yIdx] <= 100) &&
+           (flightControlSystem_B.imageBuff_3[yIdx] <= 80));
 
-  /* MATLAB Function: '<S2>/MATLAB Function' incorporates:
-   *  MATLABSystem: '<S2>/PARROT Image Conversion'
-   */
-  for (colIdx = 0; colIdx < 19200; colIdx++) {
-    flightControlSystem_B.BW[colIdx] =
-      ((flightControlSystem_B.imageBuff_1[colIdx] >= 80) &&
-       (flightControlSystem_B.imageBuff_2[colIdx] <= 100) &&
-       (flightControlSystem_B.imageBuff_3[colIdx] <= 80));
+    /* MATLABSystem: '<S2>/PARROT Image Conversion' */
+    flightControlSystem_B.y_j[yIdx] = y_j;
+
+    /* MATLAB Function: '<S2>/MATLAB Function3' */
+    flightControlSystem_B.y[yIdx] = y_j;
   }
 
-  memset(&flightControlSystem_B.BW[0], 0, 4320U * sizeof(boolean_T));
-  memset(&flightControlSystem_B.BW[16680], 0, 2520U * sizeof(boolean_T));
+  /* MATLAB Function: '<S2>/MATLAB Function3' */
+  memset(&flightControlSystem_B.y[0], 0, 4320U * sizeof(boolean_T));
+  memset(&flightControlSystem_B.y[16680], 0, 2520U * sizeof(boolean_T));
 
-  /* End of MATLAB Function: '<S2>/MATLAB Function' */
+  /* MATLAB Function: '<S2>/MATLAB Function2' */
+  memset(&flightControlSystem_B.y_j[0], 0, 4320U * sizeof(boolean_T));
 
   /* S-Function (sdspsubmtrx): '<S2>/Submatrix' */
   yIdx = 0;
@@ -1484,10 +1568,10 @@ void flightControlSystem_step1(void)   /* Sample time: [0.2s, 0.0s] */
      */
     for (loop = 0; loop < 30; loop++) {
       Submatrix_tmp = loop + yIdx;
-      flightControlSystem_B.Submatrix[Submatrix_tmp] = flightControlSystem_B.BW
-        [((colIdx + 40) * 120 + loop) + 50];
+      flightControlSystem_B.Submatrix[Submatrix_tmp] =
+        flightControlSystem_B.y_j[((colIdx + 40) * 120 + loop) + 50];
       flightControlSystem_B.Submatrix1[Submatrix_tmp] =
-        flightControlSystem_B.BW[((colIdx + 90) * 120 + loop) + 20];
+        flightControlSystem_B.y_j[((colIdx + 90) * 120 + loop) + 50];
     }
 
     /* End of S-Function (sdspsubmtrx): '<S2>/Submatrix1' */
@@ -1536,7 +1620,7 @@ void flightControlSystem_step1(void)   /* Sample time: [0.2s, 0.0s] */
   exitg1 = false;
   while ((!exitg1) && (loop <= 160)) {
     guard1 = false;
-    if (flightControlSystem_B.BW[((loop - 1) * 120 + colIdx) + 13]) {
+    if (flightControlSystem_B.y[((loop - 1) * 120 + colIdx) + 13]) {
       yIdx++;
       flightControlSystem_B.i_data[yIdx] = colIdx;
       flightControlSystem_B.j_data[yIdx] = (uint8_T)loop;
@@ -1584,10 +1668,10 @@ void flightControlSystem_step1(void)   /* Sample time: [0.2s, 0.0s] */
     flightControlSystem_B.avgX = 80.0;
     flightControlSystem_B.avgY = 60.0;
   } else {
-    flightControlSystem_B.avgX = mean_0sSgOgPG(flightControlSystem_B.colIdx_data,
-      &colIdx_size);
-    flightControlSystem_B.avgY = mean_0sSgOgPG(flightControlSystem_B.rowIdx_data,
-      &Submatrix_tmp);
+    flightControlSystem_B.avgX = flightControlSystem_mean_0sSgOgPG
+      (flightControlSystem_B.colIdx_data, &colIdx_size);
+    flightControlSystem_B.avgY = flightControlSystem_mean_0sSgOgPG
+      (flightControlSystem_B.rowIdx_data, &Submatrix_tmp);
   }
 
   flightControlSystem_B.deltaX = flightControlSystem_B.avgX - 80.0;
@@ -1761,15 +1845,15 @@ void flightControlSystem_initialize(void)
   }
 
   /* External mode info */
-  flightControlSystem_M->Sizes.checksums[0] = (3908265243U);
-  flightControlSystem_M->Sizes.checksums[1] = (2884990620U);
-  flightControlSystem_M->Sizes.checksums[2] = (2635982750U);
-  flightControlSystem_M->Sizes.checksums[3] = (575224167U);
+  flightControlSystem_M->Sizes.checksums[0] = (1616327583U);
+  flightControlSystem_M->Sizes.checksums[1] = (770345971U);
+  flightControlSystem_M->Sizes.checksums[2] = (1339823637U);
+  flightControlSystem_M->Sizes.checksums[3] = (2540452205U);
 
   {
     static const sysRanDType rtAlwaysEnabled = SUBSYS_RAN_BC_ENABLE;
     static RTWExtModeInfo rt_ExtModeInfo;
-    static const sysRanDType *systemRan[15];
+    static const sysRanDType *systemRan[17];
     flightControlSystem_M->extModeInfo = (&rt_ExtModeInfo);
     rteiSetSubSystemActiveVectorAddresses(&rt_ExtModeInfo, systemRan);
     systemRan[0] = &rtAlwaysEnabled;
@@ -1790,6 +1874,8 @@ void flightControlSystem_initialize(void)
     systemRan[12] = &rtAlwaysEnabled;
     systemRan[13] = &rtAlwaysEnabled;
     systemRan[14] = &rtAlwaysEnabled;
+    systemRan[15] = &rtAlwaysEnabled;
+    systemRan[16] = &rtAlwaysEnabled;
     rteiSetModelMappingInfoPtr(flightControlSystem_M->extModeInfo,
       &flightControlSystem_M->SpecialInfo.mappingInfo);
     rteiSetChecksumsPtr(flightControlSystem_M->extModeInfo,

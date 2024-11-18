@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.119
+ * Model version                  : 8.143
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Sat Nov 16 22:29:40 2024
+ * C/C++ source code generated on : Mon Nov 18 14:02:39 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -99,12 +99,12 @@ P_flightControlSystem_T flightControlSystem_P = {
   /* Mask Parameter: CompareToConstant1_const
    * Referenced by: '<S24>/Constant'
    */
-  50U,
+  60U,
 
   /* Mask Parameter: CompareToConstant_const
    * Referenced by: '<S23>/Constant'
    */
-  50U,
+  60U,
 
   /* Expression: 0
    * Referenced by: '<Root>/Rate Transition'
@@ -126,12 +126,12 @@ P_flightControlSystem_T flightControlSystem_P = {
     /* Mask Parameter: CompareToConstant_const
      * Referenced by: '<S20>/Constant'
      */
-    0.1F,
+    0.2F,
 
     /* Mask Parameter: CompareToConstant1_const
      * Referenced by: '<S21>/Constant'
      */
-    0.05F,
+    0.2F,
 
     /* Mask Parameter: CompareToConstant2_const
      * Referenced by: '<S22>/Constant'

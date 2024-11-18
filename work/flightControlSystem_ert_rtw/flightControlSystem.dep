@@ -27,7 +27,6 @@ flightControlSystem.o flightControlSystem.o: \
  C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/flightControlSystem_ert_rtw/MW_target_hardware_resources.h \
  C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/flightControlSystem_ert_rtw/flightControlSystem_private.h \
  C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/rt_roundd_snf.h \
- C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/mean_0sSgOgPG.h \
  C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/flightControlSystem_ert_rtw/flightControlSystem_dt.h \
  C:/PROGRA~1/MATLAB/R2023a/rtw/c/src/ext_mode/common/ext_types.h \
  C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/flightController/flightController.h \
@@ -91,8 +90,6 @@ C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/flightControlSystem_
 C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/flightControlSystem_ert_rtw/flightControlSystem_private.h:
 
 C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/rt_roundd_snf.h:
-
-C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/mean_0sSgOgPG.h:
 
 C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/flightControlSystem_ert_rtw/flightControlSystem_dt.h:
 

@@ -7,9 +7,9 @@
  *
  * Code generation for model "flightControlSystem".
  *
- * Model version              : 8.119
+ * Model version              : 8.143
  * Simulink Coder version : 9.9 (R2023a) 19-Nov-2022
- * C source code generated on : Sat Nov 16 22:29:40 2024
+ * C source code generated on : Mon Nov 18 14:02:39 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -156,10 +156,10 @@ static DataTypeTransition rtBTransitions[] = {
 
   { (char_T *)(&flightControlSystem_DW.RateTransition_1_ActiveBufIdx), 2, 0, 2 },
 
-  { (char_T *)(&flightControlSystem_DW.is_active_c6_flightControlSystem), 3, 0,
-    2 },
+  { (char_T *)(&flightControlSystem_DW.is_active_c8_flightControlSystem), 3, 0,
+    4 },
 
-  { (char_T *)(&flightControlSystem_DW.RateTransition_3_Buffer0), 8, 0, 3 },
+  { (char_T *)(&flightControlSystem_DW.RateTransition_3_Buffer0), 8, 0, 5 },
 
   { (char_T *)(&flightControlSystem_DW.FlightControlSystem.Memory1_PreviousInput),
     28, 0, 1 },
