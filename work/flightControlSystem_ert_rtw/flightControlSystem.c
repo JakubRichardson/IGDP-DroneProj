@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.102
+ * Model version                  : 8.119
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Sat Nov 16 20:33:29 2024
+ * C/C++ source code generated on : Sat Nov 16 22:29:40 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -35,18 +35,17 @@
 /* Named constants for Chart: '<S5>/Chart' */
 #define flightControlSystem_IN_A3      (1U)
 #define flightControlSystem_IN_A4      (2U)
-#define flightControlSystem_IN_CircleCenter (1U)
-#define flightControlSystem_IN_CloseGrabber (2U)
-#define flightControlSystem_IN_Cruise  (3U)
-#define flightControlSystem_IN_CutPower (4U)
-#define flightControlSystem_IN_Descend (5U)
-#define flightControlSystem_IN_FollowPath1 (6U)
-#define flightControlSystem_IN_Hover   (7U)
-#define flightControlSystem_IN_Land    (8U)
+#define flightControlSystem_IN_CloseGrabber (1U)
+#define flightControlSystem_IN_Cruise  (2U)
+#define flightControlSystem_IN_CutPower (3U)
+#define flightControlSystem_IN_Descend (4U)
+#define flightControlSystem_IN_FollowPath1 (5U)
+#define flightControlSystem_IN_Hover   (6U)
+#define flightControlSystem_IN_Land    (7U)
 #define flightControlSystem_IN_NO_ACTIVE_CHILD ((uint8_T)0U)
-#define flightControlSystem_IN_Next    (9U)
-#define flightControlSystem_IN_Stop    (10U)
-#define flightControlSystem_IN_Takeoff (11U)
+#define flightControlSystem_IN_Next    (8U)
+#define flightControlSystem_IN_Stop    (9U)
+#define flightControlSystem_IN_Takeoff (10U)
 
 /* Named constants for Chart: '<S5>/Chart1' */
 #define flightControlSystem_IN_A       (1U)
@@ -859,6 +858,16 @@ void flightControlSystem_FlightControlSystem_Init(RT_MODEL_flightControlSystem_T
   DW_FlightControlSystem_flightControlSystem_T *localDW,
   P_FlightControlSystem_flightControlSystem_T *localP)
 {
+  /* InitializeConditions for UnitDelay: '<S5>/Unit Delay' incorporates:
+   *  S-Function (sdspdmult2): '<S5>/Array-Vector Subtract'
+   */
+  localDW->UnitDelay_DSTATE[0] = localP->UnitDelay_InitialCondition;
+  localDW->UnitDelay_DSTATE[1] = localP->UnitDelay_InitialCondition;
+  localDW->UnitDelay_DSTATE[2] = localP->UnitDelay_InitialCondition;
+
+  /* InitializeConditions for Memory: '<S5>/Memory1' */
+  localDW->Memory1_PreviousInput = localP->Memory1_InitialCondition;
+
   /* SystemInitialize for Atomic SubSystem: '<S1>/Logging' */
   flightControlSystem_Logging_Init(flightControlSystem_M, &localDW->Logging);
 
@@ -885,6 +894,38 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
   DW_FlightControlSystem_flightControlSystem_T *localDW,
   P_FlightControlSystem_flightControlSystem_T *localP)
 {
+  /* S-Function (sdspdmult2): '<S5>/Array-Vector Subtract' incorporates:
+   *  Memory: '<S5>/Memory1'
+   */
+  localDW->UnitDelay_DSTATE[0] -= localDW->Memory1_PreviousInput.X;
+  localDW->UnitDelay_DSTATE[1] -= localDW->Memory1_PreviousInput.Y;
+  localDW->UnitDelay_DSTATE[2] -= localDW->Memory1_PreviousInput.Z;
+
+  /* Abs: '<S5>/Abs' incorporates:
+   *  S-Function (sdspdmult2): '<S5>/Array-Vector Subtract'
+   */
+  localB->Abs[0] = (real32_T)fabs(localDW->UnitDelay_DSTATE[0]);
+  localB->Abs[1] = (real32_T)fabs(localDW->UnitDelay_DSTATE[1]);
+  localB->Abs[2] = (real32_T)fabs(localDW->UnitDelay_DSTATE[2]);
+
+  /* RelationalOperator: '<S20>/Compare' incorporates:
+   *  Constant: '<S20>/Constant'
+   */
+  localB->Compare = (localB->Abs[0] <= localP->CompareToConstant_const);
+
+  /* RelationalOperator: '<S21>/Compare' incorporates:
+   *  Constant: '<S21>/Constant'
+   */
+  localB->Compare_d = (localB->Abs[1] <= localP->CompareToConstant1_const);
+
+  /* RelationalOperator: '<S22>/Compare' incorporates:
+   *  Constant: '<S22>/Constant'
+   */
+  localB->Compare_dd = (localB->Abs[2] <= localP->CompareToConstant2_const);
+
+  /* Logic: '<S5>/AND1' */
+  localB->stable = (localB->Compare && localB->Compare_d && localB->Compare_dd);
+
   /* Chart: '<S5>/Chart' */
   if (localDW->temporalCounter_i1_pu < 2047U) {
     localDW->temporalCounter_i1_pu++;
@@ -896,9 +937,9 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
 
   if (localDW->is_active_c3_flightControlSystem == 0U) {
     localDW->is_active_c3_flightControlSystem = 1U;
-    localB->x_g = 0.0;
-    localB->y_b = 0.0;
-    localB->z_g = -1.0;
+    localB->x_g = 0.0F;
+    localB->y_b = 0.0F;
+    localB->z_g = -1.0F;
     localB->grabber_c = 1.0;
     localDW->count = 0.0;
     localB->landing_flag = 0.0;
@@ -909,16 +950,6 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
     localB->takeoff_flag = 1.0;
   } else {
     switch (localDW->is_c3_flightControlSystem) {
-     case flightControlSystem_IN_CircleCenter:
-      if (localDW->temporalCounter_i1_pu >= 460U) {
-        localDW->is_c3_flightControlSystem = flightControlSystem_IN_Stop;
-        localDW->count++;
-      } else {
-        localB->x_g -= rtu_VisionbasedData_p / 50000.0;
-        localB->y_b += rtu_VisionbasedData_h / 50000.0;
-      }
-      break;
-
      case flightControlSystem_IN_CloseGrabber:
       if (localDW->temporalCounter_i1_pu >= 200U) {
         localDW->is_c3_flightControlSystem = flightControlSystem_IN_Takeoff;
@@ -943,22 +974,22 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
       if (localDW->temporalCounter_i1_pu >= 800U) {
         localDW->is_c3_flightControlSystem = flightControlSystem_IN_Cruise;
         localDW->temporalCounter_i1_pu = 0U;
-        localB->z_g = -1.0;
+        localB->z_g = -1.0F;
       }
       break;
 
      case flightControlSystem_IN_FollowPath1:
       if ((localDW->temporalCounter_i1_pu >= 1200U) && rtu_VisionbasedData) {
-        localDW->is_c3_flightControlSystem = flightControlSystem_IN_CircleCenter;
-        localDW->temporalCounter_i1_pu = 0U;
+        localDW->is_c3_flightControlSystem = flightControlSystem_IN_Stop;
+        localDW->count++;
       } else {
-        localB->x_g -= rtu_VisionbasedData_p / 50000.0;
-        localB->y_b += rtu_VisionbasedData_h / 50000.0;
+        localB->x_g -= (real32_T)(rtu_VisionbasedData_p / 50000.0);
+        localB->y_b += (real32_T)(rtu_VisionbasedData_h / 50000.0);
       }
       break;
 
      case flightControlSystem_IN_Hover:
-      if (localDW->temporalCounter_i1_pu >= 400U) {
+      if ((localDW->temporalCounter_i1_pu >= 400U) && localB->stable) {
         localDW->is_c3_flightControlSystem = flightControlSystem_IN_FollowPath1;
         localDW->temporalCounter_i1_pu = 0U;
       }
@@ -975,18 +1006,20 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
       if (localDW->temporalCounter_i1_pu >= 140U) {
         localDW->is_c3_flightControlSystem = flightControlSystem_IN_Descend;
         localDW->temporalCounter_i1_pu = 0U;
-        localB->z_g = -0.8;
+        localB->z_g = -0.8F;
       }
       break;
 
      case flightControlSystem_IN_Stop:
-      if (localDW->count == 1.0) {
-        localDW->is_c3_flightControlSystem = flightControlSystem_IN_Next;
-        localDW->temporalCounter_i1_pu = 0U;
-      } else {
-        localDW->is_c3_flightControlSystem = flightControlSystem_IN_Land;
-        localDW->temporalCounter_i1_pu = 0U;
-        localB->z_g = -0.4;
+      if (localB->stable) {
+        if (localDW->count == 1.0) {
+          localDW->is_c3_flightControlSystem = flightControlSystem_IN_Next;
+          localDW->temporalCounter_i1_pu = 0U;
+        } else {
+          localDW->is_c3_flightControlSystem = flightControlSystem_IN_Land;
+          localDW->temporalCounter_i1_pu = 0U;
+          localB->z_g = -0.4F;
+        }
       }
       break;
 
@@ -996,7 +1029,7 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
         localDW->is_Takeoff = flightControlSystem_IN_NO_ACTIVE_CHILD;
         localDW->is_c3_flightControlSystem = flightControlSystem_IN_Hover;
         localDW->temporalCounter_i1_pu = 0U;
-        localB->z_g = -1.0;
+        localB->z_g = -1.0F;
       } else if ((localDW->is_Takeoff == flightControlSystem_IN_A3) &&
                  (localDW->temporalCounter_i1_pu >= 160U)) {
         localDW->is_Takeoff = flightControlSystem_IN_A4;
@@ -1020,11 +1053,11 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
   localB->BusConversion_InsertedFor_controller_at_inport_0_BusCreator.controlModePosVSOrient
     = localP->Constant1_Value;
   localB->BusConversion_InsertedFor_controller_at_inport_0_BusCreator.pos_ref[0]
-    = (real32_T)localB->x_g;
+    = localB->x_g;
   localB->BusConversion_InsertedFor_controller_at_inport_0_BusCreator.pos_ref[1]
-    = (real32_T)localB->y_b;
+    = localB->y_b;
   localB->BusConversion_InsertedFor_controller_at_inport_0_BusCreator.pos_ref[2]
-    = (real32_T)localB->z_g;
+    = localB->z_g;
   localB->BusConversion_InsertedFor_controller_at_inport_0_BusCreator.takeoff_flag
     = (localB->takeoff_flag != 0.0);
   localB->
@@ -1127,7 +1160,7 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
   /* RelationalOperator: '<S9>/Compare' incorporates:
    *  Constant: '<S9>/Constant'
    */
-  localB->Compare_h = (localB->Max > localP->CompareToConstant2_const);
+  localB->Compare_h = (localB->Max > localP->CompareToConstant2_const_c);
 
   /* Gain: '<S3>/Gain2' */
   localB->Max = localP->Gain2_Gain *
@@ -1171,8 +1204,8 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
    *  RelationalOperator: '<S7>/Compare'
    *  RelationalOperator: '<S8>/Compare'
    */
-  if (((real32_T)fabs(localB->estimator.X) > localP->CompareToConstant_const) ||
-      ((real32_T)fabs(localB->estimator.Y) > localP->CompareToConstant1_const))
+  if (((real32_T)fabs(localB->estimator.X) > localP->CompareToConstant_const_o) ||
+      ((real32_T)fabs(localB->estimator.Y) > localP->CompareToConstant1_const_d))
   {
     /* Outputs for IfAction SubSystem: '<S3>/Geofencing error' incorporates:
      *  ActionPort: '<S13>/Action Port'
@@ -1319,6 +1352,16 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
   }
 
   /* End of Chart: '<S5>/Chart3' */
+
+  /* Update for UnitDelay: '<S5>/Unit Delay' incorporates:
+   *  S-Function (sdspdmult2): '<S5>/Array-Vector Subtract'
+   */
+  localDW->UnitDelay_DSTATE[0] = localB->x_g;
+  localDW->UnitDelay_DSTATE[1] = localB->y_b;
+  localDW->UnitDelay_DSTATE[2] = localB->z_g;
+
+  /* Update for Memory: '<S5>/Memory1' */
+  localDW->Memory1_PreviousInput = localB->estimator;
 }
 
 /* Model step function for TID0 */
@@ -1476,10 +1519,10 @@ void flightControlSystem_step1(void)   /* Sample time: [0.2s, 0.0s] */
   flightControlSystem_B.top = (uint8_T)colIdx;
 
   /* Logic: '<S2>/Logical Operator' incorporates:
-   *  Constant: '<S20>/Constant'
-   *  Constant: '<S21>/Constant'
-   *  RelationalOperator: '<S20>/Compare'
-   *  RelationalOperator: '<S21>/Compare'
+   *  Constant: '<S23>/Constant'
+   *  Constant: '<S24>/Constant'
+   *  RelationalOperator: '<S23>/Compare'
+   *  RelationalOperator: '<S24>/Compare'
    */
   flightControlSystem_B.circle_e = ((flightControlSystem_B.top >=
     flightControlSystem_P.CompareToConstant_const) &&
@@ -1718,10 +1761,10 @@ void flightControlSystem_initialize(void)
   }
 
   /* External mode info */
-  flightControlSystem_M->Sizes.checksums[0] = (1175826963U);
-  flightControlSystem_M->Sizes.checksums[1] = (1983615900U);
-  flightControlSystem_M->Sizes.checksums[2] = (1639534666U);
-  flightControlSystem_M->Sizes.checksums[3] = (3960725826U);
+  flightControlSystem_M->Sizes.checksums[0] = (3908265243U);
+  flightControlSystem_M->Sizes.checksums[1] = (2884990620U);
+  flightControlSystem_M->Sizes.checksums[2] = (2635982750U);
+  flightControlSystem_M->Sizes.checksums[3] = (575224167U);
 
   {
     static const sysRanDType rtAlwaysEnabled = SUBSYS_RAN_BC_ENABLE;

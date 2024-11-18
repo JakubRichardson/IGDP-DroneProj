@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.102
+ * Model version                  : 8.119
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Sat Nov 16 20:33:29 2024
+ * C/C++ source code generated on : Sat Nov 16 22:29:40 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -84,6 +84,12 @@ struct_pAcs5k38eV6MpgiqrKAV4 rtP_Sensors = {
                                         * Referenced by: '<S1>/estimator'
                                         */
 
+real_T rtP_landingAltitude = -0.6;     /* Variable: landingAltitude
+                                        * Referenced by: '<S5>/landingOverrideLimit'
+                                        */
+real_T rtP_measurementTolerance = 0.01;/* Variable: measurementTolerance
+                                        * Referenced by: '<S5>/landingOverrideLimit'
+                                        */
 boolean_T rtP_enableLanding = true;    /* Variable: enableLanding
                                         * Referenced by: '<S5>/Constant'
                                         */
@@ -91,12 +97,12 @@ boolean_T rtP_enableLanding = true;    /* Variable: enableLanding
 /* Block parameters (default storage) */
 P_flightControlSystem_T flightControlSystem_P = {
   /* Mask Parameter: CompareToConstant1_const
-   * Referenced by: '<S21>/Constant'
+   * Referenced by: '<S24>/Constant'
    */
   50U,
 
   /* Mask Parameter: CompareToConstant_const
-   * Referenced by: '<S20>/Constant'
+   * Referenced by: '<S23>/Constant'
    */
   50U,
 
@@ -118,16 +124,31 @@ P_flightControlSystem_T flightControlSystem_P = {
   /* Start of '<Root>/Flight Control System' */
   {
     /* Mask Parameter: CompareToConstant_const
+     * Referenced by: '<S20>/Constant'
+     */
+    0.1F,
+
+    /* Mask Parameter: CompareToConstant1_const
+     * Referenced by: '<S21>/Constant'
+     */
+    0.05F,
+
+    /* Mask Parameter: CompareToConstant2_const
+     * Referenced by: '<S22>/Constant'
+     */
+    0.38F,
+
+    /* Mask Parameter: CompareToConstant_const_o
      * Referenced by: '<S7>/Constant'
      */
     10.0F,
 
-    /* Mask Parameter: CompareToConstant1_const
+    /* Mask Parameter: CompareToConstant1_const_d
      * Referenced by: '<S8>/Constant'
      */
     10.0F,
 
-    /* Mask Parameter: CompareToConstant2_const
+    /* Mask Parameter: CompareToConstant2_const_c
      * Referenced by: '<S9>/Constant'
      */
     0.01F,
@@ -147,8 +168,8 @@ P_flightControlSystem_T flightControlSystem_P = {
      */
     0.01F,
 
-    /* Computed Parameter: Memory_InitialCondition
-     * Referenced by: '<S5>/Memory'
+    /* Computed Parameter: Memory1_InitialCondition
+     * Referenced by: '<S5>/Memory1'
      */
     {
       0.0F,                            /* X */
@@ -165,10 +186,10 @@ P_flightControlSystem_T flightControlSystem_P = {
       0.0F                             /* r */
     },
 
-    /* Expression: landingAltitude-measurementTolerance
-     * Referenced by: '<S5>/landingOverrideLimit'
+    /* Computed Parameter: UnitDelay_InitialCondition
+     * Referenced by: '<S5>/Unit Delay'
      */
-    -0.61,
+    0.0F,
 
     /* Computed Parameter: Constant3_Value
      * Referenced by: '<S5>/Constant3'
@@ -184,11 +205,6 @@ P_flightControlSystem_T flightControlSystem_P = {
      * Referenced by: '<S3>/Gain1'
      */
     1.0F,
-
-    /* Expression: landingAltitude
-     * Referenced by: '<S5>/Constant2'
-     */
-    -0.6F,
 
     /* Expression: true
      * Referenced by: '<S5>/Constant1'

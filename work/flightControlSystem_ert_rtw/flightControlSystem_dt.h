@@ -7,9 +7,9 @@
  *
  * Code generation for model "flightControlSystem".
  *
- * Model version              : 8.102
+ * Model version              : 8.119
  * Simulink Coder version : 9.9 (R2023a) 19-Nov-2022
- * C source code generated on : Sat Nov 16 20:33:29 2024
+ * C source code generated on : Sat Nov 16 22:29:40 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -133,9 +133,13 @@ static DataTypeTransition rtBTransitions[] = {
 
   { (char_T *)(&flightControlSystem_B.circle), 8, 0, 21002 },
 
-  { (char_T *)(&flightControlSystem_B.FlightControlSystem.Grabber), 0, 0, 7 },
+  { (char_T *)(&flightControlSystem_B.FlightControlSystem.Grabber), 0, 0, 4 },
 
-  { (char_T *)(&flightControlSystem_B.FlightControlSystem.x_c), 1, 0, 16 },
+  { (char_T *)(&flightControlSystem_B.FlightControlSystem.Abs[0]), 1, 0, 3 },
+
+  { (char_T *)(&flightControlSystem_B.FlightControlSystem.x_c), 1, 0, 19 },
+
+  { (char_T *)(&flightControlSystem_B.FlightControlSystem.Compare), 8, 0, 4 },
 
   { (char_T *)(&flightControlSystem_B.FlightControlSystem.Logging.X), 1, 0, 78 }
   ,
@@ -157,11 +161,17 @@ static DataTypeTransition rtBTransitions[] = {
 
   { (char_T *)(&flightControlSystem_DW.RateTransition_3_Buffer0), 8, 0, 3 },
 
+  { (char_T *)(&flightControlSystem_DW.FlightControlSystem.Memory1_PreviousInput),
+    28, 0, 1 },
+
   { (char_T *)(&flightControlSystem_DW.FlightControlSystem.count), 0, 0, 1 },
 
   { (char_T *)
-    (&flightControlSystem_DW.FlightControlSystem.Scope_PWORK.LoggedData), 11, 0,
-    1 },
+    (&flightControlSystem_DW.FlightControlSystem.Scope1_PWORK.LoggedData[0]), 11,
+    0, 6 },
+
+  { (char_T *)(&flightControlSystem_DW.FlightControlSystem.UnitDelay_DSTATE[0]),
+    1, 0, 3 },
 
   { (char_T *)
     (&flightControlSystem_DW.FlightControlSystem.is_c4_flightControlSystem), 7,
@@ -193,7 +203,7 @@ static DataTypeTransition rtBTransitions[] = {
 
 /* data type transition table for block I/O structure */
 static DataTypeTransitionTable rtBTransTable = {
-  22U,
+  26U,
   rtBTransitions
 };
 
@@ -209,17 +219,14 @@ static DataTypeTransition rtPTransitions[] = {
 
   { (char_T *)
     (&flightControlSystem_P.FlightControlSystem.CompareToConstant_const), 1, 0,
-    6 },
+    9 },
 
   { (char_T *)
-    (&flightControlSystem_P.FlightControlSystem.Memory_InitialCondition), 28, 0,
+    (&flightControlSystem_P.FlightControlSystem.Memory1_InitialCondition), 28, 0,
     1 },
 
   { (char_T *)
-    (&flightControlSystem_P.FlightControlSystem.landingOverrideLimit_Value), 0,
-    0, 1 },
-
-  { (char_T *)(&flightControlSystem_P.FlightControlSystem.Constant3_Value[0]), 1,
+    (&flightControlSystem_P.FlightControlSystem.UnitDelay_InitialCondition), 1,
     0, 6 },
 
   { (char_T *)(&flightControlSystem_P.FlightControlSystem.Constant1_Value), 8, 0,
@@ -244,12 +251,18 @@ static DataTypeTransition rtPTransitions[] = {
   { (char_T *)(&rtP_Sensors), 33, 0, 1 }
   ,
 
+  { (char_T *)(&rtP_landingAltitude), 0, 0, 1 }
+  ,
+
+  { (char_T *)(&rtP_measurementTolerance), 0, 0, 1 }
+  ,
+
   { (char_T *)(&rtP_enableLanding), 8, 0, 1 }
 };
 
 /* data type transition table for Parameters structure */
 static DataTypeTransitionTable rtPTransTable = {
-  14U,
+  15U,
   rtPTransitions
 };
 

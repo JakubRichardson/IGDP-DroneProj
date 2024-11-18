@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.102
+ * Model version                  : 8.119
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Sat Nov 16 20:33:29 2024
+ * C/C++ source code generated on : Sat Nov 16 22:29:40 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -167,13 +167,13 @@ typedef struct {
 typedef struct {
   statesEstim_t estimator;             /* '<S1>/estimator' */
   sensordata_t BusConversion_InsertedFor_estimator_at_inport_1_BusCreator1;
+  CommandBus BusConversion_InsertedFor_controller_at_inport_0_BusCreator;
   real_T Grabber;                      /* '<S5>/Grabber' */
-  real_T x_g;                          /* '<S5>/Chart' */
-  real_T y_b;                          /* '<S5>/Chart' */
-  real_T z_g;                          /* '<S5>/Chart' */
   real_T grabber_c;                    /* '<S5>/Chart' */
   real_T landing_flag;                 /* '<S5>/Chart' */
   real_T takeoff_flag;                 /* '<S5>/Chart' */
+  real32_T Abs[3];                     /* '<S5>/Abs' */
+  real_T d;
   real32_T x_c;
   real32_T y_n;
   real32_T z_p;
@@ -183,12 +183,17 @@ typedef struct {
   real32_T altitude;
   real32_T pressure;
   real32_T controller_o2[8];           /* '<S1>/controller' */
-  CommandBus BusConversion_InsertedFor_controller_at_inport_0_BusCreator;
-  real_T d;
+  real32_T x_g;                        /* '<S5>/Chart' */
+  real32_T y_b;                        /* '<S5>/Chart' */
+  real32_T z_g;                        /* '<S5>/Chart' */
   real32_T Max;                        /* '<S5>/Max' */
   real32_T rtb_vbat_V_m;
   uint32_T rtb_vbat_percentage_c;
   uint8_T u;
+  boolean_T Compare;                   /* '<S20>/Compare' */
+  boolean_T Compare_d;                 /* '<S21>/Compare' */
+  boolean_T Compare_dd;                /* '<S22>/Compare' */
+  boolean_T stable;                    /* '<S5>/AND1' */
   boolean_T Compare_h;                 /* '<S9>/Compare' */
   boolean_T Compare_l;                 /* '<S12>/Compare' */
   boolean_T Compare_mb;                /* '<S10>/Compare' */
@@ -197,11 +202,17 @@ typedef struct {
 
 /* Block states (default storage) for system '<Root>/Flight Control System' */
 typedef struct {
+  statesEstim_t Memory1_PreviousInput; /* '<S5>/Memory1' */
   real_T count;                        /* '<S5>/Chart' */
+  struct {
+    void *LoggedData[5];
+  } Scope1_PWORK;                      /* '<S5>/Scope1' */
+
   struct {
     void *LoggedData;
   } Scope_PWORK;                       /* '<S5>/Scope' */
 
+  real32_T UnitDelay_DSTATE[3];        /* '<S5>/Unit Delay' */
   uint32_T is_c4_flightControlSystem;  /* '<S5>/Chart3' */
   uint32_T is_c2_flightControlSystem;  /* '<S5>/Chart2' */
   uint32_T is_c1_flightControlSystem;  /* '<S5>/Chart1' */
@@ -282,14 +293,26 @@ struct P_Geofencingerror_flightControlSystem_T_ {
 /* Parameters for system: '<Root>/Flight Control System' */
 struct P_FlightControlSystem_flightControlSystem_T_ {
   real32_T CompareToConstant_const;   /* Mask Parameter: CompareToConstant_const
-                                       * Referenced by: '<S7>/Constant'
+                                       * Referenced by: '<S20>/Constant'
                                        */
   real32_T CompareToConstant1_const; /* Mask Parameter: CompareToConstant1_const
-                                      * Referenced by: '<S8>/Constant'
+                                      * Referenced by: '<S21>/Constant'
                                       */
   real32_T CompareToConstant2_const; /* Mask Parameter: CompareToConstant2_const
-                                      * Referenced by: '<S9>/Constant'
+                                      * Referenced by: '<S22>/Constant'
                                       */
+  real32_T CompareToConstant_const_o;
+                                    /* Mask Parameter: CompareToConstant_const_o
+                                     * Referenced by: '<S7>/Constant'
+                                     */
+  real32_T CompareToConstant1_const_d;
+                                   /* Mask Parameter: CompareToConstant1_const_d
+                                    * Referenced by: '<S8>/Constant'
+                                    */
+  real32_T CompareToConstant2_const_c;
+                                   /* Mask Parameter: CompareToConstant2_const_c
+                                    * Referenced by: '<S9>/Constant'
+                                    */
   real32_T CompareToConstant6_const; /* Mask Parameter: CompareToConstant6_const
                                       * Referenced by: '<S12>/Constant'
                                       */
@@ -299,14 +322,14 @@ struct P_FlightControlSystem_flightControlSystem_T_ {
   real32_T CompareToConstant5_const; /* Mask Parameter: CompareToConstant5_const
                                       * Referenced by: '<S11>/Constant'
                                       */
-  statesEstim_t Memory_InitialCondition;
-                                  /* Computed Parameter: Memory_InitialCondition
-                                   * Referenced by: '<S5>/Memory'
-                                   */
-  real_T landingOverrideLimit_Value;
-                             /* Expression: landingAltitude-measurementTolerance
-                              * Referenced by: '<S5>/landingOverrideLimit'
-                              */
+  statesEstim_t Memory1_InitialCondition;
+                                 /* Computed Parameter: Memory1_InitialCondition
+                                  * Referenced by: '<S5>/Memory1'
+                                  */
+  real32_T UnitDelay_InitialCondition;
+                               /* Computed Parameter: UnitDelay_InitialCondition
+                                * Referenced by: '<S5>/Unit Delay'
+                                */
   real32_T Constant3_Value[3];         /* Computed Parameter: Constant3_Value
                                         * Referenced by: '<S5>/Constant3'
                                         */
@@ -315,9 +338,6 @@ struct P_FlightControlSystem_flightControlSystem_T_ {
                                         */
   real32_T Gain1_Gain;                 /* Computed Parameter: Gain1_Gain
                                         * Referenced by: '<S3>/Gain1'
-                                        */
-  real32_T Constant2_Value;            /* Expression: landingAltitude
-                                        * Referenced by: '<S5>/Constant2'
                                         */
   boolean_T Constant1_Value;           /* Expression: true
                                         * Referenced by: '<S5>/Constant1'
@@ -334,10 +354,10 @@ struct P_FlightControlSystem_flightControlSystem_T_ {
 /* Parameters (default storage) */
 struct P_flightControlSystem_T_ {
   uint8_T CompareToConstant1_const;  /* Mask Parameter: CompareToConstant1_const
-                                      * Referenced by: '<S21>/Constant'
+                                      * Referenced by: '<S24>/Constant'
                                       */
   uint8_T CompareToConstant_const;    /* Mask Parameter: CompareToConstant_const
-                                       * Referenced by: '<S20>/Constant'
+                                       * Referenced by: '<S23>/Constant'
                                        */
   real_T RateTransition_1_InitialCondition;/* Expression: 0
                                             * Referenced by: '<Root>/Rate Transition'
@@ -412,6 +432,12 @@ extern ExtY_flightControlSystem_T flightControlSystem_Y;
 extern struct_pAcs5k38eV6MpgiqrKAV4 rtP_Sensors;/* Variable: Sensors
                                                  * Referenced by: '<S1>/estimator'
                                                  */
+extern real_T rtP_landingAltitude;     /* Variable: landingAltitude
+                                        * Referenced by: '<S5>/landingOverrideLimit'
+                                        */
+extern real_T rtP_measurementTolerance;/* Variable: measurementTolerance
+                                        * Referenced by: '<S5>/landingOverrideLimit'
+                                        */
 extern boolean_T rtP_enableLanding;    /* Variable: enableLanding
                                         * Referenced by: '<S5>/Constant'
                                         */
@@ -477,10 +503,13 @@ extern volatile boolean_T runModel;
  * '<S17>'  : 'flightControlSystem/Flight Control System/landing logic/Chart1'
  * '<S18>'  : 'flightControlSystem/Flight Control System/landing logic/Chart2'
  * '<S19>'  : 'flightControlSystem/Flight Control System/landing logic/Chart3'
- * '<S20>'  : 'flightControlSystem/Image Processing System/Compare To Constant'
- * '<S21>'  : 'flightControlSystem/Image Processing System/Compare To Constant1'
- * '<S22>'  : 'flightControlSystem/Image Processing System/MATLAB Function'
- * '<S23>'  : 'flightControlSystem/Image Processing System/MATLAB Function1'
+ * '<S20>'  : 'flightControlSystem/Flight Control System/landing logic/Compare To Constant'
+ * '<S21>'  : 'flightControlSystem/Flight Control System/landing logic/Compare To Constant1'
+ * '<S22>'  : 'flightControlSystem/Flight Control System/landing logic/Compare To Constant2'
+ * '<S23>'  : 'flightControlSystem/Image Processing System/Compare To Constant'
+ * '<S24>'  : 'flightControlSystem/Image Processing System/Compare To Constant1'
+ * '<S25>'  : 'flightControlSystem/Image Processing System/MATLAB Function'
+ * '<S26>'  : 'flightControlSystem/Image Processing System/MATLAB Function1'
  */
 #endif                                 /* RTW_HEADER_flightControlSystem_h_ */
 
