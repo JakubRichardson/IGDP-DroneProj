@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.149
+ * Model version                  : 8.177
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Mon Nov 18 14:48:15 2024
+ * C/C++ source code generated on : Wed Nov 20 09:28:41 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -18,8 +18,8 @@
  */
 
 #include "flightControlSystem.h"
-#include "rtwtypes.h"
 #include "flightControlSystem_types.h"
+#include "rtwtypes.h"
 #include "flightControlSystem_private.h"
 #include <math.h>
 #include "rt_roundd_snf.h"
@@ -31,43 +31,36 @@
 #define stateEstimator_MDLREF_HIDE_CHILD_
 #include "stateEstimator.h"
 
-/* Named constants for Chart: '<S5>/Chart' */
+/* Named constants for Chart: '<S3>/Chart' */
 #define flightControlSystem_IN_A3      (1U)
 #define flightControlSystem_IN_A4      (2U)
 #define flightControlSystem_IN_CloseGrabber (1U)
-#define flightControlSystem_IN_Cruise  (2U)
-#define flightControlSystem_IN_CutPower (3U)
-#define flightControlSystem_IN_Descend (4U)
-#define flightControlSystem_IN_End     (5U)
-#define flightControlSystem_IN_FollowPath (6U)
-#define flightControlSystem_IN_FollowPath1 (7U)
-#define flightControlSystem_IN_FollowPath2 (8U)
-#define flightControlSystem_IN_Hover   (9U)
-#define flightControlSystem_IN_Land    (10U)
+#define flightControlSystem_IN_CutPower (2U)
+#define flightControlSystem_IN_End     (3U)
+#define flightControlSystem_IN_Hover   (4U)
+#define flightControlSystem_IN_Land    (5U)
 #define flightControlSystem_IN_NO_ACTIVE_CHILD ((uint8_T)0U)
-#define flightControlSystem_IN_Next    (11U)
-#define flightControlSystem_IN_Stop    (12U)
-#define flightControlSystem_IN_Takeoff (13U)
+#define flightControlSystem_IN_ReleaseEgg (6U)
+#define flightControlSystem_IN_Takeoff (7U)
 
-/* Named constants for Chart: '<S5>/Chart1' */
+/* Named constants for Chart: '<S3>/Chart1' */
 #define flightControlSystem_IN_A       (1U)
 #define flightControlSystem_IN_Start   (2U)
 
-/* Named constants for Chart: '<S5>/Chart2' */
+/* Named constants for Chart: '<S3>/Chart2' */
 #define flightControlSystem_IN_Forward (1U)
 #define flightControlSystem_IN_Forward1 (2U)
 #define flightControlSystem_IN_Land_d  (3U)
 #define flightControlSystem_IN_Left    (4U)
 #define flightControlSystem_IN_Right   (5U)
 
-/* Named constants for Chart: '<S5>/Chart3' */
+/* Named constants for Chart: '<S3>/Chart3' */
 #define flightControlSystem_IN_Left_f  (3U)
 
 /* Exported block signals */
 CommandBus cmd_inport;                 /* '<Root>/AC cmd' */
 SensorsBus sensor_inport;              /* '<Root>/Sensors' */
 real32_T motors_outport[4];            /* '<S1>/controller' */
-uint8_T flag_outport;                  /* '<S3>/Merge' */
 
 /* Block signals (default storage) */
 B_flightControlSystem_T flightControlSystem_B;
@@ -120,820 +113,69 @@ static void rate_monotonic_scheduler(void)
   }
 }
 
-/*
- * Output and update for action system:
- *    '<S3>/Geofencing error'
- *    '<S3>/estimator//Optical flow error'
- *    '<S3>/Normal condition'
- */
-void flightControlSystem_Geofencingerror(uint8_T *rty_Out1,
-  P_Geofencingerror_flightControlSystem_T *localP)
-{
-  /* SignalConversion generated from: '<S13>/Out1' incorporates:
-   *  Constant: '<S13>/Constant'
-   */
-  *rty_Out1 = localP->Constant_Value;
-}
-
-/* System initialize for atomic system: '<S1>/Logging' */
-void flightControlSystem_Logging_Init(RT_MODEL_flightControlSystem_T * const
-  flightControlSystem_M, DW_Logging_flightControlSystem_T *localDW)
-{
-  /* SetupRuntimeResources for ToWorkspace: '<S4>/To Workspace2' */
-  {
-    static int_T rt_ToWksWidths[] = { 12 };
-
-    static int_T rt_ToWksNumDimensions[] = { 1 };
-
-    static int_T rt_ToWksDimensions[] = { 12 };
-
-    static boolean_T rt_ToWksIsVarDims[] = { 0 };
-
-    static void *rt_ToWksCurrSigDims[] = { (NULL) };
-
-    static int_T rt_ToWksCurrSigDimsSize[] = { 4 };
-
-    static BuiltInDTypeId rt_ToWksDataTypeIds[] = { SS_SINGLE };
-
-    static int_T rt_ToWksComplexSignals[] = { 0 };
-
-    static int_T rt_ToWksFrameData[] = { 0 };
-
-    static RTWPreprocessingFcnPtr rt_ToWksLoggingPreprocessingFcnPtrs[] = {
-      (NULL)
-    };
-
-    static const char_T *rt_ToWksLabels[] = { "" };
-
-    static RTWLogSignalInfo rt_ToWksSignalInfo = {
-      1,
-      rt_ToWksWidths,
-      rt_ToWksNumDimensions,
-      rt_ToWksDimensions,
-      rt_ToWksIsVarDims,
-      rt_ToWksCurrSigDims,
-      rt_ToWksCurrSigDimsSize,
-      rt_ToWksDataTypeIds,
-      rt_ToWksComplexSignals,
-      rt_ToWksFrameData,
-      rt_ToWksLoggingPreprocessingFcnPtrs,
-
-      { rt_ToWksLabels },
-      (NULL),
-      (NULL),
-      (NULL),
-
-      { (NULL) },
-
-      { (NULL) },
-      (NULL),
-      (NULL)
-    };
-
-    static const char_T rt_ToWksBlockName[] =
-      "flightControlSystem/Flight Control System/Logging/To Workspace2";
-    localDW->ToWorkspace2_PWORK.LoggedData = rt_CreateStructLogVar(
-      flightControlSystem_M->rtwLogInfo,
-      0.0,
-      rtmGetTFinal(flightControlSystem_M),
-      flightControlSystem_M->Timing.stepSize0,
-      (&rtmGetErrorStatus(flightControlSystem_M)),
-      "estim",
-      1,
-      0,
-      1,
-      0.005,
-      &rt_ToWksSignalInfo,
-      rt_ToWksBlockName);
-    if (localDW->ToWorkspace2_PWORK.LoggedData == (NULL))
-      return;
-  }
-
-  /* SetupRuntimeResources for ToWorkspace: '<S4>/To Workspace6' */
-  {
-    static int_T rt_ToWksWidths[] = { 10 };
-
-    static int_T rt_ToWksNumDimensions[] = { 1 };
-
-    static int_T rt_ToWksDimensions[] = { 10 };
-
-    static boolean_T rt_ToWksIsVarDims[] = { 0 };
-
-    static void *rt_ToWksCurrSigDims[] = { (NULL) };
-
-    static int_T rt_ToWksCurrSigDimsSize[] = { 4 };
-
-    static BuiltInDTypeId rt_ToWksDataTypeIds[] = { SS_SINGLE };
-
-    static int_T rt_ToWksComplexSignals[] = { 0 };
-
-    static int_T rt_ToWksFrameData[] = { 0 };
-
-    static RTWPreprocessingFcnPtr rt_ToWksLoggingPreprocessingFcnPtrs[] = {
-      (NULL)
-    };
-
-    static const char_T *rt_ToWksLabels[] = { "" };
-
-    static RTWLogSignalInfo rt_ToWksSignalInfo = {
-      1,
-      rt_ToWksWidths,
-      rt_ToWksNumDimensions,
-      rt_ToWksDimensions,
-      rt_ToWksIsVarDims,
-      rt_ToWksCurrSigDims,
-      rt_ToWksCurrSigDimsSize,
-      rt_ToWksDataTypeIds,
-      rt_ToWksComplexSignals,
-      rt_ToWksFrameData,
-      rt_ToWksLoggingPreprocessingFcnPtrs,
-
-      { rt_ToWksLabels },
-      (NULL),
-      (NULL),
-      (NULL),
-
-      { (NULL) },
-
-      { (NULL) },
-      (NULL),
-      (NULL)
-    };
-
-    static const char_T rt_ToWksBlockName[] =
-      "flightControlSystem/Flight Control System/Logging/To Workspace6";
-    localDW->ToWorkspace6_PWORK.LoggedData = rt_CreateStructLogVar(
-      flightControlSystem_M->rtwLogInfo,
-      0.0,
-      rtmGetTFinal(flightControlSystem_M),
-      flightControlSystem_M->Timing.stepSize0,
-      (&rtmGetErrorStatus(flightControlSystem_M)),
-      "sensor",
-      1,
-      0,
-      1,
-      0.005,
-      &rt_ToWksSignalInfo,
-      rt_ToWksBlockName);
-    if (localDW->ToWorkspace6_PWORK.LoggedData == (NULL))
-      return;
-  }
-
-  /* SetupRuntimeResources for ToWorkspace: '<S4>/To Workspace3' */
-  {
-    static int_T rt_ToWksWidths[] = { 9 };
-
-    static int_T rt_ToWksNumDimensions[] = { 1 };
-
-    static int_T rt_ToWksDimensions[] = { 9 };
-
-    static boolean_T rt_ToWksIsVarDims[] = { 0 };
-
-    static void *rt_ToWksCurrSigDims[] = { (NULL) };
-
-    static int_T rt_ToWksCurrSigDimsSize[] = { 4 };
-
-    static BuiltInDTypeId rt_ToWksDataTypeIds[] = { SS_SINGLE };
-
-    static int_T rt_ToWksComplexSignals[] = { 0 };
-
-    static int_T rt_ToWksFrameData[] = { 0 };
-
-    static RTWPreprocessingFcnPtr rt_ToWksLoggingPreprocessingFcnPtrs[] = {
-      (NULL)
-    };
-
-    static const char_T *rt_ToWksLabels[] = { "" };
-
-    static RTWLogSignalInfo rt_ToWksSignalInfo = {
-      1,
-      rt_ToWksWidths,
-      rt_ToWksNumDimensions,
-      rt_ToWksDimensions,
-      rt_ToWksIsVarDims,
-      rt_ToWksCurrSigDims,
-      rt_ToWksCurrSigDimsSize,
-      rt_ToWksDataTypeIds,
-      rt_ToWksComplexSignals,
-      rt_ToWksFrameData,
-      rt_ToWksLoggingPreprocessingFcnPtrs,
-
-      { rt_ToWksLabels },
-      (NULL),
-      (NULL),
-      (NULL),
-
-      { (NULL) },
-
-      { (NULL) },
-      (NULL),
-      (NULL)
-    };
-
-    static const char_T rt_ToWksBlockName[] =
-      "flightControlSystem/Flight Control System/Logging/To Workspace3";
-    localDW->ToWorkspace3_PWORK.LoggedData = rt_CreateStructLogVar(
-      flightControlSystem_M->rtwLogInfo,
-      0.0,
-      rtmGetTFinal(flightControlSystem_M),
-      flightControlSystem_M->Timing.stepSize0,
-      (&rtmGetErrorStatus(flightControlSystem_M)),
-      "cmd",
-      1,
-      0,
-      1,
-      0.005,
-      &rt_ToWksSignalInfo,
-      rt_ToWksBlockName);
-    if (localDW->ToWorkspace3_PWORK.LoggedData == (NULL))
-      return;
-  }
-
-  /* SetupRuntimeResources for ToWorkspace: '<S4>/To Workspace4' */
-  {
-    static int_T rt_ToWksWidths[] = { 8 };
-
-    static int_T rt_ToWksNumDimensions[] = { 1 };
-
-    static int_T rt_ToWksDimensions[] = { 8 };
-
-    static boolean_T rt_ToWksIsVarDims[] = { 0 };
-
-    static void *rt_ToWksCurrSigDims[] = { (NULL) };
-
-    static int_T rt_ToWksCurrSigDimsSize[] = { 4 };
-
-    static BuiltInDTypeId rt_ToWksDataTypeIds[] = { SS_SINGLE };
-
-    static int_T rt_ToWksComplexSignals[] = { 0 };
-
-    static int_T rt_ToWksFrameData[] = { 0 };
-
-    static RTWPreprocessingFcnPtr rt_ToWksLoggingPreprocessingFcnPtrs[] = {
-      (NULL)
-    };
-
-    static const char_T *rt_ToWksLabels[] = { "" };
-
-    static RTWLogSignalInfo rt_ToWksSignalInfo = {
-      1,
-      rt_ToWksWidths,
-      rt_ToWksNumDimensions,
-      rt_ToWksDimensions,
-      rt_ToWksIsVarDims,
-      rt_ToWksCurrSigDims,
-      rt_ToWksCurrSigDimsSize,
-      rt_ToWksDataTypeIds,
-      rt_ToWksComplexSignals,
-      rt_ToWksFrameData,
-      rt_ToWksLoggingPreprocessingFcnPtrs,
-
-      { rt_ToWksLabels },
-      (NULL),
-      (NULL),
-      (NULL),
-
-      { (NULL) },
-
-      { (NULL) },
-      (NULL),
-      (NULL)
-    };
-
-    static const char_T rt_ToWksBlockName[] =
-      "flightControlSystem/Flight Control System/Logging/To Workspace4";
-    localDW->ToWorkspace4_PWORK.LoggedData = rt_CreateStructLogVar(
-      flightControlSystem_M->rtwLogInfo,
-      0.0,
-      rtmGetTFinal(flightControlSystem_M),
-      flightControlSystem_M->Timing.stepSize0,
-      (&rtmGetErrorStatus(flightControlSystem_M)),
-      "optical",
-      1,
-      0,
-      1,
-      0.005,
-      &rt_ToWksSignalInfo,
-      rt_ToWksBlockName);
-    if (localDW->ToWorkspace4_PWORK.LoggedData == (NULL))
-      return;
-  }
-
-  /* SetupRuntimeResources for ToWorkspace: '<S4>/To Workspace5' */
-  {
-    static int_T rt_ToWksWidths[] = { 8 };
-
-    static int_T rt_ToWksNumDimensions[] = { 1 };
-
-    static int_T rt_ToWksDimensions[] = { 8 };
-
-    static boolean_T rt_ToWksIsVarDims[] = { 0 };
-
-    static void *rt_ToWksCurrSigDims[] = { (NULL) };
-
-    static int_T rt_ToWksCurrSigDimsSize[] = { 4 };
-
-    static BuiltInDTypeId rt_ToWksDataTypeIds[] = { SS_SINGLE };
-
-    static int_T rt_ToWksComplexSignals[] = { 0 };
-
-    static int_T rt_ToWksFrameData[] = { 0 };
-
-    static RTWPreprocessingFcnPtr rt_ToWksLoggingPreprocessingFcnPtrs[] = {
-      (NULL)
-    };
-
-    static const char_T *rt_ToWksLabels[] = { "SensorCalibration" };
-
-    static RTWLogSignalInfo rt_ToWksSignalInfo = {
-      1,
-      rt_ToWksWidths,
-      rt_ToWksNumDimensions,
-      rt_ToWksDimensions,
-      rt_ToWksIsVarDims,
-      rt_ToWksCurrSigDims,
-      rt_ToWksCurrSigDimsSize,
-      rt_ToWksDataTypeIds,
-      rt_ToWksComplexSignals,
-      rt_ToWksFrameData,
-      rt_ToWksLoggingPreprocessingFcnPtrs,
-
-      { rt_ToWksLabels },
-      (NULL),
-      (NULL),
-      (NULL),
-
-      { (NULL) },
-
-      { (NULL) },
-      (NULL),
-      (NULL)
-    };
-
-    static const char_T rt_ToWksBlockName[] =
-      "flightControlSystem/Flight Control System/Logging/To Workspace5";
-    localDW->ToWorkspace5_PWORK.LoggedData = rt_CreateStructLogVar(
-      flightControlSystem_M->rtwLogInfo,
-      0.0,
-      rtmGetTFinal(flightControlSystem_M),
-      flightControlSystem_M->Timing.stepSize0,
-      (&rtmGetErrorStatus(flightControlSystem_M)),
-      "calib",
-      1,
-      0,
-      100,
-      0.005,
-      &rt_ToWksSignalInfo,
-      rt_ToWksBlockName);
-    if (localDW->ToWorkspace5_PWORK.LoggedData == (NULL))
-      return;
-  }
-
-  /* SetupRuntimeResources for ToWorkspace: '<S4>/To Workspace' */
-  {
-    static int_T rt_ToWksWidths[] = { 4 };
-
-    static int_T rt_ToWksNumDimensions[] = { 1 };
-
-    static int_T rt_ToWksDimensions[] = { 4 };
-
-    static boolean_T rt_ToWksIsVarDims[] = { 0 };
-
-    static void *rt_ToWksCurrSigDims[] = { (NULL) };
-
-    static int_T rt_ToWksCurrSigDimsSize[] = { 4 };
-
-    static BuiltInDTypeId rt_ToWksDataTypeIds[] = { SS_SINGLE };
-
-    static int_T rt_ToWksComplexSignals[] = { 0 };
-
-    static int_T rt_ToWksFrameData[] = { 0 };
-
-    static RTWPreprocessingFcnPtr rt_ToWksLoggingPreprocessingFcnPtrs[] = {
-      (NULL)
-    };
-
-    static const char_T *rt_ToWksLabels[] = { "" };
-
-    static RTWLogSignalInfo rt_ToWksSignalInfo = {
-      1,
-      rt_ToWksWidths,
-      rt_ToWksNumDimensions,
-      rt_ToWksDimensions,
-      rt_ToWksIsVarDims,
-      rt_ToWksCurrSigDims,
-      rt_ToWksCurrSigDimsSize,
-      rt_ToWksDataTypeIds,
-      rt_ToWksComplexSignals,
-      rt_ToWksFrameData,
-      rt_ToWksLoggingPreprocessingFcnPtrs,
-
-      { rt_ToWksLabels },
-      (NULL),
-      (NULL),
-      (NULL),
-
-      { (NULL) },
-
-      { (NULL) },
-      (NULL),
-      (NULL)
-    };
-
-    static const char_T rt_ToWksBlockName[] =
-      "flightControlSystem/Flight Control System/Logging/To Workspace";
-    localDW->ToWorkspace_PWORK.LoggedData = rt_CreateStructLogVar(
-      flightControlSystem_M->rtwLogInfo,
-      0.0,
-      rtmGetTFinal(flightControlSystem_M),
-      flightControlSystem_M->Timing.stepSize0,
-      (&rtmGetErrorStatus(flightControlSystem_M)),
-      "motor",
-      1,
-      0,
-      1,
-      0.005,
-      &rt_ToWksSignalInfo,
-      rt_ToWksBlockName);
-    if (localDW->ToWorkspace_PWORK.LoggedData == (NULL))
-      return;
-  }
-
-  /* SetupRuntimeResources for ToWorkspace: '<S4>/To Workspace1' */
-  {
-    static int_T rt_ToWksWidths[] = { 8 };
-
-    static int_T rt_ToWksNumDimensions[] = { 1 };
-
-    static int_T rt_ToWksDimensions[] = { 8 };
-
-    static boolean_T rt_ToWksIsVarDims[] = { 0 };
-
-    static void *rt_ToWksCurrSigDims[] = { (NULL) };
-
-    static int_T rt_ToWksCurrSigDimsSize[] = { 4 };
-
-    static BuiltInDTypeId rt_ToWksDataTypeIds[] = { SS_SINGLE };
-
-    static int_T rt_ToWksComplexSignals[] = { 0 };
-
-    static int_T rt_ToWksFrameData[] = { 0 };
-
-    static RTWPreprocessingFcnPtr rt_ToWksLoggingPreprocessingFcnPtrs[] = {
-      (NULL)
-    };
-
-    static const char_T *rt_ToWksLabels[] = { "" };
-
-    static RTWLogSignalInfo rt_ToWksSignalInfo = {
-      1,
-      rt_ToWksWidths,
-      rt_ToWksNumDimensions,
-      rt_ToWksDimensions,
-      rt_ToWksIsVarDims,
-      rt_ToWksCurrSigDims,
-      rt_ToWksCurrSigDimsSize,
-      rt_ToWksDataTypeIds,
-      rt_ToWksComplexSignals,
-      rt_ToWksFrameData,
-      rt_ToWksLoggingPreprocessingFcnPtrs,
-
-      { rt_ToWksLabels },
-      (NULL),
-      (NULL),
-      (NULL),
-
-      { (NULL) },
-
-      { (NULL) },
-      (NULL),
-      (NULL)
-    };
-
-    static const char_T rt_ToWksBlockName[] =
-      "flightControlSystem/Flight Control System/Logging/To Workspace1";
-    localDW->ToWorkspace1_PWORK.LoggedData = rt_CreateStructLogVar(
-      flightControlSystem_M->rtwLogInfo,
-      0.0,
-      rtmGetTFinal(flightControlSystem_M),
-      flightControlSystem_M->Timing.stepSize0,
-      (&rtmGetErrorStatus(flightControlSystem_M)),
-      "posref",
-      1,
-      0,
-      1,
-      0.005,
-      &rt_ToWksSignalInfo,
-      rt_ToWksBlockName);
-    if (localDW->ToWorkspace1_PWORK.LoggedData == (NULL))
-      return;
-  }
-}
-
-/* Output and update for atomic system: '<S1>/Logging' */
-void flightControlSystem_Logging(RT_MODEL_flightControlSystem_T * const
-  flightControlSystem_M, const real32_T rtu_motorCmds[4], const real32_T
-  rtu_posRef[8], const statesEstim_t *rtu_states_estim_Inport_3, const
-  CommandBus *rtu_ReferenceValueServerBus_Inport_4, const SensorsBus
-  *rtu_Sensors_Inport_5, real32_T rtu_sensordata_datin_Inport_6, uint32_T
-  rtu_sensordata_datin_Inport_6_d, real32_T rtu_sensordata_datin_Inport_6_e,
-  real32_T rtu_sensordata_datin_Inport_6_c, real32_T
-  rtu_sensordata_datin_Inport_6_cg, real32_T rtu_sensordata_datin_Inport_6_i,
-  real32_T rtu_sensordata_datin_Inport_6_h, real32_T
-  rtu_sensordata_datin_Inport_6_b, real32_T rtu_sensordata_datin_Inport_6_dz,
-  real32_T rtu_sensordata_datin_Inport_6_n, B_Logging_flightControlSystem_T
-  *localB, DW_Logging_flightControlSystem_T *localDW)
-{
-  int32_T i;
-
-  /* SignalConversion generated from: '<S4>/states_estim_BusSelector' */
-  localB->X = rtu_states_estim_Inport_3->X;
-
-  /* SignalConversion generated from: '<S4>/states_estim_BusSelector' */
-  localB->Y = rtu_states_estim_Inport_3->Y;
-
-  /* SignalConversion generated from: '<S4>/states_estim_BusSelector' */
-  localB->Z = rtu_states_estim_Inport_3->Z;
-
-  /* SignalConversion generated from: '<S4>/states_estim_BusSelector' */
-  localB->yaw = rtu_states_estim_Inport_3->yaw;
-
-  /* SignalConversion generated from: '<S4>/states_estim_BusSelector' */
-  localB->pitch = rtu_states_estim_Inport_3->pitch;
-
-  /* SignalConversion generated from: '<S4>/states_estim_BusSelector' */
-  localB->roll = rtu_states_estim_Inport_3->roll;
-
-  /* SignalConversion generated from: '<S4>/states_estim_BusSelector' */
-  localB->dx = rtu_states_estim_Inport_3->dx;
-
-  /* SignalConversion generated from: '<S4>/states_estim_BusSelector' */
-  localB->dy = rtu_states_estim_Inport_3->dy;
-
-  /* SignalConversion generated from: '<S4>/states_estim_BusSelector' */
-  localB->dz = rtu_states_estim_Inport_3->dz;
-
-  /* SignalConversion generated from: '<S4>/states_estim_BusSelector' */
-  localB->p = rtu_states_estim_Inport_3->p;
-
-  /* SignalConversion generated from: '<S4>/states_estim_BusSelector' */
-  localB->q = rtu_states_estim_Inport_3->q;
-
-  /* SignalConversion generated from: '<S4>/states_estim_BusSelector' */
-  localB->r = rtu_states_estim_Inport_3->r;
-
-  /* SignalConversion generated from: '<S4>/To Workspace2' */
-  localB->TmpSignalConversionAtToWorkspace2Inport1[0] = localB->X;
-  localB->TmpSignalConversionAtToWorkspace2Inport1[1] = localB->Y;
-  localB->TmpSignalConversionAtToWorkspace2Inport1[2] = localB->Z;
-  localB->TmpSignalConversionAtToWorkspace2Inport1[3] = localB->yaw;
-  localB->TmpSignalConversionAtToWorkspace2Inport1[4] = localB->pitch;
-  localB->TmpSignalConversionAtToWorkspace2Inport1[5] = localB->roll;
-  localB->TmpSignalConversionAtToWorkspace2Inport1[6] = localB->dx;
-  localB->TmpSignalConversionAtToWorkspace2Inport1[7] = localB->dy;
-  localB->TmpSignalConversionAtToWorkspace2Inport1[8] = localB->dz;
-  localB->TmpSignalConversionAtToWorkspace2Inport1[9] = localB->p;
-  localB->TmpSignalConversionAtToWorkspace2Inport1[10] = localB->q;
-  localB->TmpSignalConversionAtToWorkspace2Inport1[11] = localB->r;
-
-  /* ToWorkspace: '<S4>/To Workspace2' */
-  {
-    double locTime = flightControlSystem_M->Timing.taskTime0
-      ;
-    rt_UpdateStructLogVar((StructLogVar *)localDW->ToWorkspace2_PWORK.LoggedData,
-                          &locTime,
-                          &localB->TmpSignalConversionAtToWorkspace2Inport1[0]);
-  }
-
-  /* DataTypeConversion: '<S4>/Data Type Conversion1' */
-  localB->DataTypeConversion1 = rtu_sensordata_datin_Inport_6;
-
-  /* DataTypeConversion: '<S4>/Data Type Conversion2' */
-  localB->DataTypeConversion2 = (real32_T)rtu_sensordata_datin_Inport_6_d;
-
-  /* SignalConversion generated from: '<S4>/To Workspace6' */
-  localB->TmpSignalConversionAtToWorkspace6Inport1[0] =
-    rtu_sensordata_datin_Inport_6_e;
-  localB->TmpSignalConversionAtToWorkspace6Inport1[1] =
-    rtu_sensordata_datin_Inport_6_c;
-  localB->TmpSignalConversionAtToWorkspace6Inport1[2] =
-    rtu_sensordata_datin_Inport_6_cg;
-  localB->TmpSignalConversionAtToWorkspace6Inport1[3] =
-    rtu_sensordata_datin_Inport_6_i;
-  localB->TmpSignalConversionAtToWorkspace6Inport1[4] =
-    rtu_sensordata_datin_Inport_6_h;
-  localB->TmpSignalConversionAtToWorkspace6Inport1[5] =
-    rtu_sensordata_datin_Inport_6_b;
-  localB->TmpSignalConversionAtToWorkspace6Inport1[6] =
-    rtu_sensordata_datin_Inport_6_dz;
-  localB->TmpSignalConversionAtToWorkspace6Inport1[7] =
-    rtu_sensordata_datin_Inport_6_n;
-  localB->TmpSignalConversionAtToWorkspace6Inport1[8] =
-    localB->DataTypeConversion1;
-  localB->TmpSignalConversionAtToWorkspace6Inport1[9] =
-    localB->DataTypeConversion2;
-
-  /* ToWorkspace: '<S4>/To Workspace6' */
-  {
-    double locTime = flightControlSystem_M->Timing.taskTime0
-      ;
-    rt_UpdateStructLogVar((StructLogVar *)localDW->ToWorkspace6_PWORK.LoggedData,
-                          &locTime,
-                          &localB->TmpSignalConversionAtToWorkspace6Inport1[0]);
-  }
-
-  /* DataTypeConversion: '<S4>/Data Type Conversion3' */
-  localB->DataTypeConversion3 =
-    rtu_ReferenceValueServerBus_Inport_4->controlModePosVSOrient;
-
-  /* SignalConversion generated from: '<S4>/ReferenceValueServerBus_BusSelector' */
-  localB->pos_ref[0] = rtu_ReferenceValueServerBus_Inport_4->pos_ref[0];
-  localB->pos_ref[1] = rtu_ReferenceValueServerBus_Inport_4->pos_ref[1];
-  localB->pos_ref[2] = rtu_ReferenceValueServerBus_Inport_4->pos_ref[2];
-
-  /* DataTypeConversion: '<S4>/Data Type Conversion7' */
-  localB->DataTypeConversion7 =
-    rtu_ReferenceValueServerBus_Inport_4->takeoff_flag;
-
-  /* SignalConversion generated from: '<S4>/ReferenceValueServerBus_BusSelector' */
-  localB->orient_ref[0] = rtu_ReferenceValueServerBus_Inport_4->orient_ref[0];
-  localB->orient_ref[1] = rtu_ReferenceValueServerBus_Inport_4->orient_ref[1];
-  localB->orient_ref[2] = rtu_ReferenceValueServerBus_Inport_4->orient_ref[2];
-
-  /* DataTypeConversion: '<S4>/Data Type Conversion9' */
-  localB->DataTypeConversion9 = (real32_T)
-    rtu_ReferenceValueServerBus_Inport_4->live_time_ticks;
-
-  /* SignalConversion generated from: '<S4>/To Workspace3' */
-  localB->TmpSignalConversionAtToWorkspace3Inport1[0] =
-    localB->DataTypeConversion3;
-  localB->TmpSignalConversionAtToWorkspace3Inport1[1] = localB->pos_ref[0];
-  localB->TmpSignalConversionAtToWorkspace3Inport1[2] = localB->pos_ref[1];
-  localB->TmpSignalConversionAtToWorkspace3Inport1[3] = localB->pos_ref[2];
-  localB->TmpSignalConversionAtToWorkspace3Inport1[4] =
-    localB->DataTypeConversion7;
-  localB->TmpSignalConversionAtToWorkspace3Inport1[5] = localB->orient_ref[0];
-  localB->TmpSignalConversionAtToWorkspace3Inport1[6] = localB->orient_ref[1];
-  localB->TmpSignalConversionAtToWorkspace3Inport1[7] = localB->orient_ref[2];
-  localB->TmpSignalConversionAtToWorkspace3Inport1[8] =
-    localB->DataTypeConversion9;
-
-  /* ToWorkspace: '<S4>/To Workspace3' */
-  {
-    double locTime = flightControlSystem_M->Timing.taskTime0
-      ;
-    rt_UpdateStructLogVar((StructLogVar *)localDW->ToWorkspace3_PWORK.LoggedData,
-                          &locTime,
-                          &localB->TmpSignalConversionAtToWorkspace3Inport1[0]);
-  }
-
-  /* DataTypeConversion: '<S4>/Data Type Conversion11' */
-  localB->DataTypeConversion11 =
-    rtu_Sensors_Inport_5->VisionSensors.usePosVIS_flag;
-
-  /* SignalConversion generated from: '<S4>/Sensors_BusSelector' */
-  localB->opticalFlow_data[0] =
-    rtu_Sensors_Inport_5->VisionSensors.opticalFlow_data[0];
-  localB->opticalFlow_data[1] =
-    rtu_Sensors_Inport_5->VisionSensors.opticalFlow_data[1];
-  localB->opticalFlow_data[2] =
-    rtu_Sensors_Inport_5->VisionSensors.opticalFlow_data[2];
-
-  /* SignalConversion generated from: '<S4>/Sensors_BusSelector' */
-  localB->posVIS_data[0] = rtu_Sensors_Inport_5->VisionSensors.posVIS_data[0];
-  localB->posVIS_data[1] = rtu_Sensors_Inport_5->VisionSensors.posVIS_data[1];
-  localB->posVIS_data[2] = rtu_Sensors_Inport_5->VisionSensors.posVIS_data[2];
-  localB->posVIS_data[3] = rtu_Sensors_Inport_5->VisionSensors.posVIS_data[3];
-
-  /* SignalConversion generated from: '<S4>/To Workspace4' */
-  localB->TmpSignalConversionAtToWorkspace4Inport1[0] =
-    localB->DataTypeConversion11;
-  localB->TmpSignalConversionAtToWorkspace4Inport1[1] = localB->
-    opticalFlow_data[0];
-  localB->TmpSignalConversionAtToWorkspace4Inport1[2] = localB->
-    opticalFlow_data[1];
-  localB->TmpSignalConversionAtToWorkspace4Inport1[3] = localB->
-    opticalFlow_data[2];
-  localB->TmpSignalConversionAtToWorkspace4Inport1[4] = localB->posVIS_data[0];
-  localB->TmpSignalConversionAtToWorkspace4Inport1[5] = localB->posVIS_data[1];
-  localB->TmpSignalConversionAtToWorkspace4Inport1[6] = localB->posVIS_data[2];
-  localB->TmpSignalConversionAtToWorkspace4Inport1[7] = localB->posVIS_data[3];
-
-  /* ToWorkspace: '<S4>/To Workspace4' */
-  {
-    double locTime = flightControlSystem_M->Timing.taskTime0
-      ;
-    rt_UpdateStructLogVar((StructLogVar *)localDW->ToWorkspace4_PWORK.LoggedData,
-                          &locTime,
-                          &localB->TmpSignalConversionAtToWorkspace4Inport1[0]);
-  }
-
-  for (i = 0; i < 8; i++) {
-    /* SignalConversion generated from: '<S4>/Sensors_BusSelector' */
-    localB->SensorCalibration[i] = rtu_Sensors_Inport_5->SensorCalibration[i];
-  }
-
-  /* ToWorkspace: '<S4>/To Workspace5' */
-  {
-    double locTime = flightControlSystem_M->Timing.taskTime0
-      ;
-    rt_UpdateStructLogVar((StructLogVar *)localDW->ToWorkspace5_PWORK.LoggedData,
-                          &locTime, &localB->SensorCalibration[0]);
-  }
-
-  /* ToWorkspace: '<S4>/To Workspace' */
-  {
-    double locTime = flightControlSystem_M->Timing.taskTime0
-      ;
-    rt_UpdateStructLogVar((StructLogVar *)localDW->ToWorkspace_PWORK.LoggedData,
-                          &locTime, &rtu_motorCmds[0]);
-  }
-
-  /* ToWorkspace: '<S4>/To Workspace1' */
-  {
-    double locTime = flightControlSystem_M->Timing.taskTime0
-      ;
-    rt_UpdateStructLogVar((StructLogVar *)localDW->ToWorkspace1_PWORK.LoggedData,
-                          &locTime, &rtu_posRef[0]);
-  }
-}
-
 /* System initialize for atomic system: '<Root>/Flight Control System' */
-void flightControlSystem_FlightControlSystem_Init(RT_MODEL_flightControlSystem_T
-  * const flightControlSystem_M, uint8_T *rty_Flag,
-  DW_FlightControlSystem_flightControlSystem_T *localDW,
-  P_FlightControlSystem_flightControlSystem_T *localP)
+void flightControlSystem_FlightControlSystem_Init
+  (DW_FlightControlSystem_flightControlSystem_T *localDW,
+   P_FlightControlSystem_flightControlSystem_T *localP)
 {
-  /* InitializeConditions for UnitDelay: '<S5>/Unit Delay' incorporates:
-   *  S-Function (sdspdmult2): '<S5>/Array-Vector Subtract'
-   */
+  /* InitializeConditions for UnitDelay: '<S3>/Unit Delay' */
   localDW->UnitDelay_DSTATE[0] = localP->UnitDelay_InitialCondition;
   localDW->UnitDelay_DSTATE[1] = localP->UnitDelay_InitialCondition;
   localDW->UnitDelay_DSTATE[2] = localP->UnitDelay_InitialCondition;
 
-  /* InitializeConditions for Memory: '<S5>/Memory1' */
+  /* InitializeConditions for Memory: '<S3>/Memory1' */
   localDW->Memory1_PreviousInput = localP->Memory1_InitialCondition;
-
-  /* SystemInitialize for Atomic SubSystem: '<S1>/Logging' */
-  flightControlSystem_Logging_Init(flightControlSystem_M, &localDW->Logging);
-
-  /* End of SystemInitialize for SubSystem: '<S1>/Logging' */
-
-  /* SystemInitialize for Merge: '<S3>/Merge' */
-  *rty_Flag = localP->Merge_InitialOutput;
 
   /* SystemInitialize for ModelReference: '<S1>/controller' */
   flightController_Init();
 
   /* SystemInitialize for ModelReference: '<S1>/estimator' incorporates:
-   *  Constant: '<S5>/Constant1'
+   *  Constant: '<S3>/Constant1'
    */
   stateEstimator_Init();
 }
 
 /* Output and update for atomic system: '<Root>/Flight Control System' */
-void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
-  const flightControlSystem_M, const CommandBus *rtu_ReferenceValueServerCmds,
-  const SensorsBus *rtu_Sensors_Inport_2, boolean_T rtu_VisionbasedData, real_T
-  rtu_VisionbasedData_p, real_T rtu_VisionbasedData_h, real32_T rty_motorCmds[4],
-  uint8_T *rty_Flag, B_FlightControlSystem_flightControlSystem_T *localB,
+void flightControlSystem_FlightControlSystem(const CommandBus
+  *rtu_ReferenceValueServerCmds, const SensorsBus *rtu_Sensors_Inport_2,
+  real32_T rty_motorCmds[4], B_FlightControlSystem_flightControlSystem_T *localB,
   DW_FlightControlSystem_flightControlSystem_T *localDW,
   P_FlightControlSystem_flightControlSystem_T *localP)
 {
-  /* S-Function (sdspdmult2): '<S5>/Array-Vector Subtract' incorporates:
-   *  Memory: '<S5>/Memory1'
+  /* S-Function (sdspdmult2): '<S3>/Array-Vector Subtract' incorporates:
+   *  Memory: '<S3>/Memory1'
    */
   localDW->UnitDelay_DSTATE[0] -= localDW->Memory1_PreviousInput.X;
   localDW->UnitDelay_DSTATE[1] -= localDW->Memory1_PreviousInput.Y;
   localDW->UnitDelay_DSTATE[2] -= localDW->Memory1_PreviousInput.Z;
 
-  /* Abs: '<S5>/Abs' incorporates:
-   *  S-Function (sdspdmult2): '<S5>/Array-Vector Subtract'
+  /* Abs: '<S3>/Abs' incorporates:
+   *  S-Function (sdspdmult2): '<S3>/Array-Vector Subtract'
    */
   localB->Abs[0] = (real32_T)fabs(localDW->UnitDelay_DSTATE[0]);
   localB->Abs[1] = (real32_T)fabs(localDW->UnitDelay_DSTATE[1]);
   localB->Abs[2] = (real32_T)fabs(localDW->UnitDelay_DSTATE[2]);
 
-  /* RelationalOperator: '<S20>/Compare' incorporates:
-   *  Constant: '<S20>/Constant'
+  /* RelationalOperator: '<S9>/Compare' incorporates:
+   *  Constant: '<S9>/Constant'
    */
   localB->Compare = (localB->Abs[0] <= localP->CompareToConstant_const);
 
-  /* RelationalOperator: '<S21>/Compare' incorporates:
-   *  Constant: '<S21>/Constant'
+  /* RelationalOperator: '<S10>/Compare' incorporates:
+   *  Constant: '<S10>/Constant'
    */
   localB->Compare_d = (localB->Abs[1] <= localP->CompareToConstant1_const);
 
-  /* RelationalOperator: '<S22>/Compare' incorporates:
-   *  Constant: '<S22>/Constant'
+  /* RelationalOperator: '<S11>/Compare' incorporates:
+   *  Constant: '<S11>/Constant'
    */
   localB->Compare_dd = (localB->Abs[2] <= localP->CompareToConstant2_const);
 
-  /* Logic: '<S5>/AND1' */
+  /* Logic: '<S3>/AND1' */
   localB->stable = (localB->Compare && localB->Compare_d && localB->Compare_dd);
 
-  /* Chart: '<S5>/Chart' */
-  if (localDW->temporalCounter_i1_pu < 4095U) {
+  /* Chart: '<S3>/Chart' */
+  if (localDW->temporalCounter_i1_pu < 1023U) {
     localDW->temporalCounter_i1_pu++;
   }
 
@@ -947,7 +189,6 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
     localB->y_b = 0.0F;
     localB->z_g = -1.0F;
     localB->takeoff_flag = 0.0;
-    localDW->count = 0.0;
     localB->landing_flag = 0.0;
     localDW->is_c3_flightControlSystem = flightControlSystem_IN_CloseGrabber;
     localDW->temporalCounter_i1_pu = 0U;
@@ -964,97 +205,36 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
       }
       break;
 
-     case flightControlSystem_IN_Cruise:
-      if (localDW->temporalCounter_i1_pu >= 600U) {
-        localDW->is_c3_flightControlSystem = flightControlSystem_IN_FollowPath2;
-        localDW->temporalCounter_i1_pu = 0U;
-      }
-      break;
-
      case flightControlSystem_IN_CutPower:
-      if (localDW->temporalCounter_i1_pu >= 200U) {
-        localDW->is_c3_flightControlSystem = flightControlSystem_IN_End;
+      if (localDW->temporalCounter_i1_pu >= 400U) {
+        localDW->is_c3_flightControlSystem = flightControlSystem_IN_ReleaseEgg;
+        localDW->temporalCounter_i1_pu = 0U;
         localB->grabber_c = 0.0;
       }
       break;
 
-     case flightControlSystem_IN_Descend:
-      if (localDW->temporalCounter_i1_pu >= 800U) {
-        localDW->is_c3_flightControlSystem = flightControlSystem_IN_Cruise;
-        localDW->temporalCounter_i1_pu = 0U;
-        localB->z_g = -1.0F;
-      }
-      break;
-
      case flightControlSystem_IN_End:
-      localB->grabber_c = 0.0;
-      break;
-
-     case flightControlSystem_IN_FollowPath:
-      if ((localDW->temporalCounter_i1_pu >= 2800U) && rtu_VisionbasedData) {
-        localDW->is_c3_flightControlSystem = flightControlSystem_IN_Stop;
-        localDW->temporalCounter_i1_pu = 0U;
-        localDW->count++;
-      } else {
-        localB->x_g -= (real32_T)(rtu_VisionbasedData_p / 60000.0);
-        localB->y_b += (real32_T)(rtu_VisionbasedData_h / 60000.0);
-      }
-      break;
-
-     case flightControlSystem_IN_FollowPath1:
-      if ((localDW->temporalCounter_i1_pu >= 800U) && rtu_VisionbasedData) {
-        localDW->is_c3_flightControlSystem = flightControlSystem_IN_Stop;
-        localDW->temporalCounter_i1_pu = 0U;
-        localDW->count++;
-      } else {
-        localB->x_g -= (real32_T)(rtu_VisionbasedData_p / 85000.0);
-        localB->y_b += (real32_T)(rtu_VisionbasedData_h / 85000.0);
-      }
-      break;
-
-     case flightControlSystem_IN_FollowPath2:
-      if (localDW->temporalCounter_i1_pu >= 2000U) {
-        localDW->is_c3_flightControlSystem = flightControlSystem_IN_FollowPath1;
-        localDW->temporalCounter_i1_pu = 0U;
-      } else {
-        localB->x_g -= (real32_T)(rtu_VisionbasedData_p / 60000.0);
-        localB->y_b += (real32_T)(rtu_VisionbasedData_h / 60000.0);
-      }
       break;
 
      case flightControlSystem_IN_Hover:
-      if ((localDW->temporalCounter_i1_pu >= 400U) && localB->stable) {
-        localDW->is_c3_flightControlSystem = flightControlSystem_IN_FollowPath;
-        localDW->temporalCounter_i1_pu = 0U;
+      if (localDW->temporalCounter_i1_pu >= 1000U) {
+        localDW->is_c3_flightControlSystem = flightControlSystem_IN_Land;
       }
       break;
 
      case flightControlSystem_IN_Land:
-      if (localDW->temporalCounter_i1_pu >= 300U) {
+      if (localB->z_g >= -0.7) {
         localDW->is_c3_flightControlSystem = flightControlSystem_IN_CutPower;
         localDW->temporalCounter_i1_pu = 0U;
         localB->landing_flag = 1.0;
+      } else {
+        localB->z_g += 0.0005F;
       }
       break;
 
-     case flightControlSystem_IN_Next:
-      if (localDW->temporalCounter_i1_pu >= 140U) {
-        localDW->is_c3_flightControlSystem = flightControlSystem_IN_Descend;
-        localDW->temporalCounter_i1_pu = 0U;
-        localB->z_g = -0.8F;
-      }
-      break;
-
-     case flightControlSystem_IN_Stop:
-      if (localDW->temporalCounter_i1_pu >= 400U) {
-        if (localDW->count == 1.0) {
-          localDW->is_c3_flightControlSystem = flightControlSystem_IN_Next;
-          localDW->temporalCounter_i1_pu = 0U;
-        } else {
-          localDW->is_c3_flightControlSystem = flightControlSystem_IN_Land;
-          localDW->temporalCounter_i1_pu = 0U;
-          localB->z_g = -0.55F;
-        }
+     case flightControlSystem_IN_ReleaseEgg:
+      if (localDW->temporalCounter_i1_pu >= 800U) {
+        localDW->is_c3_flightControlSystem = flightControlSystem_IN_End;
       }
       break;
 
@@ -1076,14 +256,14 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
     }
   }
 
-  /* End of Chart: '<S5>/Chart' */
+  /* End of Chart: '<S3>/Chart' */
 
   /* BusCreator generated from: '<S1>/controller' incorporates:
-   *  Constant: '<S5>/Constant1'
-   *  Constant: '<S5>/Constant3'
-   *  DataTypeConversion: '<S5>/Cast To Boolean'
-   *  DataTypeConversion: '<S5>/Cast To Boolean1'
-   *  DataTypeConversion: '<S5>/Cast To Single'
+   *  Constant: '<S3>/Constant1'
+   *  Constant: '<S3>/Constant3'
+   *  DataTypeConversion: '<S3>/Cast To Boolean'
+   *  DataTypeConversion: '<S3>/Cast To Boolean1'
+   *  DataTypeConversion: '<S3>/Cast To Single'
    */
   localB->BusConversion_InsertedFor_controller_at_inport_0_BusCreator.controlModePosVSOrient
     = localP->Constant1_Value;
@@ -1109,61 +289,30 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
   localB->BusConversion_InsertedFor_controller_at_inport_0_BusCreator.landing_flag
     = (localB->landing_flag != 0.0);
 
-  /* SignalConversion generated from: '<S6>/Bus Selector3' */
-  localB->x_c = rtu_Sensors_Inport_2->HALSensors.HAL_acc_SI.x;
-
-  /* SignalConversion generated from: '<S6>/Bus Selector3' */
-  localB->y_n = rtu_Sensors_Inport_2->HALSensors.HAL_acc_SI.y;
-
-  /* SignalConversion generated from: '<S6>/Bus Selector3' */
-  localB->z_p = rtu_Sensors_Inport_2->HALSensors.HAL_acc_SI.z;
-
-  /* SignalConversion generated from: '<S6>/Bus Selector4' */
-  localB->x_cd = rtu_Sensors_Inport_2->HALSensors.HAL_gyro_SI.x;
-
-  /* SignalConversion generated from: '<S6>/Bus Selector4' */
-  localB->y_nb = rtu_Sensors_Inport_2->HALSensors.HAL_gyro_SI.y;
-
-  /* SignalConversion generated from: '<S6>/Bus Selector4' */
-  localB->z_p1 = rtu_Sensors_Inport_2->HALSensors.HAL_gyro_SI.z;
-
-  /* SignalConversion generated from: '<S6>/Bus Selector5' */
-  localB->altitude = rtu_Sensors_Inport_2->HALSensors.HAL_ultrasound_SI.altitude;
-
-  /* SignalConversion generated from: '<S6>/Bus Selector6' */
-  localB->pressure = rtu_Sensors_Inport_2->HALSensors.HAL_pressure_SI.pressure;
-
-  /* SignalConversion generated from: '<S6>/Bus Selector1' */
-  localB->rtb_vbat_V_m = rtu_Sensors_Inport_2->HALSensors.HAL_vbat_SI.vbat_V;
-
-  /* SignalConversion generated from: '<S6>/Bus Selector1' */
-  localB->rtb_vbat_percentage_c =
-    rtu_Sensors_Inport_2->HALSensors.HAL_vbat_SI.vbat_percentage;
-
   /* BusCreator generated from: '<S1>/estimator' */
   localB->BusConversion_InsertedFor_estimator_at_inport_1_BusCreator1.ddx =
-    localB->x_c;
+    rtu_Sensors_Inport_2->HALSensors.HAL_acc_SI.x;
   localB->BusConversion_InsertedFor_estimator_at_inport_1_BusCreator1.ddy =
-    localB->y_n;
+    rtu_Sensors_Inport_2->HALSensors.HAL_acc_SI.y;
   localB->BusConversion_InsertedFor_estimator_at_inport_1_BusCreator1.ddz =
-    localB->z_p;
+    rtu_Sensors_Inport_2->HALSensors.HAL_acc_SI.z;
   localB->BusConversion_InsertedFor_estimator_at_inport_1_BusCreator1.p =
-    localB->x_cd;
+    rtu_Sensors_Inport_2->HALSensors.HAL_gyro_SI.x;
   localB->BusConversion_InsertedFor_estimator_at_inport_1_BusCreator1.q =
-    localB->y_nb;
+    rtu_Sensors_Inport_2->HALSensors.HAL_gyro_SI.y;
   localB->BusConversion_InsertedFor_estimator_at_inport_1_BusCreator1.r =
-    localB->z_p1;
+    rtu_Sensors_Inport_2->HALSensors.HAL_gyro_SI.z;
   localB->BusConversion_InsertedFor_estimator_at_inport_1_BusCreator1.altitude_sonar
-    = localB->altitude;
+    = rtu_Sensors_Inport_2->HALSensors.HAL_ultrasound_SI.altitude;
   localB->BusConversion_InsertedFor_estimator_at_inport_1_BusCreator1.prs =
-    localB->pressure;
+    rtu_Sensors_Inport_2->HALSensors.HAL_pressure_SI.pressure;
   localB->BusConversion_InsertedFor_estimator_at_inport_1_BusCreator1.vbat_V =
-    localB->rtb_vbat_V_m;
+    rtu_Sensors_Inport_2->HALSensors.HAL_vbat_SI.vbat_V;
   localB->BusConversion_InsertedFor_estimator_at_inport_1_BusCreator1.vbat_percentage
-    = localB->rtb_vbat_percentage_c;
+    = rtu_Sensors_Inport_2->HALSensors.HAL_vbat_SI.vbat_percentage;
 
   /* ModelReference: '<S1>/estimator' incorporates:
-   *  Constant: '<S5>/Constant1'
+   *  Constant: '<S3>/Constant1'
    */
   stateEstimator_run(localP->Constant1_Value,
                      &localB->BusConversion_InsertedFor_estimator_at_inport_1_BusCreator1,
@@ -1178,97 +327,7 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
     (&localB->BusConversion_InsertedFor_controller_at_inport_0_BusCreator,
      &localB->estimator, &rty_motorCmds[0], &localB->controller_o2[0]);
 
-  /* Outputs for Atomic SubSystem: '<S1>/Logging' */
-  flightControlSystem_Logging(flightControlSystem_M, rty_motorCmds,
-    localB->controller_o2, &localB->estimator, rtu_ReferenceValueServerCmds,
-    rtu_Sensors_Inport_2, localB->rtb_vbat_V_m, localB->rtb_vbat_percentage_c,
-    localB->x_c, localB->y_n, localB->z_p, localB->x_cd, localB->y_nb,
-    localB->z_p1, localB->altitude, localB->pressure, &localB->Logging,
-    &localDW->Logging);
-
-  /* End of Outputs for SubSystem: '<S1>/Logging' */
-
-  /* Abs: '<S3>/Abs2' */
-  localB->Max = (real32_T)fabs
-    (rtu_Sensors_Inport_2->VisionSensors.opticalFlow_data[0]);
-
-  /* RelationalOperator: '<S9>/Compare' incorporates:
-   *  Constant: '<S9>/Constant'
-   */
-  localB->Compare_h = (localB->Max > localP->CompareToConstant2_const_c);
-
-  /* Gain: '<S3>/Gain2' */
-  localB->Max = localP->Gain2_Gain *
-    rtu_Sensors_Inport_2->VisionSensors.opticalFlow_data[0];
-
-  /* RelationalOperator: '<S12>/Compare' incorporates:
-   *  Abs: '<S3>/Abs6'
-   *  Constant: '<S12>/Constant'
-   *  Sum: '<S3>/Add1'
-   */
-  localB->Compare_l = ((real32_T)fabs(localB->Max - localB->estimator.dx) >
-                       localP->CompareToConstant6_const);
-
-  /* Gain: '<S3>/Gain1' */
-  localB->Max = localP->Gain1_Gain *
-    rtu_Sensors_Inport_2->VisionSensors.opticalFlow_data[1];
-
-  /* RelationalOperator: '<S10>/Compare' incorporates:
-   *  Abs: '<S3>/Abs3'
-   *  Constant: '<S10>/Constant'
-   *  Sum: '<S3>/Add'
-   */
-  localB->Compare_mb = ((real32_T)fabs(localB->Max - localB->estimator.dy) >
-                        localP->CompareToConstant3_const);
-
-  /* Abs: '<S3>/Abs5' */
-  localB->Max = (real32_T)fabs
-    (rtu_Sensors_Inport_2->VisionSensors.opticalFlow_data[1]);
-
-  /* If: '<S3>/If' incorporates:
-   *  Abs: '<S3>/Abs'
-   *  Abs: '<S3>/Abs1'
-   *  Constant: '<S11>/Constant'
-   *  Constant: '<S7>/Constant'
-   *  Constant: '<S8>/Constant'
-   *  Logic: '<S3>/Logical Operator'
-   *  Logic: '<S3>/Logical Operator1'
-   *  Logic: '<S3>/Logical Operator2'
-   *  Logic: '<S3>/Logical Operator3'
-   *  RelationalOperator: '<S11>/Compare'
-   *  RelationalOperator: '<S7>/Compare'
-   *  RelationalOperator: '<S8>/Compare'
-   */
-  if (((real32_T)fabs(localB->estimator.X) > localP->CompareToConstant_const_o) ||
-      ((real32_T)fabs(localB->estimator.Y) > localP->CompareToConstant1_const_d))
-  {
-    /* Outputs for IfAction SubSystem: '<S3>/Geofencing error' incorporates:
-     *  ActionPort: '<S13>/Action Port'
-     */
-    flightControlSystem_Geofencingerror(rty_Flag, &localP->Geofencingerror);
-
-    /* End of Outputs for SubSystem: '<S3>/Geofencing error' */
-  } else if ((localB->Compare_h && localB->Compare_l) || (localB->Compare_mb &&
-              (localB->Max > localP->CompareToConstant5_const))) {
-    /* Outputs for IfAction SubSystem: '<S3>/estimator//Optical flow error' incorporates:
-     *  ActionPort: '<S15>/Action Port'
-     */
-    flightControlSystem_Geofencingerror(rty_Flag,
-      &localP->estimatorOpticalflowerror);
-
-    /* End of Outputs for SubSystem: '<S3>/estimator//Optical flow error' */
-  } else {
-    /* Outputs for IfAction SubSystem: '<S3>/Normal condition' incorporates:
-     *  ActionPort: '<S14>/Action Port'
-     */
-    flightControlSystem_Geofencingerror(rty_Flag, &localP->Normalcondition);
-
-    /* End of Outputs for SubSystem: '<S3>/Normal condition' */
-  }
-
-  /* End of If: '<S3>/If' */
-
-  /* MATLABSystem: '<S5>/Grabber' */
+  /* MATLABSystem: '<S3>/Grabber' */
   localB->d = rt_roundd_snf(localB->grabber_c);
   if (localB->d < 256.0) {
     if (localB->d >= 0.0) {
@@ -1282,10 +341,10 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
 
   localB->d = MW_PARROT_Grabber(localB->u);
 
-  /* MATLABSystem: '<S5>/Grabber' */
+  /* MATLABSystem: '<S3>/Grabber' */
   localB->Grabber = localB->d;
 
-  /* Chart: '<S5>/Chart1' */
+  /* Chart: '<S3>/Chart1' */
   if (localDW->temporalCounter_i1_p < 1023U) {
     localDW->temporalCounter_i1_p++;
   }
@@ -1308,9 +367,9 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
     }
   }
 
-  /* End of Chart: '<S5>/Chart1' */
+  /* End of Chart: '<S3>/Chart1' */
 
-  /* Chart: '<S5>/Chart2' */
+  /* Chart: '<S3>/Chart2' */
   if (localDW->temporalCounter_i1_d < 2047U) {
     localDW->temporalCounter_i1_d++;
   }
@@ -1354,9 +413,9 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
     }
   }
 
-  /* End of Chart: '<S5>/Chart2' */
+  /* End of Chart: '<S3>/Chart2' */
 
-  /* Chart: '<S5>/Chart3' */
+  /* Chart: '<S3>/Chart3' */
   if (localDW->temporalCounter_i1 < 1023U) {
     localDW->temporalCounter_i1++;
   }
@@ -1386,16 +445,14 @@ void flightControlSystem_FlightControlSystem(RT_MODEL_flightControlSystem_T *
     }
   }
 
-  /* End of Chart: '<S5>/Chart3' */
+  /* End of Chart: '<S3>/Chart3' */
 
-  /* Update for UnitDelay: '<S5>/Unit Delay' incorporates:
-   *  S-Function (sdspdmult2): '<S5>/Array-Vector Subtract'
-   */
+  /* Update for UnitDelay: '<S3>/Unit Delay' */
   localDW->UnitDelay_DSTATE[0] = localB->x_g;
   localDW->UnitDelay_DSTATE[1] = localB->y_b;
   localDW->UnitDelay_DSTATE[2] = localB->z_g;
 
-  /* Update for Memory: '<S5>/Memory1' */
+  /* Update for Memory: '<S3>/Memory1' */
   localDW->Memory1_PreviousInput = localB->estimator;
 }
 
@@ -1456,10 +513,6 @@ void flightControlSystem_step0(void)   /* Sample time: [0.005s, 0.0s] */
     rate_monotonic_scheduler();
   }
 
-  /* Reset subsysRan breadcrumbs */
-  srClearBC
-    (flightControlSystem_DW.FlightControlSystem.Geofencingerror.Geofencingerror_SubsysRanBC);
-
   /* RateTransition generated from: '<Root>/Rate Transition' */
   flightControlSystem_B.dy =
     flightControlSystem_DW.RateTransition_1_Buffer[flightControlSystem_DW.RateTransition_1_ActiveBufIdx];
@@ -1476,10 +529,8 @@ void flightControlSystem_step0(void)   /* Sample time: [0.005s, 0.0s] */
   /* Inport: '<Root>/AC cmd' incorporates:
    *  Inport: '<Root>/Sensors'
    */
-  flightControlSystem_FlightControlSystem(flightControlSystem_M, &cmd_inport,
-    &sensor_inport, flightControlSystem_B.circle, flightControlSystem_B.dx,
-    flightControlSystem_B.dy, motors_outport, &flag_outport,
-    &flightControlSystem_B.FlightControlSystem,
+  flightControlSystem_FlightControlSystem(&cmd_inport, &sensor_inport,
+    motors_outport, &flightControlSystem_B.FlightControlSystem,
     &flightControlSystem_DW.FlightControlSystem,
     &flightControlSystem_P.FlightControlSystem);
 
@@ -1490,9 +541,6 @@ void flightControlSystem_step0(void)   /* Sample time: [0.005s, 0.0s] */
   flightControlSystem_Y.Actuators[1] = motors_outport[1];
   flightControlSystem_Y.Actuators[2] = motors_outport[2];
   flightControlSystem_Y.Actuators[3] = motors_outport[3];
-
-  /* Outport: '<Root>/Flag' */
-  flightControlSystem_Y.Flag = flag_outport;
 
   /* Matfile logging */
   rt_UpdateTXYLogVars(flightControlSystem_M->rtwLogInfo,
@@ -1537,7 +585,7 @@ void flightControlSystem_step1(void)   /* Sample time: [0.2s, 0.0s] */
   int32_T yIdx;
   boolean_T exitg1;
   boolean_T guard1;
-  boolean_T y_j;
+  boolean_T y;
 
   /* Outputs for Atomic SubSystem: '<Root>/Image Processing System' */
   /* MATLABSystem: '<S2>/PARROT Image Conversion' incorporates:
@@ -1550,23 +598,21 @@ void flightControlSystem_step1(void)   /* Sample time: [0.2s, 0.0s] */
     /* MATLAB Function: '<S2>/MATLAB Function' incorporates:
      *  MATLABSystem: '<S2>/PARROT Image Conversion'
      */
-    y_j = ((flightControlSystem_B.imageBuff_1[yIdx] >= 80) &&
-           (flightControlSystem_B.imageBuff_2[yIdx] <= 100) &&
-           (flightControlSystem_B.imageBuff_3[yIdx] <= 80));
-
-    /* MATLABSystem: '<S2>/PARROT Image Conversion' */
-    flightControlSystem_B.y_j[yIdx] = y_j;
+    y = ((flightControlSystem_B.imageBuff_1[yIdx] >= 80) &&
+         (flightControlSystem_B.imageBuff_2[yIdx] <= 100) &&
+         (flightControlSystem_B.imageBuff_3[yIdx] <= 80));
+    flightControlSystem_B.y[yIdx] = y;
 
     /* MATLAB Function: '<S2>/MATLAB Function3' */
-    flightControlSystem_B.y[yIdx] = y_j;
+    flightControlSystem_B.y_m[yIdx] = y;
   }
 
   /* MATLAB Function: '<S2>/MATLAB Function3' */
-  memset(&flightControlSystem_B.y[0], 0, 4320U * sizeof(boolean_T));
-  memset(&flightControlSystem_B.y[16680], 0, 2520U * sizeof(boolean_T));
+  memset(&flightControlSystem_B.y_m[0], 0, 4320U * sizeof(boolean_T));
+  memset(&flightControlSystem_B.y_m[16680], 0, 2520U * sizeof(boolean_T));
 
   /* MATLAB Function: '<S2>/MATLAB Function2' */
-  memset(&flightControlSystem_B.y_j[0], 0, 4320U * sizeof(boolean_T));
+  memset(&flightControlSystem_B.y[0], 0, 4320U * sizeof(boolean_T));
 
   /* S-Function (sdspsubmtrx): '<S2>/Submatrix' */
   yIdx = 0;
@@ -1576,10 +622,10 @@ void flightControlSystem_step1(void)   /* Sample time: [0.2s, 0.0s] */
      */
     for (loop = 0; loop < 30; loop++) {
       Submatrix_tmp = loop + yIdx;
-      flightControlSystem_B.Submatrix[Submatrix_tmp] =
-        flightControlSystem_B.y_j[((colIdx + 40) * 120 + loop) + 50];
-      flightControlSystem_B.Submatrix1[Submatrix_tmp] =
-        flightControlSystem_B.y_j[((colIdx + 90) * 120 + loop) + 50];
+      flightControlSystem_B.Submatrix[Submatrix_tmp] = flightControlSystem_B.y
+        [((colIdx + 40) * 120 + loop) + 50];
+      flightControlSystem_B.Submatrix1[Submatrix_tmp] = flightControlSystem_B.y
+        [((colIdx + 90) * 120 + loop) + 50];
     }
 
     /* End of S-Function (sdspsubmtrx): '<S2>/Submatrix1' */
@@ -1611,10 +657,10 @@ void flightControlSystem_step1(void)   /* Sample time: [0.2s, 0.0s] */
   flightControlSystem_B.top = (uint8_T)colIdx;
 
   /* Logic: '<S2>/Logical Operator' incorporates:
-   *  Constant: '<S23>/Constant'
-   *  Constant: '<S24>/Constant'
-   *  RelationalOperator: '<S23>/Compare'
-   *  RelationalOperator: '<S24>/Compare'
+   *  Constant: '<S12>/Constant'
+   *  Constant: '<S13>/Constant'
+   *  RelationalOperator: '<S12>/Compare'
+   *  RelationalOperator: '<S13>/Compare'
    */
   flightControlSystem_B.circle_e = ((flightControlSystem_B.top >=
     flightControlSystem_P.CompareToConstant_const) &&
@@ -1628,7 +674,7 @@ void flightControlSystem_step1(void)   /* Sample time: [0.2s, 0.0s] */
   exitg1 = false;
   while ((!exitg1) && (loop <= 160)) {
     guard1 = false;
-    if (flightControlSystem_B.y[((loop - 1) * 120 + colIdx) + 13]) {
+    if (flightControlSystem_B.y_m[((loop - 1) * 120 + colIdx) + 13]) {
       yIdx++;
       flightControlSystem_B.i_data[yIdx] = colIdx;
       flightControlSystem_B.j_data[yIdx] = (uint8_T)loop;
@@ -1746,8 +792,7 @@ void flightControlSystem_initialize(void)
      */
     {
       static void * rt_LoggedOutputSignalPtrs[] = {
-        &flightControlSystem_Y.Actuators[0],
-        &flightControlSystem_Y.Flag
+        &flightControlSystem_Y.Actuators[0]
       };
 
       rtliSetLogYSignalPtrs(flightControlSystem_M->rtwLogInfo,
@@ -1756,67 +801,54 @@ void flightControlSystem_initialize(void)
 
     {
       static int_T rt_LoggedOutputWidths[] = {
-        4,
-        1
+        4
       };
 
       static int_T rt_LoggedOutputNumDimensions[] = {
-        1,
         1
       };
 
       static int_T rt_LoggedOutputDimensions[] = {
-        4,
-        1
+        4
       };
 
       static boolean_T rt_LoggedOutputIsVarDims[] = {
-        0,
         0
       };
 
       static void* rt_LoggedCurrentSignalDimensions[] = {
-        (NULL),
         (NULL)
       };
 
       static int_T rt_LoggedCurrentSignalDimensionsSize[] = {
-        4,
         4
       };
 
       static BuiltInDTypeId rt_LoggedOutputDataTypeIds[] = {
-        SS_SINGLE,
-        SS_UINT8
+        SS_SINGLE
       };
 
       static int_T rt_LoggedOutputComplexSignals[] = {
-        0,
         0
       };
 
       static RTWPreprocessingFcnPtr rt_LoggingPreprocessingFcnPtrs[] = {
-        (NULL),
         (NULL)
       };
 
       static const char_T *rt_LoggedOutputLabels[] = {
-        "motors",
-        "flag" };
+        "motors" };
 
       static const char_T *rt_LoggedOutputBlockNames[] = {
-        "flightControlSystem/Actuators",
-        "flightControlSystem/Flag" };
+        "flightControlSystem/Actuators" };
 
       static RTWLogDataTypeConvert rt_RTWLogDataTypeConvert[] = {
-        { 0, SS_SINGLE, SS_SINGLE, 0, 0, 0, 1.0, 0, 0.0 },
-
-        { 0, SS_UINT8, SS_UINT8, 0, 0, 0, 1.0, 0, 0.0 }
+        { 0, SS_SINGLE, SS_SINGLE, 0, 0, 0, 1.0, 0, 0.0 }
       };
 
       static RTWLogSignalInfo rt_LoggedOutputSignalInfo[] = {
         {
-          2,
+          1,
           rt_LoggedOutputWidths,
           rt_LoggedOutputNumDimensions,
           rt_LoggedOutputDimensions,
@@ -1846,31 +878,27 @@ void flightControlSystem_initialize(void)
 
       /* set currSigDims field */
       rt_LoggedCurrentSignalDimensions[0] = &rt_LoggedOutputWidths[0];
-      rt_LoggedCurrentSignalDimensions[1] = &rt_LoggedOutputWidths[1];
     }
 
     rtliSetLogY(flightControlSystem_M->rtwLogInfo, "yout");
   }
 
   /* External mode info */
-  flightControlSystem_M->Sizes.checksums[0] = (1908796019U);
-  flightControlSystem_M->Sizes.checksums[1] = (229633954U);
-  flightControlSystem_M->Sizes.checksums[2] = (575687055U);
-  flightControlSystem_M->Sizes.checksums[3] = (2538875767U);
+  flightControlSystem_M->Sizes.checksums[0] = (1750311811U);
+  flightControlSystem_M->Sizes.checksums[1] = (3089197967U);
+  flightControlSystem_M->Sizes.checksums[2] = (4146967742U);
+  flightControlSystem_M->Sizes.checksums[3] = (3666445511U);
 
   {
     static const sysRanDType rtAlwaysEnabled = SUBSYS_RAN_BC_ENABLE;
     static RTWExtModeInfo rt_ExtModeInfo;
-    static const sysRanDType *systemRan[17];
+    static const sysRanDType *systemRan[13];
     flightControlSystem_M->extModeInfo = (&rt_ExtModeInfo);
     rteiSetSubSystemActiveVectorAddresses(&rt_ExtModeInfo, systemRan);
     systemRan[0] = &rtAlwaysEnabled;
-    systemRan[1] = (sysRanDType *)
-      &flightControlSystem_DW.FlightControlSystem.Geofencingerror.Geofencingerror_SubsysRanBC;
-    systemRan[2] = (sysRanDType *)
-      &flightControlSystem_DW.FlightControlSystem.Normalcondition.Geofencingerror_SubsysRanBC;
-    systemRan[3] = (sysRanDType *)
-      &flightControlSystem_DW.FlightControlSystem.estimatorOpticalflowerror.Geofencingerror_SubsysRanBC;
+    systemRan[1] = &rtAlwaysEnabled;
+    systemRan[2] = &rtAlwaysEnabled;
+    systemRan[3] = &rtAlwaysEnabled;
     systemRan[4] = &rtAlwaysEnabled;
     systemRan[5] = &rtAlwaysEnabled;
     systemRan[6] = &rtAlwaysEnabled;
@@ -1880,10 +908,6 @@ void flightControlSystem_initialize(void)
     systemRan[10] = &rtAlwaysEnabled;
     systemRan[11] = &rtAlwaysEnabled;
     systemRan[12] = &rtAlwaysEnabled;
-    systemRan[13] = &rtAlwaysEnabled;
-    systemRan[14] = &rtAlwaysEnabled;
-    systemRan[15] = &rtAlwaysEnabled;
-    systemRan[16] = &rtAlwaysEnabled;
     rteiSetModelMappingInfoPtr(flightControlSystem_M->extModeInfo,
       &flightControlSystem_M->SpecialInfo.mappingInfo);
     rteiSetChecksumsPtr(flightControlSystem_M->extModeInfo,
@@ -1935,9 +959,9 @@ void flightControlSystem_initialize(void)
   /* SystemInitialize for Atomic SubSystem: '<Root>/Flight Control System' */
 
   /* SystemInitialize for Inport: '<Root>/Sensors' */
-  flightControlSystem_FlightControlSystem_Init(flightControlSystem_M,
-    &flag_outport, &flightControlSystem_DW.FlightControlSystem,
-    &flightControlSystem_P.FlightControlSystem);
+  flightControlSystem_FlightControlSystem_Init
+    (&flightControlSystem_DW.FlightControlSystem,
+     &flightControlSystem_P.FlightControlSystem);
 
   /* End of SystemInitialize for SubSystem: '<Root>/Flight Control System' */
 }

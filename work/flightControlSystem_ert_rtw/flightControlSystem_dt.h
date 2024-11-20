@@ -7,9 +7,9 @@
  *
  * Code generation for model "flightControlSystem".
  *
- * Model version              : 8.149
+ * Model version              : 8.177
  * Simulink Coder version : 9.9 (R2023a) 19-Nov-2022
- * C source code generated on : Mon Nov 18 14:48:15 2024
+ * C source code generated on : Wed Nov 20 09:28:41 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -137,17 +137,12 @@ static DataTypeTransition rtBTransitions[] = {
 
   { (char_T *)(&flightControlSystem_B.FlightControlSystem.Abs[0]), 1, 0, 3 },
 
-  { (char_T *)(&flightControlSystem_B.FlightControlSystem.x_c), 1, 0, 19 },
+  { (char_T *)(&flightControlSystem_B.FlightControlSystem.x_g), 1, 0, 3 },
 
-  { (char_T *)(&flightControlSystem_B.FlightControlSystem.Compare), 8, 0, 4 },
-
-  { (char_T *)(&flightControlSystem_B.FlightControlSystem.Logging.X), 1, 0, 78 }
+  { (char_T *)(&flightControlSystem_B.FlightControlSystem.Compare), 8, 0, 4 }
   ,
 
   { (char_T *)(&motors_outport[0]), 1, 0, 4 }
-  ,
-
-  { (char_T *)(&flag_outport), 3, 0, 1 }
   ,
 
   { (char_T *)(&flightControlSystem_DW.RateTransition_1_Buffer[0]), 0, 0, 4 },
@@ -164,11 +159,9 @@ static DataTypeTransition rtBTransitions[] = {
   { (char_T *)(&flightControlSystem_DW.FlightControlSystem.Memory1_PreviousInput),
     28, 0, 1 },
 
-  { (char_T *)(&flightControlSystem_DW.FlightControlSystem.count), 0, 0, 1 },
-
   { (char_T *)
     (&flightControlSystem_DW.FlightControlSystem.Scope1_PWORK.LoggedData[0]), 11,
-    0, 6 },
+    0, 8 },
 
   { (char_T *)(&flightControlSystem_DW.FlightControlSystem.UnitDelay_DSTATE[0]),
     1, 0, 3 },
@@ -182,28 +175,12 @@ static DataTypeTransition rtBTransitions[] = {
 
   { (char_T *)
     (&flightControlSystem_DW.FlightControlSystem.is_active_c4_flightControlSystem),
-    3, 0, 4 },
-
-  { (char_T *)
-    (&flightControlSystem_DW.FlightControlSystem.Logging.ToWorkspace2_PWORK.LoggedData),
-    11, 0, 7 },
-
-  { (char_T *)
-    (&flightControlSystem_DW.FlightControlSystem.Normalcondition.Geofencingerror_SubsysRanBC),
-    2, 0, 1 },
-
-  { (char_T *)
-    (&flightControlSystem_DW.FlightControlSystem.estimatorOpticalflowerror.Geofencingerror_SubsysRanBC),
-    2, 0, 1 },
-
-  { (char_T *)
-    (&flightControlSystem_DW.FlightControlSystem.Geofencingerror.Geofencingerror_SubsysRanBC),
-    2, 0, 1 }
+    3, 0, 4 }
 };
 
 /* data type transition table for block I/O structure */
 static DataTypeTransitionTable rtBTransTable = {
-  26U,
+  19U,
   rtBTransitions
 };
 
@@ -219,7 +196,7 @@ static DataTypeTransition rtPTransitions[] = {
 
   { (char_T *)
     (&flightControlSystem_P.FlightControlSystem.CompareToConstant_const), 1, 0,
-    9 },
+    3 },
 
   { (char_T *)
     (&flightControlSystem_P.FlightControlSystem.Memory1_InitialCondition), 28, 0,
@@ -227,25 +204,10 @@ static DataTypeTransition rtPTransitions[] = {
 
   { (char_T *)
     (&flightControlSystem_P.FlightControlSystem.UnitDelay_InitialCondition), 1,
-    0, 6 },
+    0, 4 },
 
   { (char_T *)(&flightControlSystem_P.FlightControlSystem.Constant1_Value), 8, 0,
-    1 },
-
-  { (char_T *)(&flightControlSystem_P.FlightControlSystem.Merge_InitialOutput),
-    3, 0, 1 },
-
-  { (char_T *)
-    (&flightControlSystem_P.FlightControlSystem.Normalcondition.Constant_Value),
-    3, 0, 1 },
-
-  { (char_T *)
-    (&flightControlSystem_P.FlightControlSystem.estimatorOpticalflowerror.Constant_Value),
-    3, 0, 1 },
-
-  { (char_T *)
-    (&flightControlSystem_P.FlightControlSystem.Geofencingerror.Constant_Value),
-    3, 0, 1 }
+    1 }
   ,
 
   { (char_T *)(&rtP_Sensors), 33, 0, 1 }
@@ -262,7 +224,7 @@ static DataTypeTransition rtPTransitions[] = {
 
 /* data type transition table for Parameters structure */
 static DataTypeTransitionTable rtPTransTable = {
-  15U,
+  11U,
   rtPTransitions
 };
 

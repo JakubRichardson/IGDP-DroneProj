@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightControlSystem'.
  *
- * Model version                  : 8.149
+ * Model version                  : 8.177
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Mon Nov 18 14:48:15 2024
+ * C/C++ source code generated on : Wed Nov 20 09:28:41 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -84,25 +84,25 @@ struct_pAcs5k38eV6MpgiqrKAV4 rtP_Sensors = {
                                         * Referenced by: '<S1>/estimator'
                                         */
 
-real_T rtP_landingAltitude = -0.6;     /* Variable: landingAltitude
-                                        * Referenced by: '<S5>/landingOverrideLimit'
+real_T rtP_landingAltitude = 1.0;      /* Variable: landingAltitude
+                                        * Referenced by: '<S3>/landingOverrideLimit'
                                         */
 real_T rtP_measurementTolerance = 0.01;/* Variable: measurementTolerance
-                                        * Referenced by: '<S5>/landingOverrideLimit'
+                                        * Referenced by: '<S3>/landingOverrideLimit'
                                         */
-boolean_T rtP_enableLanding = true;    /* Variable: enableLanding
-                                        * Referenced by: '<S5>/Constant'
+boolean_T rtP_enableLanding = false;   /* Variable: enableLanding
+                                        * Referenced by: '<S3>/Constant'
                                         */
 
 /* Block parameters (default storage) */
 P_flightControlSystem_T flightControlSystem_P = {
   /* Mask Parameter: CompareToConstant1_const
-   * Referenced by: '<S24>/Constant'
+   * Referenced by: '<S13>/Constant'
    */
   60U,
 
   /* Mask Parameter: CompareToConstant_const
-   * Referenced by: '<S23>/Constant'
+   * Referenced by: '<S12>/Constant'
    */
   60U,
 
@@ -124,52 +124,22 @@ P_flightControlSystem_T flightControlSystem_P = {
   /* Start of '<Root>/Flight Control System' */
   {
     /* Mask Parameter: CompareToConstant_const
-     * Referenced by: '<S20>/Constant'
+     * Referenced by: '<S9>/Constant'
      */
     0.2F,
 
     /* Mask Parameter: CompareToConstant1_const
-     * Referenced by: '<S21>/Constant'
+     * Referenced by: '<S10>/Constant'
      */
     0.2F,
 
     /* Mask Parameter: CompareToConstant2_const
-     * Referenced by: '<S22>/Constant'
+     * Referenced by: '<S11>/Constant'
      */
     0.38F,
 
-    /* Mask Parameter: CompareToConstant_const_o
-     * Referenced by: '<S7>/Constant'
-     */
-    10.0F,
-
-    /* Mask Parameter: CompareToConstant1_const_d
-     * Referenced by: '<S8>/Constant'
-     */
-    10.0F,
-
-    /* Mask Parameter: CompareToConstant2_const_c
-     * Referenced by: '<S9>/Constant'
-     */
-    0.01F,
-
-    /* Mask Parameter: CompareToConstant6_const
-     * Referenced by: '<S12>/Constant'
-     */
-    6.0F,
-
-    /* Mask Parameter: CompareToConstant3_const
-     * Referenced by: '<S10>/Constant'
-     */
-    6.0F,
-
-    /* Mask Parameter: CompareToConstant5_const
-     * Referenced by: '<S11>/Constant'
-     */
-    0.01F,
-
     /* Computed Parameter: Memory1_InitialCondition
-     * Referenced by: '<S5>/Memory1'
+     * Referenced by: '<S3>/Memory1'
      */
     {
       0.0F,                            /* X */
@@ -187,65 +157,19 @@ P_flightControlSystem_T flightControlSystem_P = {
     },
 
     /* Computed Parameter: UnitDelay_InitialCondition
-     * Referenced by: '<S5>/Unit Delay'
+     * Referenced by: '<S3>/Unit Delay'
      */
     0.0F,
 
     /* Computed Parameter: Constant3_Value
-     * Referenced by: '<S5>/Constant3'
+     * Referenced by: '<S3>/Constant3'
      */
     { 0.0F, 0.0F, 0.0F },
 
-    /* Computed Parameter: Gain2_Gain
-     * Referenced by: '<S3>/Gain2'
-     */
-    1.0F,
-
-    /* Computed Parameter: Gain1_Gain
-     * Referenced by: '<S3>/Gain1'
-     */
-    1.0F,
-
     /* Expression: true
-     * Referenced by: '<S5>/Constant1'
+     * Referenced by: '<S3>/Constant1'
      */
-    true,
-
-    /* Computed Parameter: Merge_InitialOutput
-     * Referenced by: '<S3>/Merge'
-     */
-    0U,
-
-    /* Start of '<S3>/Normal condition' */
-    {
-      /* Computed Parameter: Constant_Value
-       * Referenced by: '<S14>/Constant'
-       */
-      0U
-    }
-    ,
-
-    /* End of '<S3>/Normal condition' */
-
-    /* Start of '<S3>/estimator//Optical flow error' */
-    {
-      /* Computed Parameter: Constant_Value
-       * Referenced by: '<S15>/Constant'
-       */
-      99U
-    }
-    ,
-
-    /* End of '<S3>/estimator//Optical flow error' */
-
-    /* Start of '<S3>/Geofencing error' */
-    {
-      /* Computed Parameter: Constant_Value
-       * Referenced by: '<S13>/Constant'
-       */
-      1U
-    }
-    /* End of '<S3>/Geofencing error' */
+    true
   }
   /* End of '<Root>/Flight Control System' */
 };
