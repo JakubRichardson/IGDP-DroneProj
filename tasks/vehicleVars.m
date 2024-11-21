@@ -47,9 +47,9 @@ Vehicle.Rotor.theta0 = 14.6*(pi/180);
 Vehicle.Rotor.thetaTip = 6.8*(pi/180);
 Vehicle.Rotor.theta1 = Vehicle.Rotor.thetaTip-Vehicle.Rotor.theta0;
 Vehicle.Rotor.theta34 = Vehicle.Rotor.theta0+0.75*Vehicle.Rotor.theta1;
-Vehicle.Rotor.a = 5.5; % Lift slope
+Vehicle.Rotor.landing_flag = 5.5; % Lift slope
 Vehicle.Rotor.area = pi*Vehicle.Rotor.radius^2;
-Vehicle.Rotor.lock = rho*Vehicle.Rotor.a*Vehicle.Rotor.chord*Vehicle.Rotor.radius^4/...
+Vehicle.Rotor.lock = rho*Vehicle.Rotor.landing_flag*Vehicle.Rotor.chord*Vehicle.Rotor.radius^4/...
     (Vehicle.Rotor.hubInertia+Vehicle.Rotor.bladeInertia);
 Vehicle.Rotor.b = Vehicle.Rotor.Ct*rho*Vehicle.Rotor.area*Vehicle.Rotor.radius^2;
 Vehicle.Rotor.k = Vehicle.Rotor.Cq*rho*Vehicle.Rotor.area*Vehicle.Rotor.radius^3;

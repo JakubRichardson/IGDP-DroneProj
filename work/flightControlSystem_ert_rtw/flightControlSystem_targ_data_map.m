@@ -5,7 +5,7 @@
     ;%***********************
     
         nTotData      = 0; %add to this count as we go
-        nTotSects     = 15;
+        nTotSects     = 16;
         sectIdxOffset = 0;
 
         ;%
@@ -123,35 +123,35 @@
             paramMap.sections(5) = section;
             clear section
 
-            section.nData     = 4;
-            section.data(4)  = dumData; %prealloc
+            section.nData     = 1;
+            section.data(1)  = dumData; %prealloc
 
-                    ;% flightControlSystem_P.FlightControlSystem.UnitDelay_InitialCondition
+                    ;% flightControlSystem_P.FlightControlSystem.UnitDelay1_InitialCondition
                     section.data(1).logicalSrcIdx = 19;
                     section.data(1).dtTransOffset = 0;
-
-                    ;% flightControlSystem_P.FlightControlSystem.Constant3_Value
-                    section.data(2).logicalSrcIdx = 20;
-                    section.data(2).dtTransOffset = 1;
-
-                    ;% flightControlSystem_P.FlightControlSystem.Gain2_Gain
-                    section.data(3).logicalSrcIdx = 21;
-                    section.data(3).dtTransOffset = 4;
-
-                    ;% flightControlSystem_P.FlightControlSystem.Gain1_Gain
-                    section.data(4).logicalSrcIdx = 22;
-                    section.data(4).dtTransOffset = 5;
 
             nTotData = nTotData + section.nData;
             paramMap.sections(6) = section;
             clear section
 
-            section.nData     = 1;
-            section.data(1)  = dumData; %prealloc
+            section.nData     = 4;
+            section.data(4)  = dumData; %prealloc
 
-                    ;% flightControlSystem_P.FlightControlSystem.Constant1_Value
-                    section.data(1).logicalSrcIdx = 23;
+                    ;% flightControlSystem_P.FlightControlSystem.UnitDelay_InitialCondition
+                    section.data(1).logicalSrcIdx = 20;
                     section.data(1).dtTransOffset = 0;
+
+                    ;% flightControlSystem_P.FlightControlSystem.Constant3_Value
+                    section.data(2).logicalSrcIdx = 21;
+                    section.data(2).dtTransOffset = 1;
+
+                    ;% flightControlSystem_P.FlightControlSystem.Gain2_Gain
+                    section.data(3).logicalSrcIdx = 22;
+                    section.data(3).dtTransOffset = 4;
+
+                    ;% flightControlSystem_P.FlightControlSystem.Gain1_Gain
+                    section.data(4).logicalSrcIdx = 23;
+                    section.data(4).dtTransOffset = 5;
 
             nTotData = nTotData + section.nData;
             paramMap.sections(7) = section;
@@ -160,7 +160,7 @@
             section.nData     = 1;
             section.data(1)  = dumData; %prealloc
 
-                    ;% flightControlSystem_P.FlightControlSystem.Merge_InitialOutput
+                    ;% flightControlSystem_P.FlightControlSystem.Constant1_Value
                     section.data(1).logicalSrcIdx = 24;
                     section.data(1).dtTransOffset = 0;
 
@@ -171,7 +171,7 @@
             section.nData     = 1;
             section.data(1)  = dumData; %prealloc
 
-                    ;% flightControlSystem_P.FlightControlSystem.Normalcondition.Constant_Value
+                    ;% flightControlSystem_P.FlightControlSystem.Merge_InitialOutput
                     section.data(1).logicalSrcIdx = 25;
                     section.data(1).dtTransOffset = 0;
 
@@ -182,7 +182,7 @@
             section.nData     = 1;
             section.data(1)  = dumData; %prealloc
 
-                    ;% flightControlSystem_P.FlightControlSystem.estimatorOpticalflowerror.Constant_Value
+                    ;% flightControlSystem_P.FlightControlSystem.Normalcondition.Constant_Value
                     section.data(1).logicalSrcIdx = 26;
                     section.data(1).dtTransOffset = 0;
 
@@ -193,12 +193,23 @@
             section.nData     = 1;
             section.data(1)  = dumData; %prealloc
 
-                    ;% flightControlSystem_P.FlightControlSystem.Geofencingerror.Constant_Value
+                    ;% flightControlSystem_P.FlightControlSystem.estimatorOpticalflowerror.Constant_Value
                     section.data(1).logicalSrcIdx = 27;
                     section.data(1).dtTransOffset = 0;
 
             nTotData = nTotData + section.nData;
             paramMap.sections(11) = section;
+            clear section
+
+            section.nData     = 1;
+            section.data(1)  = dumData; %prealloc
+
+                    ;% flightControlSystem_P.FlightControlSystem.Geofencingerror.Constant_Value
+                    section.data(1).logicalSrcIdx = 28;
+                    section.data(1).dtTransOffset = 0;
+
+            nTotData = nTotData + section.nData;
+            paramMap.sections(12) = section;
             clear section
 
 
@@ -212,7 +223,7 @@
                         section.data(1).dtTransOffset = 0;
 
                         nTotData = nTotData + section.nData;
-                        paramMap.sections(12) = section;
+                        paramMap.sections(13) = section;
                         clear section
 
 
@@ -222,7 +233,7 @@
                         section.data(1).dtTransOffset = 0;
 
                         nTotData = nTotData + section.nData;
-                        paramMap.sections(13) = section;
+                        paramMap.sections(14) = section;
                         clear section
 
 
@@ -232,7 +243,7 @@
                         section.data(1).dtTransOffset = 0;
 
                         nTotData = nTotData + section.nData;
-                        paramMap.sections(14) = section;
+                        paramMap.sections(15) = section;
                         clear section
 
 
@@ -242,7 +253,7 @@
                         section.data(1).dtTransOffset = 0;
 
                         nTotData = nTotData + section.nData;
-                        paramMap.sections(15) = section;
+                        paramMap.sections(16) = section;
                         clear section
 
 
@@ -350,7 +361,7 @@
             section.nData     = 4;
             section.data(4)  = dumData; %prealloc
 
-                    ;% flightControlSystem_B.FlightControlSystem.Grabber
+                    ;% flightControlSystem_B.FlightControlSystem.grabberState
                     section.data(1).logicalSrcIdx = 13;
                     section.data(1).dtTransOffset = 0;
 
@@ -581,7 +592,7 @@
 
                         ;% motors_outport
                         section.nData = 1;
-                        section.data(1).logicalSrcIdx = 97;
+                        section.data(1).logicalSrcIdx = 98;
                         section.data(1).dtTransOffset = 0;
 
                         nTotData = nTotData + section.nData;
@@ -591,7 +602,7 @@
 
                         ;% flag_outport
                         section.nData = 1;
-                        section.data(1).logicalSrcIdx = 98;
+                        section.data(1).logicalSrcIdx = 99;
                         section.data(1).dtTransOffset = 0;
 
                         nTotData = nTotData + section.nData;
@@ -737,12 +748,16 @@
             dworkMap.sections(6) = section;
             clear section
 
-            section.nData     = 1;
-            section.data(1)  = dumData; %prealloc
+            section.nData     = 2;
+            section.data(2)  = dumData; %prealloc
 
-                    ;% flightControlSystem_DW.FlightControlSystem.count
+                    ;% flightControlSystem_DW.FlightControlSystem.UnitDelay1_DSTATE
                     section.data(1).logicalSrcIdx = 21;
                     section.data(1).dtTransOffset = 0;
+
+                    ;% flightControlSystem_DW.FlightControlSystem.count
+                    section.data(2).logicalSrcIdx = 22;
+                    section.data(2).dtTransOffset = 1;
 
             nTotData = nTotData + section.nData;
             dworkMap.sections(7) = section;
@@ -752,11 +767,11 @@
             section.data(2)  = dumData; %prealloc
 
                     ;% flightControlSystem_DW.FlightControlSystem.Scope1_PWORK.LoggedData
-                    section.data(1).logicalSrcIdx = 22;
+                    section.data(1).logicalSrcIdx = 23;
                     section.data(1).dtTransOffset = 0;
 
                     ;% flightControlSystem_DW.FlightControlSystem.Scope_PWORK.LoggedData
-                    section.data(2).logicalSrcIdx = 23;
+                    section.data(2).logicalSrcIdx = 24;
                     section.data(2).dtTransOffset = 5;
 
             nTotData = nTotData + section.nData;
@@ -767,7 +782,7 @@
             section.data(1)  = dumData; %prealloc
 
                     ;% flightControlSystem_DW.FlightControlSystem.UnitDelay_DSTATE
-                    section.data(1).logicalSrcIdx = 24;
+                    section.data(1).logicalSrcIdx = 25;
                     section.data(1).dtTransOffset = 0;
 
             nTotData = nTotData + section.nData;
@@ -778,23 +793,23 @@
             section.data(5)  = dumData; %prealloc
 
                     ;% flightControlSystem_DW.FlightControlSystem.is_c4_flightControlSystem
-                    section.data(1).logicalSrcIdx = 29;
+                    section.data(1).logicalSrcIdx = 30;
                     section.data(1).dtTransOffset = 0;
 
                     ;% flightControlSystem_DW.FlightControlSystem.is_c2_flightControlSystem
-                    section.data(2).logicalSrcIdx = 30;
+                    section.data(2).logicalSrcIdx = 31;
                     section.data(2).dtTransOffset = 1;
 
                     ;% flightControlSystem_DW.FlightControlSystem.is_c1_flightControlSystem
-                    section.data(3).logicalSrcIdx = 31;
+                    section.data(3).logicalSrcIdx = 32;
                     section.data(3).dtTransOffset = 2;
 
                     ;% flightControlSystem_DW.FlightControlSystem.is_c3_flightControlSystem
-                    section.data(4).logicalSrcIdx = 32;
+                    section.data(4).logicalSrcIdx = 33;
                     section.data(4).dtTransOffset = 3;
 
                     ;% flightControlSystem_DW.FlightControlSystem.is_Takeoff
-                    section.data(5).logicalSrcIdx = 33;
+                    section.data(5).logicalSrcIdx = 34;
                     section.data(5).dtTransOffset = 4;
 
             nTotData = nTotData + section.nData;
@@ -805,23 +820,23 @@
             section.data(5)  = dumData; %prealloc
 
                     ;% flightControlSystem_DW.FlightControlSystem.temporalCounter_i1
-                    section.data(1).logicalSrcIdx = 35;
+                    section.data(1).logicalSrcIdx = 36;
                     section.data(1).dtTransOffset = 0;
 
                     ;% flightControlSystem_DW.FlightControlSystem.temporalCounter_i1_d
-                    section.data(2).logicalSrcIdx = 36;
+                    section.data(2).logicalSrcIdx = 37;
                     section.data(2).dtTransOffset = 1;
 
                     ;% flightControlSystem_DW.FlightControlSystem.temporalCounter_i1_p
-                    section.data(3).logicalSrcIdx = 37;
+                    section.data(3).logicalSrcIdx = 38;
                     section.data(3).dtTransOffset = 2;
 
                     ;% flightControlSystem_DW.FlightControlSystem.temporalCounter_i1_pu
-                    section.data(4).logicalSrcIdx = 38;
+                    section.data(4).logicalSrcIdx = 39;
                     section.data(4).dtTransOffset = 3;
 
                     ;% flightControlSystem_DW.FlightControlSystem.temporalCounter_i2
-                    section.data(5).logicalSrcIdx = 39;
+                    section.data(5).logicalSrcIdx = 40;
                     section.data(5).dtTransOffset = 4;
 
             nTotData = nTotData + section.nData;
@@ -832,19 +847,19 @@
             section.data(4)  = dumData; %prealloc
 
                     ;% flightControlSystem_DW.FlightControlSystem.is_active_c4_flightControlSystem
-                    section.data(1).logicalSrcIdx = 40;
+                    section.data(1).logicalSrcIdx = 41;
                     section.data(1).dtTransOffset = 0;
 
                     ;% flightControlSystem_DW.FlightControlSystem.is_active_c2_flightControlSystem
-                    section.data(2).logicalSrcIdx = 41;
+                    section.data(2).logicalSrcIdx = 42;
                     section.data(2).dtTransOffset = 1;
 
                     ;% flightControlSystem_DW.FlightControlSystem.is_active_c1_flightControlSystem
-                    section.data(3).logicalSrcIdx = 42;
+                    section.data(3).logicalSrcIdx = 43;
                     section.data(3).dtTransOffset = 2;
 
                     ;% flightControlSystem_DW.FlightControlSystem.is_active_c3_flightControlSystem
-                    section.data(4).logicalSrcIdx = 43;
+                    section.data(4).logicalSrcIdx = 44;
                     section.data(4).dtTransOffset = 3;
 
             nTotData = nTotData + section.nData;
@@ -855,31 +870,31 @@
             section.data(7)  = dumData; %prealloc
 
                     ;% flightControlSystem_DW.FlightControlSystem.Logging.ToWorkspace2_PWORK.LoggedData
-                    section.data(1).logicalSrcIdx = 45;
+                    section.data(1).logicalSrcIdx = 46;
                     section.data(1).dtTransOffset = 0;
 
                     ;% flightControlSystem_DW.FlightControlSystem.Logging.ToWorkspace6_PWORK.LoggedData
-                    section.data(2).logicalSrcIdx = 46;
+                    section.data(2).logicalSrcIdx = 47;
                     section.data(2).dtTransOffset = 1;
 
                     ;% flightControlSystem_DW.FlightControlSystem.Logging.ToWorkspace3_PWORK.LoggedData
-                    section.data(3).logicalSrcIdx = 47;
+                    section.data(3).logicalSrcIdx = 48;
                     section.data(3).dtTransOffset = 2;
 
                     ;% flightControlSystem_DW.FlightControlSystem.Logging.ToWorkspace4_PWORK.LoggedData
-                    section.data(4).logicalSrcIdx = 48;
+                    section.data(4).logicalSrcIdx = 49;
                     section.data(4).dtTransOffset = 3;
 
                     ;% flightControlSystem_DW.FlightControlSystem.Logging.ToWorkspace5_PWORK.LoggedData
-                    section.data(5).logicalSrcIdx = 49;
+                    section.data(5).logicalSrcIdx = 50;
                     section.data(5).dtTransOffset = 4;
 
                     ;% flightControlSystem_DW.FlightControlSystem.Logging.ToWorkspace_PWORK.LoggedData
-                    section.data(6).logicalSrcIdx = 50;
+                    section.data(6).logicalSrcIdx = 51;
                     section.data(6).dtTransOffset = 5;
 
                     ;% flightControlSystem_DW.FlightControlSystem.Logging.ToWorkspace1_PWORK.LoggedData
-                    section.data(7).logicalSrcIdx = 51;
+                    section.data(7).logicalSrcIdx = 52;
                     section.data(7).dtTransOffset = 6;
 
             nTotData = nTotData + section.nData;
@@ -890,7 +905,7 @@
             section.data(1)  = dumData; %prealloc
 
                     ;% flightControlSystem_DW.FlightControlSystem.Normalcondition.Geofencingerror_SubsysRanBC
-                    section.data(1).logicalSrcIdx = 52;
+                    section.data(1).logicalSrcIdx = 53;
                     section.data(1).dtTransOffset = 0;
 
             nTotData = nTotData + section.nData;
@@ -901,7 +916,7 @@
             section.data(1)  = dumData; %prealloc
 
                     ;% flightControlSystem_DW.FlightControlSystem.estimatorOpticalflowerror.Geofencingerror_SubsysRanBC
-                    section.data(1).logicalSrcIdx = 53;
+                    section.data(1).logicalSrcIdx = 54;
                     section.data(1).dtTransOffset = 0;
 
             nTotData = nTotData + section.nData;
@@ -912,7 +927,7 @@
             section.data(1)  = dumData; %prealloc
 
                     ;% flightControlSystem_DW.FlightControlSystem.Geofencingerror.Geofencingerror_SubsysRanBC
-                    section.data(1).logicalSrcIdx = 54;
+                    section.data(1).logicalSrcIdx = 55;
                     section.data(1).dtTransOffset = 0;
 
             nTotData = nTotData + section.nData;
@@ -945,8 +960,8 @@
     ;%
 
 
-    targMap.checksum0 = 1908796019;
-    targMap.checksum1 = 229633954;
-    targMap.checksum2 = 575687055;
-    targMap.checksum3 = 2538875767;
+    targMap.checksum0 = 3414134276;
+    targMap.checksum1 = 1354947276;
+    targMap.checksum2 = 3572168550;
+    targMap.checksum3 = 913685114;
 

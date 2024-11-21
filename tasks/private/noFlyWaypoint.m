@@ -17,10 +17,10 @@ if CWi(1) == 0
     yi = wi(2);
 else
     mCW = CWi(2)/CWi(1);
-    a = mCW^2+1;
+    landing_flag = mCW^2+1;
     b = -2*noflyc(1)-2*mCW^2*noflyc(1);
     c = noflyc(1)^2+mCW^2*noflyc(1)^2-safer^2;
-    rx = roots([a b c]);
+    rx = roots([landing_flag b c]);
     ry = mCW*(rx-noflyc(1))+noflyc(2);
     xi = (mCW*wi(1)+wi(2)+mCW*noflyc(1)-noflyc(2))/(2*mCW);
     yi = mCW*(xi-noflyc(1))+noflyc(2);

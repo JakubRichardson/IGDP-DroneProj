@@ -6,8 +6,6 @@ rsedu_vis.o rsedu_vis.o: \
  C:/PROGRA~3/MATLAB/SUPPOR~1/R2023a/toolbox/target/SUPPOR~1/parrot/include/HAL.h \
  C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/flightControlSystem_ert_rtw/flightControlSystem.h \
  C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/rtwtypes.h \
- C:/PROGRA~1/MATLAB/R2023a/simulink/include/rtw_extmode.h \
- C:/PROGRA~1/MATLAB/R2023a/simulink/include/sysran_types.h \
  C:/PROGRA~1/MATLAB/R2023a/rtw/c/src/rt_logging.h \
  C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/builtin_typeid_types.h \
  C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/multiword_types.h \
@@ -15,9 +13,6 @@ rsedu_vis.o rsedu_vis.o: \
  C:/PROGRA~1/MATLAB/R2023a/rtw/c/src/rt_mxclassid.h \
  C:/PROGRA~1/MATLAB/R2023a/simulink/include/rtw_matlogging.h \
  C:/PROGRA~1/MATLAB/R2023a/simulink/include/sl_types_def.h \
- C:/PROGRA~1/MATLAB/R2023a/rtw/c/src/dt_info.h \
- C:/PROGRA~1/MATLAB/R2023a/rtw/c/src/ext_mode/common/ext_work.h \
- C:/PROGRA~1/MATLAB/R2023a/rtw/c/src/ext_mode/common/ext_types.h \
  C:/PROGRA~3/MATLAB/SUPPOR~1/R2023a/toolbox/target/SUPPOR~1/parrot/include/grabberCannon.h \
  C:/PROGRA~3/MATLAB/SUPPOR~1/R2023a/toolbox/target/SUPPOR~1/parrot/include/ARCOMMANDS_Generator.h \
  C:/PROGRA~3/MATLAB/SUPPOR~1/R2023a/toolbox/target/SUPPOR~1/parrot/include/ARCOMMANDS_Types.h \
@@ -46,10 +41,6 @@ C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/flightControlSystem_
 
 C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/rtwtypes.h:
 
-C:/PROGRA~1/MATLAB/R2023a/simulink/include/rtw_extmode.h:
-
-C:/PROGRA~1/MATLAB/R2023a/simulink/include/sysran_types.h:
-
 C:/PROGRA~1/MATLAB/R2023a/rtw/c/src/rt_logging.h:
 
 C:/Users/jakub/MATLAB/Projects/examples/asbQuadcopter2/work/slprj/ert/_sharedutils/builtin_typeid_types.h:
@@ -63,12 +54,6 @@ C:/PROGRA~1/MATLAB/R2023a/rtw/c/src/rt_mxclassid.h:
 C:/PROGRA~1/MATLAB/R2023a/simulink/include/rtw_matlogging.h:
 
 C:/PROGRA~1/MATLAB/R2023a/simulink/include/sl_types_def.h:
-
-C:/PROGRA~1/MATLAB/R2023a/rtw/c/src/dt_info.h:
-
-C:/PROGRA~1/MATLAB/R2023a/rtw/c/src/ext_mode/common/ext_work.h:
-
-C:/PROGRA~1/MATLAB/R2023a/rtw/c/src/ext_mode/common/ext_types.h:
 
 C:/PROGRA~3/MATLAB/SUPPOR~1/R2023a/toolbox/target/SUPPOR~1/parrot/include/grabberCannon.h:
 

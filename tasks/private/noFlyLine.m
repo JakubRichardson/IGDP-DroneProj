@@ -37,10 +37,10 @@ else
     mCW = TnTxp(2)/TnTxp(1);
     
     % Solve the equations for the points along the safe circle
-    a = mCW^2+1;
+    landing_flag = mCW^2+1;
     b = -2*noflyc(1)-2*mCW^2*noflyc(1);
     c = noflyc(1)^2+mCW^2*noflyc(1)^2-safer^2;
-    rx = roots([a b c]);
+    rx = roots([landing_flag b c]);
     ry = mCW*(rx-noflyc(1))+noflyc(2);
     
     % Find the intercept between the crossing line and its orthogonal

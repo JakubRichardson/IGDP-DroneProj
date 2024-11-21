@@ -24,11 +24,11 @@ for m = 1:size(noflyc,1)
         mTnTx = TnTx(2)/TnTx(1);
         Tx = wp(z+1,1:3);
         dx = Tx(2)-noflyc(m,2)-mTnTx*Tx(1);
-        a = mTnTx^2+1;
+        landing_flag = mTnTx^2+1;
         b = 2*mTnTx*dx-2*noflyc(m,1);
         c = noflyc(m,1)^2+dx^2-noflyr(m)^2;
         % Solve the equations for the points along the safe circle
-        rx = roots([a b c]);
+        rx = roots([landing_flag b c]);
         ry = mTnTx*(rx-Tx(1))+Tx(2);
         distTx1 = norm(Tx-[rx(1) ry(1) 0]);
         distTx2 = norm(Tx-[rx(2) ry(2) 0]);

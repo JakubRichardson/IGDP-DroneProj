@@ -22,8 +22,8 @@ for m = 1:size(noflyc,1)
         rc = noflyr(m);
         rb = wp(z,9);
         if R>rb
-            a = (rb^2-rc^2+R^2)/(2*R);
-            dt = acosd(a/rb);
+            landing_flag = (rb^2-rc^2+R^2)/(2*R);
+            dt = acosd(landing_flag/rb);
         elseif R<rb
             b = (rb^2-rc^2-R^2)/(2*R);
             dt = acosd((R+b)/rb);
