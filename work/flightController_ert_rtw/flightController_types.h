@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightController'.
  *
- * Model version                  : 8.21
+ * Model version                  : 8.24
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Mon Nov 18 12:50:03 2024
+ * C/C++ source code generated on : Thu Nov 28 15:30:50 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -112,8 +112,8 @@ typedef struct {
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_struct_OMRgDnJcZuQneKEj9vdTyD_
-#define DEFINED_TYPEDEF_FOR_struct_OMRgDnJcZuQneKEj9vdTyD_
+#ifndef DEFINED_TYPEDEF_FOR_struct_ZvEH7nCKB8L7wECWUhdZ7E_
+#define DEFINED_TYPEDEF_FOR_struct_ZvEH7nCKB8L7wECWUhdZ7E_
 
 typedef struct {
   real_T blades;
@@ -132,13 +132,13 @@ typedef struct {
   real_T thetaTip;
   real_T theta1;
   real_T theta34;
-  real_T a;
+  real_T landing_flag;
   real_T area;
   real_T lock;
   real_T b;
   real_T k;
   real_T w2ToThrustGain;
-} struct_OMRgDnJcZuQneKEj9vdTyD;
+} struct_ZvEH7nCKB8L7wECWUhdZ7E;
 
 #endif
 
@@ -154,16 +154,16 @@ typedef struct {
 
 #endif
 
-#ifndef DEFINED_TYPEDEF_FOR_struct_OSJpyIZcrpXqReVWwh9iuG_
-#define DEFINED_TYPEDEF_FOR_struct_OSJpyIZcrpXqReVWwh9iuG_
+#ifndef DEFINED_TYPEDEF_FOR_struct_COfZm21dTKf7TGOAGwZl7F_
+#define DEFINED_TYPEDEF_FOR_struct_COfZm21dTKf7TGOAGwZl7F_
 
 typedef struct {
   struct_XRMsui9C07VjBvdq1msujB SixDOF;
   struct_IZWOW0zYvpphl7qLgSfN7E PositionOnEarth;
   struct_q6UUpnZ4gTjFvULFx6Rxa Airframe;
-  struct_OMRgDnJcZuQneKEj9vdTyD Rotor;
+  struct_ZvEH7nCKB8L7wECWUhdZ7E Rotor;
   struct_p3FXZIgqtjF2uqDpmYjb6C Motor;
-} struct_OSJpyIZcrpXqReVWwh9iuG;
+} struct_COfZm21dTKf7TGOAGwZl7F;
 
 #endif
 

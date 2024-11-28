@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightController'.
  *
- * Model version                  : 8.21
+ * Model version                  : 8.24
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Mon Nov 18 12:50:03 2024
+ * C/C++ source code generated on : Thu Nov 28 15:30:50 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -19,10 +19,6 @@
 
 #include "flightController.h"
 #include "rtwtypes.h"
-#include <ext_work.h>
-#include <ext_svr.h>
-#include <ext_share.h>
-#include <updown.h>
 #include "rt_logging.h"
 #include "MW_target_hardware_resources.h"
 #ifndef SAVEFILE
@@ -91,7 +87,6 @@ void rt_OneStep(void)
 
   /* Get model outputs here */
   OverrunFlag--;
-  rtExtModeCheckEndTrigger();
 }
 
 #define UNUSED(x)                      x = x
@@ -109,43 +104,13 @@ int main(void)
   UNUSED(modelBaseRate);
   UNUSED(systemClock);
   rtmSetErrorStatus(flightController_M, 0);
-
-  /* initialize external mode */
-  rtParseArgsForExtMode(0, NULL);
   flightController_initialize();
   ;
-  ;
-
-  /* External mode */
-  rtSetTFinalForExtMode(&rtmGetTFinal(flightController_M));
-  rtExtModeCheckInit(1);
-
-  {
-    boolean_T rtmStopReq = false;
-    rtExtModeWaitForStartPkt(flightController_M->extModeInfo, 1, &rtmStopReq);
-    if (rtmStopReq) {
-      rtmSetStopRequested(flightController_M, true);
-    }
-  }
-
-  rtERTExtModeStartMsg();
-  ;
-  runModel = (rtmGetErrorStatus(flightController_M) == (NULL)) &&
-    !rtmGetStopRequested(flightController_M);
+  runModel = rtmGetErrorStatus(flightController_M) == (NULL);
   ;
   while (runModel) {
-    /* External mode */
-    {
-      boolean_T rtmStopReq = false;
-      rtExtModeOneStep(flightController_M->extModeInfo, 1, &rtmStopReq);
-      if (rtmStopReq) {
-        rtmSetStopRequested(flightController_M, true);
-      }
-    }
-
     rt_OneStep();
-    stopRequested = !((rtmGetErrorStatus(flightController_M) == (NULL)) &&
-                      !rtmGetStopRequested(flightController_M));
+    stopRequested = !(rtmGetErrorStatus(flightController_M) == (NULL));
     runModel = !(stopRequested);
   }
 
@@ -153,9 +118,6 @@ int main(void)
 
   /* Terminate model */
   flightController_terminate();
-
-  /* External mode shutdown */
-  rtExtModeShutdown(1);
   ;
   return 0;
 }

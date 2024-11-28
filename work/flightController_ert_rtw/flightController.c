@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'flightController'.
  *
- * Model version                  : 8.21
+ * Model version                  : 8.24
  * Simulink Coder version         : 9.9 (R2023a) 19-Nov-2022
- * C/C++ source code generated on : Mon Nov 18 12:50:03 2024
+ * C/C++ source code generated on : Thu Nov 28 15:30:50 2024
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM 9
@@ -23,7 +23,6 @@
 #include "rtwtypes.h"
 #include "flightController_private.h"
 #include "rt_nonfinite.h"
-#include "flightController_dt.h"
 
 /* Block states (default storage) */
 DW_flightController_T flightController_DW;
@@ -319,22 +318,11 @@ void flightController_run(const CommandBus *arg_ReferenceValueServerBus, const
   rt_UpdateTXYLogVars(flightController_M->rtwLogInfo,
                       (&flightController_M->Timing.taskTime0));
 
-  /* External mode */
-  rtExtModeUploadCheckTrigger(1);
-
-  {                                    /* Sample time: [0.005s, 0.0s] */
-    rtExtModeUpload(0, (real_T)flightController_M->Timing.taskTime0);
-  }
-
   /* signal main to stop simulation */
   {                                    /* Sample time: [0.005s, 0.0s] */
     if ((rtmGetTFinal(flightController_M)!=-1) &&
         !((rtmGetTFinal(flightController_M)-flightController_M->Timing.taskTime0)
           > flightController_M->Timing.taskTime0 * (DBL_EPSILON))) {
-      rtmSetErrorStatus(flightController_M, "Simulation finished");
-    }
-
-    if (rtmGetStopRequested(flightController_M)) {
       rtmSetErrorStatus(flightController_M, "Simulation finished");
     }
   }
@@ -502,48 +490,6 @@ void flightController_initialize(void)
     }
 
     rtliSetLogY(flightController_M->rtwLogInfo, "yout");
-  }
-
-  /* External mode info */
-  flightController_M->Sizes.checksums[0] = (4194718196U);
-  flightController_M->Sizes.checksums[1] = (1061061113U);
-  flightController_M->Sizes.checksums[2] = (3971671900U);
-  flightController_M->Sizes.checksums[3] = (690645091U);
-
-  {
-    static const sysRanDType rtAlwaysEnabled = SUBSYS_RAN_BC_ENABLE;
-    static RTWExtModeInfo rt_ExtModeInfo;
-    static const sysRanDType *systemRan[6];
-    flightController_M->extModeInfo = (&rt_ExtModeInfo);
-    rteiSetSubSystemActiveVectorAddresses(&rt_ExtModeInfo, systemRan);
-    systemRan[0] = &rtAlwaysEnabled;
-    systemRan[1] = &rtAlwaysEnabled;
-    systemRan[2] = &rtAlwaysEnabled;
-    systemRan[3] = &rtAlwaysEnabled;
-    systemRan[4] = &rtAlwaysEnabled;
-    systemRan[5] = &rtAlwaysEnabled;
-    rteiSetModelMappingInfoPtr(flightController_M->extModeInfo,
-      &flightController_M->SpecialInfo.mappingInfo);
-    rteiSetChecksumsPtr(flightController_M->extModeInfo,
-                        flightController_M->Sizes.checksums);
-    rteiSetTPtr(flightController_M->extModeInfo, rtmGetTPtr(flightController_M));
-  }
-
-  /* data type transition information */
-  {
-    static DataTypeTransInfo dtInfo;
-    (void) memset((char_T *) &dtInfo, 0,
-                  sizeof(dtInfo));
-    flightController_M->SpecialInfo.mappingInfo = (&dtInfo);
-    dtInfo.numDataTypes = 29;
-    dtInfo.dataTypeSizes = &rtDataTypeSizes[0];
-    dtInfo.dataTypeNames = &rtDataTypeNames[0];
-
-    /* Block I/O transition table */
-    dtInfo.BTransTable = &rtBTransTable;
-
-    /* Parameters transition table */
-    dtInfo.PTransTable = &rtPTransTable;
   }
 
   /* Matfile logging */
